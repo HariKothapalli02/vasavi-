@@ -66,6 +66,7 @@
             .content-card, .evaluation-box {
                 padding: 1rem;
                 border-radius: 12px;
+                margin-bottom: 1rem;
             }
             .mobile-eval-tabs {
                 display: flex;
@@ -74,8 +75,9 @@
                 padding: 0.5rem;
                 position: sticky;
                 top: 0;
-                z-index: 20;
+                z-index: 100;
                 gap: 0.25rem;
+                box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
             }
 
             .mobile-tab-btn {
@@ -117,8 +119,11 @@
                 justify-content: center;
                 padding: 0.8rem !important;
             }
-            .profile-header-mini {
-                width: 100%;
+            .dashboard-main {
+                padding: 0;
+            }
+            .main-content {
+                overflow-y: visible;
             }
         }
 

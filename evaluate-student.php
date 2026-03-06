@@ -101,6 +101,12 @@
                 display: flex;
                 gap: 0.25rem;
                 padding: 0.5rem;
+                position: sticky;
+                top: 0;
+                background: #fff;
+                z-index: 100;
+                border-bottom: 1px solid var(--border-color);
+                box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
             }
             .mobile-tab-btn {
                 flex: 1;
@@ -112,18 +118,19 @@
             }
 
             .evaluate-body-split {
-                grid-template-columns: 1fr;
-                overflow-y: auto;
-                height: calc(100vh - 120px);
-                padding: 1rem;
-                gap: 1rem;
+                display: block; /* Stack on mobile */
+                overflow-y: visible; /* Let the page handle scroll or individual columns */
+                height: auto;
+                padding: 0;
+                gap: 0;
             }
 
             .details-col, .scoring-col {
-                padding: 1rem;
+                padding: 1.5rem 1rem;
                 height: auto;
                 overflow: visible;
                 border: none;
+                width: 100%;
             }
 
             /* Hide inactive col on mobile */
@@ -354,7 +361,7 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/responsive.js"></script>
-    <script src="js/evaluate.js?v=13"></script>
+    <script src="js/evaluate.js?v=14"></script>
     <script>
         function switchMobileTab(tab, btn) {
             const details = document.getElementById('detailsCol');
