@@ -32,19 +32,20 @@ if ($method === 'GET') {
         $params = [];
         
         if (isset($_SESSION['user']['department']) && !empty($_SESSION['user']['department'])) {
-            // HOD: Filter by department
+            // HOD: Filter by department(s) with normalization
             $depts = explode(',', $_SESSION['user']['department']);
             $placeholders = [];
             foreach ($depts as $dept) {
-                $placeholders[] = "?";
+                $placeholders[] = "UPPER(TRIM(u.department)) = UPPER(TRIM(?))";
                 $params[] = trim($dept);
             }
             if (!empty($placeholders)) {
-                $departmentFilter = " AND u.department IN (" . implode(',', $placeholders) . ")";
+                $departmentFilter = " AND (" . implode(' OR ', $placeholders) . ")";
             }
         } else {
-            // Super Admin & Panel: Show all HOD submitted students
-            $departmentFilter = " AND ar.is_hod_submitted = 1";
+            // Super Admin & Panel: Show all student submitted applications
+            // We removed 'ar.is_hod_submitted = 1' to let Super Admin see progress
+            $departmentFilter = ""; 
         }
 
         $query = "
@@ -75,38 +76,29 @@ if ($method === 'GET') {
             $depts = explode(',', $_SESSION['user']['department']);
             $placeholders = [];
             foreach ($depts as $dept) {
-                $placeholders[] = "?";
+                $placeholders[] = "UPPER(TRIM(department)) = UPPER(TRIM(?))";
                 $params[] = trim($dept);
             }
             if (!empty($placeholders)) {
-                $deptFilter = " AND department IN (" . implode(',', $placeholders) . ")";
+                $deptFilter = " AND (" . implode(' OR ', $placeholders) . ")";
             }
         }
 
         if (!empty($deptFilter)) {
             $total = db_get("SELECT COUNT(*) as count FROM users WHERE role = 'student' AND is_submitted = 1" . $deptFilter, $params);
-        } else {
-            // Super Admin: Count only HOD submitted
-            $total = db_get("SELECT COUNT(*) as count FROM users u JOIN academic_records ar ON u.id = ar.user_id WHERE u.role = 'student' AND u.is_submitted = 1 AND ar.is_hod_submitted = 1");
-        }
-        
-        if (!empty($deptFilter)) {
-            // HOD: 'Evaluated' means 'HOD Submitted' (is_hod_submitted = 1)
+            // HOD: 'Evaluated' means 'HOD Submitted'
             $evaluated = db_get("SELECT COUNT(ar.user_id) as count FROM academic_records ar JOIN users u ON ar.user_id = u.id WHERE ar.is_hod_submitted = 1 " . str_replace('department', 'u.department', $deptFilter), $params);
+            $branches = db_all("SELECT department, COUNT(*) as count FROM users WHERE role = 'student' AND is_submitted = 1" . $deptFilter . " GROUP BY department", $params);
         } else {
-             // Super Admin: 'Evaluated' means Final Score assigned
-             $evaluated = db_get("SELECT COUNT(*) as count FROM final_scores");
+            // Super Admin: Count all student submitted applications
+            $total = db_get("SELECT COUNT(*) as count FROM users WHERE role = 'student' AND is_submitted = 1");
+            // Super Admin: 'Evaluated' means Final Score assigned
+            $evaluated = db_get("SELECT COUNT(*) as count FROM final_scores");
+            // Super Admin branches: all submitted
+            $branches = db_all("SELECT department, COUNT(*) as count FROM users WHERE role = 'student' AND is_submitted = 1 GROUP BY department");
         }
 
         $top = db_get("SELECT MAX(total_score) as score FROM final_scores");
-        
-        // Filter branches chart for HOD too
-        if (!empty($deptFilter)) {
-            $branches = db_all("SELECT department, COUNT(*) as count FROM users WHERE role = 'student' AND is_submitted = 1" . $deptFilter . " GROUP BY department", $params);
-        } else {
-            // Super Admin branches: only HOD submitted
-            $branches = db_all("SELECT u.department, COUNT(*) as count FROM users u JOIN academic_records ar ON u.id = ar.user_id WHERE u.role = 'student' AND u.is_submitted = 1 AND ar.is_hod_submitted = 1 GROUP BY u.department");
-        }
 
         echo json_encode([
             'totalStudents' => is_array($total) ? ($total['count'] ?? 0) : 0,
