@@ -115,7 +115,13 @@ if ($method === 'GET') {
             'branches' => $branches
         ]);
     } elseif ($action === 'toppers') {
-        $toppers = db_all("SELECT department, topper_cgpa FROM department_toppers ORDER BY department ASC");
+        // Fetch all distinct departments from students and join with existing topper CGPAs
+        $query = "
+            SELECT d.department, IFNULL(dt.topper_cgpa, 0) as topper_cgpa
+            FROM (SELECT DISTINCT department FROM users WHERE role = 'student') d
+            LEFT JOIN department_toppers dt ON d.department = dt.department
+            ORDER BY d.department ASC";
+        $toppers = db_all($query);
         echo json_encode($toppers);
     } elseif (preg_match('/students\/(\d+)/', $action, $matches)) {
         $userId = $matches[1];
@@ -200,7 +206,8 @@ if ($method === 'GET') {
             $dept = $row['department'] ?? '';
             $cgpa = floatval($row['topper_cgpa'] ?? 10.0);
             if ($dept) {
-                db_run("UPDATE department_toppers SET topper_cgpa = ? WHERE department = ?", [$cgpa, $dept]);
+                db_run("INSERT INTO department_toppers (department, topper_cgpa) VALUES (?, ?) 
+                        ON DUPLICATE KEY UPDATE topper_cgpa = VALUES(topper_cgpa)", [$dept, $cgpa]);
             }
         }
         echo json_encode(['success' => true]);
