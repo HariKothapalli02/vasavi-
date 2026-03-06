@@ -4,13 +4,8 @@ require_once __DIR__ . '/../includes/db.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
 
-// Get action independently to avoid scope issues with $path
-$request_uri = $_SERVER['REQUEST_URI'];
-$script_name = $_SERVER['SCRIPT_NAME'];
-$base_path = dirname(dirname($script_name));
-$current_path = str_replace($base_path, '', rawurldecode(parse_url($request_uri, PHP_URL_PATH)));
-$current_path = trim($current_path, '/');
-$action = str_replace('panel/', '', $current_path);
+// Get action from global $path variable provided by router
+$action = str_replace('panel/', '', $path);
 
 // Middleware: Ensure user is a Panel Member
 function isPanel() {

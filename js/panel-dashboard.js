@@ -20,11 +20,17 @@ async function loadStudents() {
 
     try {
         const res = await fetch(apiBase + '/panel/students');
+
+        if (!res.ok) {
+            const errorData = await res.json().catch(() => ({}));
+            throw new Error(errorData.error || `Server returned ${res.status}`);
+        }
+
         const students = await res.json();
 
         loading.style.display = 'none';
 
-        if (!students || students.length === 0) {
+        if (!students || !Array.isArray(students) || students.length === 0) {
             list.innerHTML = `
                 <div class="empty-state">
                     <i class="fa-solid fa-clipboard-check"></i>
@@ -45,7 +51,7 @@ async function loadStudents() {
                 <a href="panel-evaluate.php?id=${s.id}" class="student-item" style="text-decoration:none; color:inherit; display:flex; justify-content:space-between; align-items:center;">
                     <div style="display: flex; align-items: center; gap: 1rem;">
                         <div style="width: 40px; height: 40px; background: #e2e8f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #64748b; flex-shrink: 0;">
-                            ${s.name.charAt(0)}
+                            ${(s.name || '?').charAt(0)}
                         </div>
                         <div style="min-width: 0;">
                             <div style="font-weight: 600; font-size: 1.05rem; color: var(--text-dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${s.name}</div>
@@ -60,8 +66,16 @@ async function loadStudents() {
         }).join('');
 
     } catch (err) {
-        console.error(err);
-        loading.style.display = 'none';
-        list.innerHTML = '<p style="color:red; text-align:center;">Failed to load students.</p>';
+        console.error('Students load error:', err);
+        if (loading) loading.style.display = 'none';
+        if (list) {
+            list.innerHTML = `
+                <div style="padding: 2rem; text-align: center; color: #ef4444;">
+                    <i class="fa-solid fa-circle-exclamation" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                    <p style="font-weight: 600;">Failed to load students</p>
+                    <p style="font-size: 0.85rem; opacity: 0.8;">${err.message}</p>
+                </div>
+            `;
+        }
     }
 }
