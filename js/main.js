@@ -1,8 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Password Toggle Visibility Logic
     document.querySelectorAll('.password-toggle').forEach(button => {
-        button.addEventListener('click', function (e) {
-            e.preventDefault(); // Prevent accidental form submission
+        // Use pointerdown for faster response on mobile/touch devices
+        button.addEventListener('pointerdown', function (e) {
+            e.preventDefault();
+            e.stopPropagation(); // Prevent event bubbling to input or container
+
             const container = this.closest('.password-field-container') || this.closest('.form-floating');
             if (!container) return;
 
@@ -16,13 +19,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Toggle visual state class
             container.classList.toggle('is-visible', isPassword);
+        });
 
-            // Focus back on input (optional but helpful for accessibility)
-            // input.focus(); 
+        // Also handle click to be safe, but pointerdown should fire first
+        button.addEventListener('click', e => {
+            e.preventDefault();
+            e.stopPropagation();
         });
     });
 
-    // Login Handling
     // Login Handling
     const handleLogin = async (e, formId, roleOverride) => {
         e.preventDefault();
