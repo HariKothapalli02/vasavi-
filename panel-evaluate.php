@@ -162,7 +162,6 @@
             </div>
             <div class="nav-links">
                 <a href="panel-dashboard" class="nav-item"><i class="fa-solid fa-list-check"></i> Assigned Students</a>
-                <a href="admin-students.php" class="nav-item"><i class="fa-solid fa-users"></i> All Students</a>
             </div>
             <div class="sidebar-footer">
                 <button onclick="window.location.href='auth/logout'" class="logout-btn">
