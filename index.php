@@ -17,6 +17,12 @@
 
 <body class="landing-page">
     <div id="canvas-container"></div>
+    
+    <!-- 3D Decorative Floating Elements -->
+    <div class="floating-3d-accent accent-1">🎓</div>
+    <div class="floating-3d-accent accent-2">📚</div>
+    <div class="floating-3d-accent accent-3">🏆</div>
+
     <div class="container" style="padding-bottom: 0;">
         <header class="top-bar" style="margin-bottom: 0; min-height: 120px;">
         </header>
@@ -111,6 +117,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="js/background-3d.js"></script>
+    <script src="js/tilt-effect.js"></script>
     <script src="js/main.js?v=3"></script>
 </body>
 
