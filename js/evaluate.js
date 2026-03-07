@@ -1,6 +1,6 @@
 const apiBase = (window.APP_BASE_URL || "").replace(/\/$/, "");
 const IS_SUPER_ADMIN = window.IS_SUPER_ADMIN || false;
-let IS_LOCKED = false;
+// Using window.IS_LOCKED and window.IS_FINAL_LOCKED for state
 
 const getCertHtml = (path) => {
     if (!path) return '<span class="status-badge" style="background:#f1f5f9; color:#94a3b8; font-size:0.75rem; border:1px solid #e2e8f0; padding: 2px 8px; border-radius: 4px;">No certificate</span>';
@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ${hasHonours ? `
             <div style="margin-top: 10px;">
                 <label style="font-size:0.85rem; font-weight:600; color:#475569; display:block; margin-bottom:5px;">HOD Comments <span style="color:#ef4444;">*</span></label>
-                <textarea class="form-control item-comment-input" data-id="academic_honours" data-type="academic_honours" rows="2" placeholder="Required: Honours/Minors Comments..." style="width:100%; font-size:0.9rem; padding:8px; border:1px solid #cbd5e1;" ${IS_SUPER_ADMIN || IS_LOCKED ? 'readonly' : ''}>${academic.honours_minors_comments || ''}</textarea>
+                <textarea class="form-control item-comment-input" data-id="academic_honours" data-type="academic_honours" rows="2" placeholder="Required: Honours/Minors Comments..." style="width:100%; font-size:0.9rem; padding:8px; border:1px solid #cbd5e1;" ${IS_SUPER_ADMIN || window.IS_LOCKED ? 'readonly' : ''}>${academic.honours_minors_comments || ''}</textarea>
             </div>` : ''}
         </div>`;
 
@@ -201,7 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
              ${hasExams ? `
              <div style="margin-top: 15px;">
                 <label style="font-size:0.85rem; font-weight:600; color:#475569; display:block; margin-bottom:5px;">HOD Comments <span style="color:#ef4444;">*</span></label>
-                <textarea class="form-control item-comment-input" data-id="academic_exams" data-type="academic_exams" rows="2" placeholder="Required: Competitive Exams Comments..." style="width:100%; font-size:0.9rem; padding:8px; border:1px solid #cbd5e1;" ${IS_SUPER_ADMIN || IS_LOCKED ? 'readonly' : ''}>${academic.competitive_exams_comments || ''}</textarea>
+                <textarea class="form-control item-comment-input" data-id="academic_exams" data-type="academic_exams" rows="2" placeholder="Required: Competitive Exams Comments..." style="width:100%; font-size:0.9rem; padding:8px; border:1px solid #cbd5e1;" ${IS_SUPER_ADMIN || window.IS_LOCKED ? 'readonly' : ''}>${academic.competitive_exams_comments || ''}</textarea>
             </div>` : ''}
         </div>`;
 
@@ -250,7 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                     <div style="margin-top: 10px;">
                         <label style="font-size:0.85rem; font-weight:600; color:#475569; display:block; margin-bottom:5px;">HOD Comments <span style="color:#ef4444;">*</span></label>
-                        <textarea class="form-control item-comment-input" data-id="${c.id}" data-type="${typeStr}" data-label="${c.title || c.name || label}" rows="1" placeholder="Required: Details review comments..." style="width:100%; font-size:0.9rem; padding:8px; border:1px solid #cbd5e1;" ${IS_SUPER_ADMIN ? 'readonly' : ''}>${c.hod_comments || ''}</textarea>
+                        <textarea class="form-control item-comment-input" data-id="${c.id}" data-type="${typeStr}" data-label="${c.title || c.name || label}" rows="1" placeholder="Required: Details review comments..." style="width:100%; font-size:0.9rem; padding:8px; border:1px solid #cbd5e1;" ${IS_SUPER_ADMIN || window.IS_LOCKED ? 'readonly' : ''}>${c.hod_comments || ''}</textarea>
                     </div>
                 </div>`;
             });
@@ -471,7 +471,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="form-group" style="margin-bottom: 1.5rem;">
                     <label style="font-weight:600; font-size:0.9rem; color:#475569; margin-bottom:5px; display:block;">Overall HOD Remarks <span style="color:#ef4444;">*</span></label>
                     <textarea id="txtHodOverall" class="form-control" rows="3" placeholder="Required: Enter overall final remarks for this student..." 
-                        style="border:1px solid #cbd5e1; box-shadow:none; padding:10px;" ${IS_LOCKED ? 'readonly' : ''}>${acad.hod_overall_comments || ''}</textarea>
+                        style="border:1px solid #cbd5e1; box-shadow:none; padding:10px;" ${window.IS_LOCKED ? 'readonly' : ''}>${acad.hod_overall_comments || ''}</textarea>
                 </div>
 
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 1.5rem;">
@@ -480,7 +480,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="input-icon-wrapper" style="position:relative;">
                             <i class="fa-solid fa-user-tie" style="position:absolute; left:10px; top:50%; transform:translateY(-50%); color:#94a3b8;"></i>
                             <input type="text" id="txtHodName" class="form-control" placeholder="Required" value="${acad.hod_name || ''}" 
-                                style="padding-left:35px; border:1px solid #cbd5e1;" ${IS_LOCKED ? 'readonly' : ''}>
+                                style="padding-left:35px; border:1px solid #cbd5e1;" ${window.IS_LOCKED ? 'readonly' : ''}>
                         </div>
                     </div>
                     <div class="form-group">
@@ -488,12 +488,12 @@ document.addEventListener('DOMContentLoaded', () => {
                          <div class="input-icon-wrapper" style="position:relative;">
                             <i class="fa-solid fa-calendar-alt" style="position:absolute; left:10px; top:50%; transform:translateY(-50%); color:#94a3b8;"></i>
                             <input type="date" id="txtHodDate" class="form-control" value="${acad.hod_evaluation_date || new Date().toISOString().split('T')[0]}" 
-                                style="padding-left:35px; border:1px solid #cbd5e1;" ${IS_LOCKED ? 'readonly' : ''}>
+                                style="padding-left:35px; border:1px solid #cbd5e1;" ${window.IS_LOCKED ? 'readonly' : ''}>
                         </div>
                     </div>
                 </div>
 
-                ${IS_LOCKED
+                ${window.IS_LOCKED
                     ? `<div class="alert" style="background:#dcfce7; color:#166534; border:1px solid #bbf7d0; padding:10px; border-radius:6px; font-weight:500; display:flex; align-items:center; gap:10px;">
                         <i class="fa-solid fa-lock"></i> Evaluation Submitted & Locked
                        </div>`
@@ -505,7 +505,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const submitBtn = document.querySelector('#scoreForm button[type="submit"]');
             submitBtn.parentElement.insertBefore(formFooter, submitBtn);
 
-            if (IS_LOCKED) {
+            if (window.IS_LOCKED) {
                 submitBtn.style.display = 'none';
             } else {
                 // Style the button to look better

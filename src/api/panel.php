@@ -71,7 +71,8 @@ if ($method === 'GET') {
                 'interview' => $interview,
                 'finalScore' => $finalScore,
                 'myScore' => $myScore ? $myScore['score'] : 0,
-                'myComments' => $myScore ? ($myScore['comments'] ?? '') : ''
+                'myComments' => $myScore ? ($myScore['comments'] ?? '') : '',
+                'is_evaluated' => $myScore ? true : false
             ]);
         }
     } catch (Exception $e) {

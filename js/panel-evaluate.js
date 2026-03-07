@@ -287,7 +287,7 @@ function setupEvaluationForm(userId, data) {
     const btn = document.getElementById('saveScoreBtn');
 
     // Load existing score
-    if (data.myScore && data.myScore > 0) {
+    if (data.myScore !== null && data.myScore !== undefined && data.is_evaluated) {
         slider.value = data.myScore;
         display.innerText = data.myScore;
 
