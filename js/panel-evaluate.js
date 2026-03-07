@@ -315,7 +315,7 @@ function setupEvaluationForm(userId, data) {
             const res = await fetch(apiBase + '/panel/evaluate/interview', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ user_id: userId, interview_score: slider.value })
+                body: JSON.stringify({ user_id: userId, score: slider.value })
             });
 
             if (res.ok) {
