@@ -1,0 +1,29 @@
+-- EC2 Database Schema Update Script
+-- Run these commands on your EC2 instance to synchronize the database schema.
+-- You can run this file using: mysql -u vasavi_user -p best_outgoing < ec2_update_commands.txt
+
+USE best_outgoing;
+
+-- 1. Updates to 'users' table
+ALTER TABLE users ADD COLUMN IF NOT EXISTS is_sent_to_panel TINYINT DEFAULT 0 AFTER is_submitted;
+
+-- 2. Updates to 'academic_records' table
+ALTER TABLE academic_records ADD COLUMN IF NOT EXISTS academic_comments TEXT;
+ALTER TABLE academic_records ADD COLUMN IF NOT EXISTS honours_minors_comments TEXT;
+ALTER TABLE academic_records ADD COLUMN IF NOT EXISTS competitive_exams_comments TEXT;
+ALTER TABLE academic_records ADD COLUMN IF NOT EXISTS hod_name VARCHAR(255);
+ALTER TABLE academic_records ADD COLUMN IF NOT EXISTS hod_evaluation_date VARCHAR(50);
+ALTER TABLE academic_records ADD COLUMN IF NOT EXISTS hod_overall_comments TEXT;
+ALTER TABLE academic_records ADD COLUMN IF NOT EXISTS is_hod_submitted TINYINT DEFAULT 0;
+
+-- 3. Updates to 'co_curricular' table
+ALTER TABLE co_curricular ADD COLUMN IF NOT EXISTS hod_comments TEXT;
+
+-- 4. Updates to 'extracurricular' table
+ALTER TABLE extracurricular ADD COLUMN IF NOT EXISTS hod_comments TEXT;
+
+-- 5. Updates to 'final_scores' table
+ALTER TABLE final_scores ADD COLUMN IF NOT EXISTS is_final_submitted TINYINT DEFAULT 0;
+
+-- Note: 'ADD COLUMN IF NOT EXISTS' is supported in MariaDB 10.2.19+ and MySQL 8.0.1+
+-- If your version is older and you get "Duplicate column name" errors, you can safely ignore them.

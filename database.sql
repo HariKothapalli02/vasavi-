@@ -84,6 +84,7 @@ CREATE TABLE IF NOT EXISTS final_scores (
     extracurricular_score FLOAT DEFAULT 0,
     interview_score FLOAT DEFAULT 0,
     total_score FLOAT DEFAULT 0,
+    is_final_submitted TINYINT DEFAULT 0,
     FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
