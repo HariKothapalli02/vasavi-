@@ -1,4 +1,4 @@
-<?php require_once __DIR__ . '/src/includes/auth_check.php'; require_auth(['admin', 'panel']); ?>
+<?php require_once __DIR__ . '/src/includes/auth_check.php'; require_auth(['admin']); ?>
 <!DOCTYPE html>
 <html lang="en">
 
