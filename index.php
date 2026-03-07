@@ -103,6 +103,12 @@
         </div>
     </div>
 
+    <footer class="login-footer" style="text-align: center; padding: 2rem 0; margin-top: auto;">
+        <p style="color: #64748b; font-size: 0.9rem;">
+            Need help? <a href="instructions.php" style="color: #4f46e5; font-weight: 600; text-decoration: none; border-bottom: 2px solid rgba(79, 70, 229, 0.2); transition: all 0.2s;">Click here for Instructions</a>
+        </p>
+    </footer>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="js/background-3d.js"></script>
     <script src="js/main.js?v=3"></script>
