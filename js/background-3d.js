@@ -59,9 +59,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const mat = Math.random() > 0.8 ? accentMaterial : material;
         const mesh = new THREE.Mesh(geometry, mat);
 
-        mesh.position.x = (Math.random() - 0.5) * 100;
-        mesh.position.y = (Math.random() - 0.5) * 80;
-        mesh.position.z = (Math.random() - 0.5) * 50;
+        // Spread particles more and avoid the center
+        let x = (Math.random() - 0.5) * 150;
+        let y = (Math.random() - 0.5) * 120;
+
+        // Push away from center if too close
+        if (Math.abs(x) < 20) x += (x > 0 ? 30 : -30);
+        if (Math.abs(y) < 15) y += (y > 0 ? 25 : -25);
+
+        mesh.position.set(x, y, (Math.random() - 0.5) * 40);
 
         mesh.rotation.x = Math.random() * Math.PI;
         mesh.rotation.y = Math.random() * Math.PI;
