@@ -46,9 +46,9 @@
                             <input type="text" id="studentEmail" placeholder="Enter your Roll Number or Email" required>
                         </div>
                         <div class="input-group">
-                            <label for="studentPassword">Password</label>
+                            <label for="studentPassword">Mobile Number / Password</label>
                             <div class="password-field-container">
-                                <input type="password" id="studentPassword" placeholder="Enter your password" required>
+                                <input type="password" id="studentPassword" placeholder="Enter your Mobile Number" required>
                                 <button type="button" class="password-toggle" aria-label="Toggle password visibility">
                                     <svg class="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
@@ -65,9 +65,9 @@
                             <button type="submit" class="btn-login-modern">Sign In as Student</button>
                         </div>
                     </form>
-                    <div class="register-link">
+                    <!-- <div class="register-link">
                         Don't have an account? <a href="register.php">Register here</a>
-                    </div>
+                    </div> -->
                 </div>
             </div>
 

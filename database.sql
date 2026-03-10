@@ -6,7 +6,7 @@ USE best_outgoing;
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) UNIQUE NOT NULL,
+    email VARCHAR(255) UNIQUE,
     password VARCHAR(255) NOT NULL,
     role ENUM('student', 'admin', 'panel') NOT NULL,
     department VARCHAR(255),
@@ -39,6 +39,8 @@ CREATE TABLE IF NOT EXISTS academic_records (
     honours_minors TEXT,
     competitive_exams TEXT,
     academic_comments TEXT,
+    present_backlogs INT DEFAULT 0,
+    history_of_backlogs INT DEFAULT 0,
     honours_minors_comments TEXT,
     competitive_exams_comments TEXT,
     hod_name VARCHAR(255),

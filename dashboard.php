@@ -182,6 +182,23 @@
                                     style="font-size: 1.2rem; font-weight: bold; color: var(--primary-color);">
                             </div>
 
+                            <div class="dashboard-grid" style="margin-top: 1rem; border-top: 1px dashed var(--border-color); padding-top: 1.5rem;">
+                                <div class="form-group">
+                                    <label>Present Backlogs</label>
+                                    <input type="number" id="present_backlogs" placeholder="0" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>History of Backlogs</label>
+                                    <input type="number" id="history_of_backlogs" placeholder="0" readonly>
+                                </div>
+                            </div>
+
+                            <div style="background: rgba(255, 193, 7, 0.1); border-left: 4px solid #ffc107; padding: 1rem; margin: 1rem 0; border-radius: 4px;">
+                                <p style="margin: 0; color: #856404; font-size: 0.9rem;">
+                                    <i class="fas fa-info-circle"></i> <strong>Note:</strong> Your academic data (SGPA, CGPA, and Backlogs) has been pre-loaded from official records and cannot be modified.
+                                </p>
+                            </div>
+
                             <!-- Honours/Minors -->
                             
                                 <div class="form-group">

@@ -35,7 +35,7 @@ if ($method === 'GET') {
         $user = db_get("SELECT name, email, department, roll_number, contact_number, bio, is_submitted, profile_photo, recommendation_letter_path, declaration_place, declaration_date, signature_path FROM users WHERE id = ?", [$_SESSION['user']['id']]);
         echo json_encode($user);
     } elseif ($action === 'academic') {
-        $row = db_get("SELECT * FROM academic_records WHERE user_id = ?", [$_SESSION['user']['id']]);
+        $row = db_get("SELECT *, present_backlogs, history_of_backlogs FROM academic_records WHERE user_id = ?", [$_SESSION['user']['id']]);
         echo json_encode($row ?: new stdClass());
     } elseif ($action === 'co-curricular') {
         $rows = db_all("SELECT * FROM co_curricular WHERE user_id = ?", [$_SESSION['user']['id']]);

@@ -822,6 +822,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (data) {
                     safeSet('cgpa', data.cgpa);
                     for (let i = 1; i <= 8; i++) safeSet(`sgpa${i}`, data[`sgpa_sem${i}`]);
+                    safeSet('present_backlogs', data.present_backlogs);
+                    safeSet('history_of_backlogs', data.history_of_backlogs);
 
                     // Honours/Minors Fetching
                     if (data.honours_minors && data.honours_minors !== 'No') {

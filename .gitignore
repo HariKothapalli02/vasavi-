@@ -1,0 +1,9 @@
+main.xlsx
+database_full.sql
+students_data.json
+diag_db_result.txt
+*.log
+.DS_Store
+node_modules/
+vendor/
+.env
