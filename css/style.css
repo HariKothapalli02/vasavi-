@@ -2757,8 +2757,8 @@ body.landing-page .instruction-card:hover {
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background-color: #fee2e2;
-    color: #ef4444;
+    background-color: #f1f5f9;
+    color: #0f172a;
     border: none;
     display: flex;
     align-items: center;
@@ -2770,14 +2770,14 @@ body.landing-page .instruction-card:hover {
     position: absolute;
     right: 0;
     top: 10px;
-    box-shadow: 0 2px 4px rgba(239, 68, 68, 0.1);
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.1);
 }
 
 .btn-remove:hover {
-    background-color: #ef4444;
+    background-color: #0f172a;
     color: white;
     transform: scale(1.1) rotate(90deg);
-    box-shadow: 0 4px 8px rgba(239, 68, 68, 0.2);
+    box-shadow: 0 4px 8px rgba(15, 23, 42, 0.2);
 }
 
 .btn-remove i {
