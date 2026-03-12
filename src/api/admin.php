@@ -121,30 +121,35 @@ if ($method === 'GET') {
         $toppers = db_all($query);
         echo json_encode($toppers);
     } elseif (preg_match('/students\/(\d+)/', $action, $matches)) {
-        $userId = $matches[1];
-        $user = db_get("SELECT u.id, u.name, u.email, u.department, u.roll_number, u.profile_photo, u.is_submitted, u.declaration_place, u.declaration_date, u.signature_path, u.recommendation_letter_path, dt.topper_cgpa 
-                        FROM users u 
-                        LEFT JOIN department_toppers dt ON u.department = dt.department 
-                        WHERE u.id = ?", [$userId]);
-        if (!$user) {
-            http_response_code(404);
-            echo json_encode(['error' => 'Student not found']);
-            exit;
-        }
-        $academic = db_get("SELECT * FROM academic_records WHERE user_id = ?", [$userId]);
-        $coCurricular = db_all("SELECT * FROM co_curricular WHERE user_id = ?", [$userId]);
-        $extracurricular = db_all("SELECT * FROM extracurricular WHERE user_id = ?", [$userId]);
-        $interview = db_all("SELECT im.*, u.name as panel_name FROM interview_marks im JOIN users u ON im.panel_id = u.id WHERE im.user_id = ?", [$userId]);
-        $finalScore = db_get("SELECT * FROM final_scores WHERE user_id = ?", [$userId]);
+        try {
+            $userId = $matches[1];
+            $user = db_get("SELECT u.id, u.name, u.email, u.department, u.roll_number, u.profile_photo, u.is_submitted, u.declaration_place, u.declaration_date, u.signature_path, u.recommendation_letter_path, dt.topper_cgpa 
+                            FROM users u 
+                            LEFT JOIN department_toppers dt ON u.department = dt.department 
+                            WHERE u.id = ?", [$userId]);
+            if (!$user) {
+                http_response_code(404);
+                echo json_encode(['error' => 'Student not found']);
+                exit;
+            }
+            $academic = db_get("SELECT * FROM academic_records WHERE user_id = ?", [$userId]);
+            $coCurricular = db_all("SELECT * FROM co_curricular WHERE user_id = ?", [$userId]);
+            $extracurricular = db_all("SELECT * FROM extracurricular WHERE user_id = ?", [$userId]);
+            $interview = db_all("SELECT im.*, u.name as panel_name FROM interview_marks im JOIN users u ON im.panel_id = u.id WHERE im.user_id = ?", [$userId]);
+            $finalScore = db_get("SELECT * FROM final_scores WHERE user_id = ?", [$userId]);
 
-        echo json_encode([
-            'user' => $user,
-            'academic' => $academic,
-            'coCurricular' => $coCurricular,
-            'extracurricular' => $extracurricular,
-            'interview' => $interview,
-            'finalScore' => $finalScore
-        ]);
+            echo json_encode([
+                'user' => $user,
+                'academic' => $academic,
+                'coCurricular' => $coCurricular,
+                'extracurricular' => $extracurricular,
+                'interview' => $interview,
+                'finalScore' => $finalScore
+            ]);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['error' => 'Failed to retrieve student details: ' . $e->getMessage()]);
+        }
     } elseif ($action === 'leaderboard') {
         $type = $_GET['type'] ?? 'after'; // Default to after for general view
         $deptFilter = "";

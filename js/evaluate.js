@@ -26,22 +26,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function loadStudentDetails(id) {
         try {
-            // Use header loading indicator
-            const headerLoader = document.getElementById('studentName');
-            if (headerLoader) headerLoader.innerText = "Fetching data...";
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
 
-            const res = await fetch(apiBase + `/admin/students/${id}`);
-            const text = await res.text();
+            const res = await fetch(apiBase + `/admin/students/${id}`, {
+                signal: controller.signal
+            }).finally(() => clearTimeout(timeoutId));
 
             if (!res.ok) {
+                const text = await res.text();
                 try {
                     const errObj = JSON.parse(text);
                     throw new Error(errObj.error || `Server error: ${res.status}`);
                 } catch (e) {
-                    throw new Error(`Server returned ${res.status}: ${text.substring(0, 100)}`);
+                    if (e instanceof SyntaxError) {
+                        throw new Error(`Server returned non-JSON (${res.status}): ${text.substring(0, 100)}...`);
+                    }
+                    throw e;
                 }
             }
-            const data = JSON.parse(text);
+
+            const data = await res.json();
 
             if (!data || !data.user) {
                 throw new Error('Invalid data: User record missing');
@@ -52,22 +57,26 @@ document.addEventListener('DOMContentLoaded', () => {
             window.IS_FINAL_LOCKED = data.finalScore && data.finalScore.is_final_submitted == 1;
 
             // Populate Header
-            document.getElementById('studentName').innerText = data.user.name || 'Unknown';
+            const nameEl = document.getElementById('studentName');
+            if (nameEl) nameEl.innerText = data.user.name || 'Unknown';
 
-            document.getElementById('studentMeta').innerText = `${data.user.roll_number || '-'} | ${data.user.department || '-'}`;
-            document.getElementById('evalUserId').value = data.user.id;
+            const metaEl = document.getElementById('studentMeta');
+            if (metaEl) metaEl.innerText = `${data.user.roll_number || '-'} | ${data.user.department || '-'}`;
+
+            const evalUserIdEl = document.getElementById('evalUserId');
+            if (evalUserIdEl) evalUserIdEl.value = data.user.id;
 
             // Set Avatar
             const avatarEl = document.getElementById('studentAvatar');
             if (avatarEl) {
-                if (data.user.profile_photo) {
+                if (data.user.profile_photo && typeof data.user.profile_photo === 'string') {
                     const photoUrl = data.user.profile_photo.startsWith('FILE:')
                         ? `${apiBase}/files/${data.user.profile_photo.replace('FILE:', '')}`
                         : (data.user.profile_photo.startsWith('http') ? data.user.profile_photo : `${apiBase}/files/${data.user.profile_photo}`);
                     avatarEl.innerHTML = `<img src="${photoUrl}" alt="Profile" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null;this.src='https://cdn-icons-png.flaticon.com/512/1077/1077114.png';">`;
                 } else {
-                    const initials = (data.user.name || 'S').split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
-                    avatarEl.innerHTML = `<div style="font-weight:bold; color:var(--primary-color);">${initials}</div>`;
+                    const initials = (data.user.name || 'S').split(' ').filter(n => n).map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                    avatarEl.innerHTML = `<div style="font-weight:bold; color:var(--primary-color);">${initials || 'S'}</div>`;
                 }
             }
 
