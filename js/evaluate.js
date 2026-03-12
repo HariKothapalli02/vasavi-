@@ -568,6 +568,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     submitBtn.innerHTML = originalText;
                     return;
                 }
+            } else {
+                // Validation for Super Admin
+                const chkFinal = document.getElementById('chkFinalSubmit');
+                if (!chkFinal || !chkFinal.checked) {
+                    alert("Please check the 'Final Submission' box to confirm these marks are final.");
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalText;
+                    return;
+                }
             }
 
             // 2. Gather Comments & Item-level data
