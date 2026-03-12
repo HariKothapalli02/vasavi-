@@ -51,12 +51,27 @@ document.addEventListener('DOMContentLoaded', () => {
         opacity: 0.4
     });
 
+    const isWinnerPage = window.location.pathname.includes('admin-winner.php');
+    const goldMaterial = new THREE.MeshPhongMaterial({
+        color: 0xffd700,
+        specular: 0xffffff,
+        shininess: 100,
+        transparent: true,
+        opacity: 0.6
+    });
+
     const particles = [];
     const particleCount = 60; // Increased count
 
     for (let i = 0; i < particleCount; i++) {
         const geometry = geometries[Math.floor(Math.random() * geometries.length)];
-        const mat = Math.random() > 0.8 ? accentMaterial : material;
+        let mat = Math.random() > 0.8 ? accentMaterial : material;
+
+        // On winner page, make some particles gold
+        if (isWinnerPage && Math.random() > 0.6) {
+            mat = goldMaterial;
+        }
+
         const mesh = new THREE.Mesh(geometry, mat);
 
         // Broader spread to fill the entire screen, including edges

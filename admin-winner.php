@@ -163,6 +163,29 @@
             height: 120px;
             z-index: 10;
         }
+
+        /* Entrance Animations */
+        @keyframes reveal3d {
+            0% { transform: perspective(2000px) rotateX(-20deg) scale(0.9); opacity: 0; }
+            100% { transform: perspective(2000px) rotateX(0) scale(1); opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            0% { transform: translateY(30px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        #winnerDetails.revealed .winner-card {
+            animation: reveal3d 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        #winnerDetails.revealed .details-grid {
+            animation: slideUp 0.8s ease-out 0.5s both;
+        }
+
+        #winnerDetails.revealed .bio-section {
+            animation: slideUp 0.8s ease-out 0.8s both;
+        }
     </style>
 </head>
 
@@ -291,10 +314,12 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script src="js/responsive.js"></script>
     <script src="js/background-3d.js"></script>
     <script src="js/tilt-effect.js"></script>
     <script src="js/trophy-3d.js"></script>
+    <script src="js/celebration-effects.js"></script>
     <script type="module" src="js/admin.js?v=21"></script>
 </body>
 
