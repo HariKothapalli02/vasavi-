@@ -254,11 +254,6 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.disabled = true;
 
             const fd = new FormData();
-            fd.append('name', document.getElementById('pName').value);
-            fd.append('department', document.getElementById('pDept').value);
-            fd.append('roll_number', document.getElementById('pRoll').value);
-            fd.append('contact_number', document.getElementById('pContact').value);
-            fd.append('email', document.getElementById('pEmail').value);
             fd.append('bio', document.getElementById('pBio').value);
 
             const photoInput = document.getElementById('pPhoto');

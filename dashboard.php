@@ -106,24 +106,24 @@
                                     <small style="color: var(--text-muted);">Recommended: Square Image (JPG/PNG)</small>
                                 </div>
                                 <div class="form-group">
-                                    <label>Name of the Candidate</label>
-                                    <input type="text" id="pName" placeholder="Enter your full name">
+                                    <label>Full Name</label>
+                                    <input type="text" id="pName" placeholder="Your full name" readonly disabled style="opacity: 0.7;">
                                 </div>
                                 <div class="form-group">
                                     <label>Department</label>
-                                    <input type="text" id="pDept" placeholder="e.g. CSE">
+                                    <input type="text" id="pDept" placeholder="Your department" readonly disabled style="opacity: 0.7;">
                                 </div>
                                 <div class="form-group">
-                                    <label>Roll No</label>
-                                    <input type="text" id="pRoll" placeholder="e.g. 20CSE101">
+                                    <label>Roll Number</label>
+                                    <input type="text" id="pRoll" placeholder="Your roll number" readonly disabled style="opacity: 0.7;">
                                 </div>
                                 <div class="form-group">
-                                    <label>Contact No</label>
-                                    <input type="tel" id="pContact" placeholder="Your contact number">
+                                    <label>Contact Number</label>
+                                    <input type="tel" id="pContact" placeholder="Your contact number" readonly disabled style="opacity: 0.7;">
                                 </div>
                                 <div class="form-group">
                                     <label>Email Id</label>
-                                    <input type="email" id="pEmail" placeholder="Your email address">
+                                    <input type="email" id="pEmail" placeholder="Your email address" readonly disabled style="opacity: 0.7;">
                                 </div>
                                 <div class="form-group" style="grid-column: 1 / -1;">
                                     <label>About Me (Bio)</label>

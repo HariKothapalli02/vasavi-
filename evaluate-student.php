@@ -254,9 +254,10 @@
                     <div>
                         <div style="display: flex; align-items: center; gap: 10px;">
                             <h2 id="studentName" style="margin:0; font-size:1.2rem;">Loading...</h2>
-                            <button id="editDetailsBtn" class="btn-secondary" style="padding: 2px 8px; font-size: 0.75rem; display: none;" onclick="openEditDetailsModal()">
-                                <i class="fa-solid fa-pen-to-square"></i> Edit
-                            </button>
+                            <div class="user-meta">
+                                <span class="dept-badge" id="studentDept">...</span>
+                                <span class="roll-badge" id="studentRoll">...</span>
+                            </div>
                         </div>
                         <p id="studentMeta" style="margin:0; font-size:0.8rem; color:var(--text-muted);">Roll Number | Dept</p>
                     </div>
