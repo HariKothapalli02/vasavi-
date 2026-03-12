@@ -258,7 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
             fd.append('department', document.getElementById('pDept').value);
             fd.append('roll_number', document.getElementById('pRoll').value);
             fd.append('contact_number', document.getElementById('pContact').value);
-            // email is read only, usually not sent or ignored by backend update
+            fd.append('email', document.getElementById('pEmail').value);
             fd.append('bio', document.getElementById('pBio').value);
 
             const photoInput = document.getElementById('pPhoto');

@@ -62,6 +62,7 @@ if ($method === 'GET') {
 
         if ($action === 'profile') {
             $name = $_POST['name'] ?? null;
+            $email = $_POST['email'] ?? null;
             $department = $_POST['department'] ?? null;
             $roll_number = $_POST['roll_number'] ?? null;
             $contact_number = $_POST['contact_number'] ?? null;
@@ -85,15 +86,16 @@ if ($method === 'GET') {
             }
 
             if ($photoId) {
-                db_run("UPDATE users SET name = ?, department = ?, roll_number = ?, contact_number = ?, bio = ?, profile_photo = ? WHERE id = ?",
-                    [$name, $department, $roll_number, $contact_number, $bio, $photoId, $userId]);
+                db_run("UPDATE users SET name = ?, email = ?, department = ?, roll_number = ?, contact_number = ?, bio = ?, profile_photo = ? WHERE id = ?",
+                    [$name, $email, $department, $roll_number, $contact_number, $bio, $photoId, $userId]);
                 echo json_encode(['message' => 'Profile updated successfully', 'profile_photo' => $photoId]);
             } else {
-                db_run("UPDATE users SET name = ?, department = ?, roll_number = ?, contact_number = ?, bio = ? WHERE id = ?",
-                    [$name, $department, $roll_number, $contact_number, $bio, $userId]);
+                db_run("UPDATE users SET name = ?, email = ?, department = ?, roll_number = ?, contact_number = ?, bio = ? WHERE id = ?",
+                    [$name, $email, $department, $roll_number, $contact_number, $bio, $userId]);
                 echo json_encode(['message' => 'Profile updated successfully']);
             }
-        } elseif ($action === 'academic') {
+        }
+ elseif ($action === 'academic') {
             $cgpa = $_POST['cgpa'] ?: null;
             $projects = $_POST['projects'] ?? '';
             $research_papers = $_POST['research_papers'] ?? '';

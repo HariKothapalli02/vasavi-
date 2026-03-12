@@ -123,7 +123,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Email Id</label>
-                                    <input type="email" id="pEmail" readonly disabled style="opacity: 0.7;">
+                                    <input type="email" id="pEmail" placeholder="Your email address">
                                 </div>
                                 <div class="form-group" style="grid-column: 1 / -1;">
                                     <label>About Me (Bio)</label>
