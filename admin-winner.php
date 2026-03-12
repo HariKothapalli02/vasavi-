@@ -25,7 +25,7 @@
         .winner-card {
             background: white;
             border-radius: 20px;
-            overflow: hidden;
+            overflow: visible; /* Changed from hidden to allow trophy to pop out */
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             position: relative;
             margin-top: 1rem;
@@ -34,6 +34,7 @@
             background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
             height: 150px;
             position: relative;
+            border-radius: 20px 20px 0 0; /* Add radius here since card overflow is visible */
         }
         .winner-photo-large {
             width: 200px;
@@ -157,10 +158,10 @@
 
         .trophy-container {
             position: absolute;
-            top: -50px;
-            right: 0;
-            width: 120px;
-            height: 120px;
+            top: -60px; /* Moved slightly more up */
+            right: 15px; /* Shifted left slightly */
+            width: 180px; /* Increased size for better detail */
+            height: 180px;
             z-index: 10;
         }
 
