@@ -185,7 +185,14 @@ $pdf->Ln(5);
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->Cell(0, 6, 'Bio:', 0, 1);
 $pdf->SetFont('Arial', '', 10);
-$pdf->MultiCell(130, 5, $user['bio'] ?: 'N/A'); 
+// Fix bio encoding and ensure it fits well
+$bio = $user['bio'] ?: 'N/A';
+if (function_exists('iconv')) {
+    $bio = iconv('UTF-8', 'windows-1252//TRANSLIT', $bio);
+} else {
+    $bio = utf8_decode($bio);
+}
+$pdf->MultiCell(130, 5, $bio); 
 $pdf->Ln(10);
 
 // --- Academic Performance ---
@@ -211,7 +218,22 @@ if (!empty($academic['honours_minors']) && $academic['honours_minors'] !== 'No')
 $pdf->Cell(130, 8, 'Honours/Minors: ' . $honours, 1);
 $pdf->Cell(60, 8, $academic['honours_score'] ?? '0', 1, 1, 'C');
 
-$pdf->Cell(130, 8, 'Competitive Exams: ' . ($academic['competitive_exams'] ?? 'None'), 1);
+$examsText = 'None';
+if (!empty($academic['competitive_exams']) && $academic['competitive_exams'] !== 'None') {
+    $exams = json_decode($academic['competitive_exams'], true);
+    if (is_array($exams)) {
+        $examList = [];
+        foreach ($exams as $ex) {
+            $name = $ex['name'] ?? 'N/A';
+            $score = $ex['score'] ?? 'N/A';
+            $examList[] = "$name (Score: $score)";
+        }
+        $examsText = implode(', ', $examList);
+    } else {
+        $examsText = $academic['competitive_exams'];
+    }
+}
+$pdf->Cell(130, 8, 'Competitive Exams: ' . $examsText, 1);
 $pdf->Cell(60, 8, $academic['exams_score'] ?? '0', 1, 1, 'C');
 
 $pdf->SetFont('Arial', 'B', 10);
