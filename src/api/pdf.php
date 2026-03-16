@@ -180,7 +180,7 @@ $pdf->SetFont('Arial', 'B', 10);
 $pdf->Cell(40, 8, 'Contact No', 1);
 $pdf->SetFont('Arial', '', 10);
 $pdf->Cell(90, 8, $user['contact_number'] ?: 'N/A', 1);
-$pdf->Ln(5);
+$pdf->Ln(10);
 
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->Cell(0, 6, 'Bio:', 0, 1);
