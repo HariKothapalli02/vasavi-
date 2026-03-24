@@ -1,0 +1,18 @@
+Super Admin:
+iqac@srivasaviengg.ac.in | Password: vasavi@2001#iqac
+
+HODs:
+hod_cse@srivasaviengg.ac.in (CSE, CST) | Password: vasavi@2001#cse
+hod_cai@srivasaviengg.ac.in (CAI, AIM) | Password: vasavi@2001#cai
+hod_ece@srivasaviengg.ac.in (ECE, ECT) | Password: vasavi@2001#ece
+hod_eee@srivasaviengg.ac.in (EEE) | Password: vasavi@2001#eee
+hod_me@srivasaviengg.ac.in (ME) | Password: vasavi@2001#me
+hod_ce@srivasaviengg.ac.in (CE) | Password: vasavi@2001#ce
+
+Panel Members:
+panel1@srivasaviengg.ac.in | Password: vasavi@2001#panel1
+panel2@srivasaviengg.ac.in | Password: vasavi@2001#panel2
+panel3@srivasaviengg.ac.in | Password: vasavi@2001#panel3
+panel4@srivasaviengg.ac.in | Password: vasavi@2001#panel4
+panel5@srivasaviengg.ac.in | Password: vasavi@2001#panel5
+panel6@srivasaviengg.ac.in | Password: vasavi@2001#panel6
