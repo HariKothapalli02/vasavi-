@@ -344,8 +344,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     ${badge}
                     ${scoreIndicator}
                 </div>
-                <div style="display:flex; align-items:center; gap: 1rem;">
+                <div style="display:flex; align-items:center; gap: 0.5rem;">
                     <small>${s.department}</small>
+                    <button class="btn" style="background:#ef4444; color:white; border:none; border-radius:4px; padding:4px 8px; cursor:pointer;" onclick="downloadStudentPdf(${s.id}, event)" title="Download Portfolio PDF">
+                        <i class="fa-solid fa-file-pdf"></i>
+                    </button>
                     ${window.IS_SUPER_ADMIN ? (
                     s.is_sent_to_panel == 1
                         ? `<span style="color: #6366f1; font-size: 0.8rem; font-weight: 500;"><i class="fa-solid fa-circle-check"></i> Sent to Panel</span>`
@@ -392,21 +395,29 @@ document.addEventListener('DOMContentLoaded', () => {
         tbody.innerHTML = data.map((s, i) => {
             let actionHtml = '';
             console.log('Rendering student:', s.name, 'isSuper:', window.IS_SUPER_ADMIN);
+            // Portfolio PDF Download Button
+            const pdfBtn = `<button class="btn-pdf-mini" onclick="downloadStudentPdf(${s.id}, event)" title="Download Portfolio PDF" style="background:#ef4444; color:white; border:none; border-radius:4px; padding:4px 8px; cursor:pointer; margin-right:5px;">
+                <i class="fa-solid fa-file-pdf"></i>
+            </button>`;
+
             if (window.IS_SUPER_ADMIN === true) {
                 if (s.is_best_outgoing == 1) {
-                    actionHtml = `<td data-label="Action" style="text-align:center;"><span style="color:#f59e0b; font-weight:bold;"><i class="fa-solid fa-crown"></i> Winner</span></td>`;
+                    actionHtml = `<td data-label="Action" style="text-align:center;">
+                        ${pdfBtn}
+                        <span style="color:#f59e0b; font-weight:bold;"><i class="fa-solid fa-crown"></i> Winner</span>
+                    </td>`;
                 } else {
                     actionHtml = `<td data-label="Action" style="text-align:center;">
-                        <button class="btn-primary" style="padding: 2px 8px; font-size: 0.75rem;" onclick="announceWinner(${s.id}, '${s.name.replace(/'/g, "\\'")}', event)">
+                        ${pdfBtn}
+                        <button class="btn-primary" style="padding: 4px 8px; font-size: 0.75rem;" onclick="announceWinner(${s.id}, '${s.name.replace(/'/g, "\\'")}', event)">
                             <i class="fa-solid fa-bullhorn"></i> Announce
                         </button>
                     </td>`;
                 }
             } else if (window.IS_SUPER_ADMIN) {
-                // Fallback for truthy values if it's not strictly true
-                actionHtml = `<td data-label="Action" style="text-align:center; color: #64748b; font-size:0.8rem;">N/A</td>`;
+                actionHtml = `<td data-label="Action" style="text-align:center;">${pdfBtn}</td>`;
             } else {
-                actionHtml = `<td data-label="Action" style="text-align:center; color: #64748b; font-size:0.8rem;">-</td>`;
+                actionHtml = `<td data-label="Action" style="text-align:center;">${pdfBtn}</td>`;
             }
 
             return `
@@ -526,6 +537,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    window.downloadStudentPdf = (id, event) => {
+        if (event) event.stopPropagation();
+        window.open(`${apiBase}/downloads/generate?user_id=${id}`, '_blank');
+    };
 
     // Global helpers
     window.viewStudent = (id) => {
