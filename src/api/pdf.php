@@ -316,7 +316,7 @@ $pdf->Cell(160, 10, 'FINAL OVERALL SCORE', 1, 0, 'R', true);
 $pdf->Cell(30, 10, $finalScores['total_score'] ?? '0', 1, 1, 'C', true);
 
 // --- Signatures & Declaration ---
-$pdf->Ln(15);
+$pdf->Ln(20);
 $currentY = $pdf->GetY();
 
 // Ensure enough space for signature block
@@ -340,32 +340,31 @@ if (!empty($user['signature_path'])) {
     }
 }
 
-// Left side: Student
-$pdf->SetXY(10, $currentY);
+// Draw Student Signature Image if exists
 if ($tempSig) {
-    $pdf->Image($tempSig, 15, $currentY, 30);
-    $pdf->SetXY(10, $currentY + 23);
-} else {
-    $pdf->SetXY(10, $currentY + 10);
-    $pdf->SetFont('Arial', 'I', 9);
-    $pdf->Cell(95, 13, '(No Signature Uploaded)', 0, 1, 'L');
-    $pdf->SetXY(10, $currentY + 23);
+    $pdf->Image($tempSig, 15, $currentY, 0, 20); // Fixed height 20mm to prevent overlap
 }
+
+// Labels Section
+$labelY = $currentY + 22;
+
+// Left side: Student
+$pdf->SetXY(10, $labelY);
 $pdf->SetFont('Arial', 'B', 10);
-$pdf->Cell(95, 8, 'Signature of the Student', 0, 1, 'L');
+$pdf->Cell(95, 7, 'Signature of the Student', 0, 2, 'L');
 $pdf->SetFont('Arial', '', 9);
-$pdf->Cell(95, 5, 'Date: ' . ($user['declaration_date'] ?: 'N/A'), 0, 1, 'L');
+$pdf->Cell(95, 5, 'Date: ' . ($user['declaration_date'] ?: 'N/A'), 0, 2, 'L');
 $pdf->Cell(95, 5, 'Place: ' . ($user['declaration_place'] ?: 'N/A'), 0, 0, 'L');
 
 // Right side: HOD
-$pdf->SetXY(110, $currentY + 23);
+$pdf->SetXY(105, $labelY); // Adjust X to give enough room for 'R' align
 $pdf->SetFont('Arial', 'B', 10);
-$pdf->Cell(90, 8, 'Signature of the HOD / Evaluator', 0, 1, 'R');
-$pdf->SetFont('Arial', 'B', 10);
-$pdf->Cell(90, 5, ($academic['hod_name'] ?: 'Pending Evaluation'), 0, 1, 'R');
+$pdf->Cell(95, 7, 'Signature of the HOD / Evaluator', 0, 2, 'R');
+$pdf->SetFont('Arial', 'B', 11); // Make name slightly larger
+$pdf->Cell(95, 6, ($academic['hod_name'] ?: 'Pending Evaluation'), 0, 2, 'R');
 $pdf->SetFont('Arial', '', 9);
-$pdf->Cell(90, 5, 'Evaluated On: ' . ($academic['hod_evaluation_date'] ?: 'N/A'), 0, 0, 'R');
-$pdf->Ln(10);
+$pdf->Cell(95, 5, 'Evaluated On: ' . ($academic['hod_evaluation_date'] ?: 'N/A'), 0, 0, 'R');
+$pdf->Ln(15);
 
 // Cleanup temp files
 if ($tempPhoto && file_exists($tempPhoto)) {
