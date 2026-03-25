@@ -316,30 +316,6 @@
         </div>
     </div>
 
-    <!-- Custom Document Preview Modal (Restored Overlay Style) -->
-    <div id="certModal" class="modal-overlay" style="display: none;">
-        <div class="modal-content" style="height: 90vh; border-radius: 16px; border: none; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);">
-            <div class="modal-header" style="background: #fff; border-bottom: 1px solid #f1f5f9; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center;">
-                <h5 class="modal-title" style="font-weight: 700; color: #1e293b; display: flex; align-items: center; gap: 10px; margin: 0;">
-                    <i class="fa-solid fa-file-invoice" style="color: #4f46e5;"></i> Document Preview
-                </h5>
-                <button type="button" class="btn-close" onclick="closeDocModal()"></button>
-            </div>
-            <div class="modal-body p-0" style="background: #f8fafc; position: relative; display: flex; justify-content: center; align-items: center; overflow: hidden; flex: 1; min-height: 0;">
-                <!-- Loading Spinner -->
-                <div id="modalLoader" style="position: absolute; display: flex; flex-direction: column; align-items: center; gap: 1rem; z-index: 5;">
-                    <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;"></div>
-                    <p style="color: #64748b; font-weight: 500; margin: 0;">Loading...</p>
-                </div>
-                
-                <iframe id="docFrame" style="width:100%; height:100%; border:none; display:none; z-index: 10;" src="" onload="document.getElementById('modalLoader').style.display='none';"></iframe>
-                <img id="docImage" style="max-width:100%; max-height:100%; object-fit:contain; display:none; z-index: 10; padding: 0; margin: auto;" alt="Document Preview" onload="document.getElementById('modalLoader').style.display='none';">
-            </div>
-            <div class="modal-footer" style="background: #fff; border-top: 1px solid #f1f5f9; padding: 0.75rem 1.5rem; display: flex; justify-content: center; align-items: center;">
-                <button type="button" class="btn btn-link text-muted text-decoration-none" onclick="closeDocModal()" style="font-weight: 700; font-size: 1rem;">Close Preview</button>
-            </div>
-        </div>
-    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>

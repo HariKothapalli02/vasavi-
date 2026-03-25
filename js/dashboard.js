@@ -3,63 +3,12 @@ const apiBase = (window.APP_BASE_URL || "").replace(/\/$/, "");
 const getCertHtml = (path) => {
     if (!path) return '<span class="status-badge" style="background:#f1f5f9; color:#94a3b8; font-size:0.75rem; border:1px solid #e2e8f0; padding: 2px 8px; border-radius: 4px;">No certificate</span>';
     const url = `${apiBase}/files/${path.replace('FILE:', '')}`;
-    return `<a href="#" onclick="openDocModal('${url}'); return false;" class="status-badge" style="background:#eff6ff; color:#2563eb; text-decoration:none; display:inline-flex; align-items:center; gap:4px; font-size:0.75rem; border:1px solid #dbeafe; padding: 2px 8px; border-radius: 4px;">
+    return `<a href="${url}" target="_blank" class="status-badge" style="background:#eff6ff; color:#2563eb; text-decoration:none; display:inline-flex; align-items:center; gap:4px; font-size:0.75rem; border:1px solid #dbeafe; padding: 2px 8px; border-radius: 4px;">
         <i class="fa-solid fa-eye"></i> View
     </a>`;
 };
 
-// Global Modal Logic (Custom Overlay)
-window.openDocModal = (url) => {
-    const modal = document.getElementById('certModal');
-    if (!modal) return;
-
-    const frame = document.getElementById('docFrame');
-    const img = document.getElementById('docImage');
-    const loader = document.getElementById('modalLoader');
-    const modalBody = modal.querySelector('.modal-body');
-
-    if (loader) loader.style.display = 'flex';
-    if (frame) {
-        frame.src = '';
-        frame.style.display = 'none';
-    }
-    if (img) {
-        img.src = '';
-        img.style.display = 'none';
-    }
-
-    const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(url);
-
-    // Force modal body scroll behavior
-    if (modalBody) {
-        modalBody.style.overflow = isImage ? 'hidden' : 'auto';
-    }
-
-    if (isImage) {
-        if (img) {
-            img.src = url;
-            img.style.display = 'block';
-        }
-    } else {
-        if (frame) {
-            frame.src = url;
-            frame.style.display = 'block';
-        }
-    }
-
-    modal.style.display = 'flex';
-};
-
-window.closeDocModal = () => {
-    const modal = document.getElementById('certModal');
-    if (modal) modal.style.display = 'none';
-    const frame = document.getElementById('docFrame');
-    const img = document.getElementById('docImage');
-    if (frame) frame.src = '';
-    if (img) img.src = '';
-};
-
-// End of modal logic
+// Modal logic removed - certificates now open in a new tab
 
 document.addEventListener('DOMContentLoaded', () => {
     const safeGet = (id) => {
@@ -388,11 +337,9 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             url = path.startsWith('/') ? path.substring(1) : 'uploads/' + path;
         }
-        return `<a href="#" onclick="openCertModal('${url}'); return false;" class="file-link-btn"><i class="fas fa-eye"></i> View Certificate</a>`;
+        return `<a href="${url}" target="_blank" class="file-link-btn"><i class="fas fa-eye"></i> View Certificate</a>`;
     };
 
-    // Unified with openDocModal
-    window.openCertModal = (url) => window.openDocModal(url);
 
     async function loadAllData() {
         // Co-Curricular
