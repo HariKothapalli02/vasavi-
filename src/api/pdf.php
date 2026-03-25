@@ -357,12 +357,12 @@ $pdf->Cell(95, 5, 'Date: ' . ($user['declaration_date'] ?: 'N/A'), 0, 2, 'L');
 $pdf->Cell(95, 5, 'Place: ' . ($user['declaration_place'] ?: 'N/A'), 0, 0, 'L');
 
 // Right side: HOD
-$pdf->SetXY(105, $labelY); // Adjust X to give enough room for 'R' align
-$pdf->SetFont('Arial', 'B', 10);
-$pdf->Cell(95, 7, 'Signature of the HOD / Evaluator', 0, 2, 'R');
-$pdf->SetFont('Arial', 'B', 11); // Make name slightly larger
-$pdf->Cell(95, 6, ($academic['hod_name'] ?: 'Pending Evaluation'), 0, 2, 'R');
-$pdf->SetFont('Arial', '', 9);
+$pdf->SetXY(105, $labelY); 
+$pdf->SetFont('Arial', 'B', 11); // HOD Name first
+$pdf->Cell(95, 7, ($academic['hod_name'] ?: 'Pending Evaluation'), 0, 2, 'R');
+$pdf->SetFont('Arial', 'B', 10); // Signature Label next
+$pdf->Cell(95, 6, 'Signature of the HOD / Evaluator', 0, 2, 'R');
+$pdf->SetFont('Arial', '', 9); // Evaluation Date last
 $pdf->Cell(95, 5, 'Evaluated On: ' . ($academic['hod_evaluation_date'] ?: 'N/A'), 0, 0, 'R');
 $pdf->Ln(15);
 
