@@ -245,43 +245,32 @@ $pdf->Ln(5);
 // SGPA Grid
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->Cell(0, 6, 'Semester-wise SGPA:', 0, 1);
-$w = 23.75;
+$w = 27.14;
 $pdf->SetFont('Arial', 'B', 9);
-for($i=1; $i<=8; $i++) $pdf->Cell($w, 7, "Sem $i", 1, 0, 'C', true);
+for($i=1; $i<=7; $i++) $pdf->Cell($w, 7, "Sem $i", 1, 0, 'C', true);
 $pdf->Ln();
 $pdf->SetFont('Arial', '', 9);
-for($i=1; $i<=8; $i++) {
+for($i=1; $i<=7; $i++) {
     $val = $academic["sgpa_sem$i"] ?? '-';
     $pdf->Cell($w, 7, $val, 1, 0, 'C');
 }
 $pdf->Ln(10);
 
-// Research Details
-$pdf->SetFont('Arial', 'B', 10);
-$pdf->Cell(0, 6, 'Research Details:', 0, 1);
-$pdf->SetFont('Arial', '', 10);
-if (!empty($academic['research_papers'])) {
-    $pdf->MultiCell(0, 5, "Research Papers: " . ($academic['research_papers'] ?? 'N/A'), 1);
-} else {
-    $pdf->Cell(0, 8, 'N/A', 1, 1);
-}
-$pdf->Ln(10);
 
 // --- Co-Curricular ---
 $pdf->SectionTitle('Co-Curricular Activities');
 $pdf->SetFont('Arial', 'B', 10);
 if (count($coCurricular) > 0) {
-    $header = ['Title', 'Activity Type', 'Date', 'Marks'];
+    $header = ['Title', 'Activity Type', 'Marks'];
     $data = [];
     foreach($coCurricular as $row) {
         $data[] = [
             $row['title'],
             $row['activity_type'],
-            $row['date'],
             $row['score'] ?? '0'
         ];
     }
-    $pdf->FancyTable($header, $data, [80, 40, 40, 30]);
+    $pdf->FancyTable($header, $data, [120, 40, 30]);
     
     $pdf->SetFont('Arial', 'B', 10);
     $pdf->SetFillColor(250, 250, 200);
