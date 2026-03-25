@@ -23,7 +23,10 @@ if (!isset($_SESSION['user'])) {
 }
 
 $userId = $_SESSION['user']['id'];
-log_debug("User ID: " . $userId);
+if (($_SESSION['user']['role'] === 'admin' || $_SESSION['user']['role'] === 'panel') && isset($_GET['user_id'])) {
+    $userId = $_GET['user_id'];
+}
+log_debug("Target User ID for PDF: " . $userId);
 
 // Fetch Data
 $user = db_get("SELECT * FROM users WHERE id = ?", [$userId]);
@@ -257,6 +260,7 @@ for($i=1; $i<=7; $i++) {
 $pdf->Ln(10);
 
 
+$pdf->AddPage();
 // --- Co-Curricular ---
 $pdf->SectionTitle('Co-Curricular Activities');
 $pdf->SetFont('Arial', 'B', 10);
@@ -311,9 +315,65 @@ $pdf->SetFillColor(200, 255, 200);
 $pdf->Cell(160, 10, 'FINAL OVERALL SCORE', 1, 0, 'R', true);
 $pdf->Cell(30, 10, $finalScores['total_score'] ?? '0', 1, 1, 'C', true);
 
-// Cleanup temp photo
+// --- Signatures & Declaration ---
+$pdf->Ln(15);
+$currentY = $pdf->GetY();
+
+// Ensure enough space for signature block
+if ($currentY > 230) {
+    $pdf->AddPage();
+    $currentY = $pdf->GetY();
+}
+
+// Prepare Student Signature
+$tempSig = null;
+if (!empty($user['signature_path'])) {
+    $sigId = str_replace('FILE:', '', $user['signature_path']);
+    $sigRecord = db_get("SELECT * FROM file_uploads WHERE id = ?", [$sigId]);
+    if ($sigRecord) {
+        try {
+            $sigData = decrypt_data($sigRecord['data'], $sigRecord['iv']);
+            $ext = explode('/', $sigRecord['mime_type'])[1] ?? 'jpg';
+            $tempSig = sys_get_temp_dir() . '/temp_sig_' . $userId . '.' . $ext;
+            file_put_contents($tempSig, $sigData);
+        } catch (Exception $e) {}
+    }
+}
+
+// Left side: Student
+$pdf->SetXY(10, $currentY);
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->Cell(95, 8, 'Signature of the Student', 0, 0, 'L');
+if ($tempSig) {
+    $pdf->Image($tempSig, 15, $currentY + 8, 30);
+} else {
+    $pdf->SetXY(15, $currentY + 12);
+    $pdf->SetFont('Arial', 'I', 9);
+    $pdf->Cell(30, 5, '(Not Signed)', 0, 0, 'L');
+}
+$pdf->SetXY(10, $currentY + 36);
+$pdf->SetFont('Arial', '', 9);
+$pdf->Cell(95, 5, 'Date: ' . ($user['declaration_date'] ?: 'N/A'), 0, 1, 'L');
+$pdf->Cell(95, 5, 'Place: ' . ($user['declaration_place'] ?: 'N/A'), 0, 0, 'L');
+
+// Right side: HOD
+$pdf->SetXY(110, $currentY);
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->Cell(90, 8, 'Signature of the HOD / Evaluator', 0, 0, 'R');
+$pdf->SetXY(110, $currentY + 12);
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->Cell(90, 8, ($academic['hod_name'] ?: 'Pending Evaluation'), 0, 0, 'R');
+$pdf->SetXY(110, $currentY + 36);
+$pdf->SetFont('Arial', '', 9);
+$pdf->Cell(90, 5, 'Evaluated On: ' . ($academic['hod_evaluation_date'] ?: 'N/A'), 0, 0, 'R');
+$pdf->Ln(10);
+
+// Cleanup temp files
 if ($tempPhoto && file_exists($tempPhoto)) {
     @unlink($tempPhoto);
+}
+if ($tempSig && file_exists($tempSig)) {
+    @unlink($tempSig);
 }
 
 $pdf->Output('D', 'pdf.pdf');
