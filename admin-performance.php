@@ -142,11 +142,23 @@
                     <?php $isSuper = (!isset($_SESSION['user']['department']) || empty($_SESSION['user']['department'])); ?>
                     <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
                         <h2 style="margin:0;"><i class="fa-solid fa-trophy"></i> Student Leaderboard</h2>
-                        <?php if ($isSuper): ?>
-                        <button id="downloadPdfBtn" class="btn-pdf">
-                            <i class="fa-solid fa-file-pdf"></i> Download PDF
-                        </button>
-                        <?php endif; ?>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <?php if ($isSuper): ?>
+                            <div class="leaderboard-controls" style="display: flex; gap: 10px; align-items: center; background: rgba(99, 102, 241, 0.05); padding: 5px 15px; border-radius: 8px; border: 1px solid var(--border-color);">
+                                <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-color);">Show Top:</span>
+                                <select id="leaderboardLimit" style="padding: 4px 8px; border-radius: 6px; border: 1px solid var(--border-color); font-family: inherit; font-size: 0.85rem; font-weight: 600; color: var(--primary-color); cursor: pointer; outline: none;">
+                                    <option value="all">All Students</option>
+                                    <option value="5">Top 5</option>
+                                    <option value="10">Top 10</option>
+                                    <option value="15">Top 15</option>
+                                    <option value="20">Top 20</option>
+                                </select>
+                            </div>
+                            <button id="downloadPdfBtn" class="btn-pdf">
+                                <i class="fa-solid fa-file-pdf"></i> Download PDF
+                            </button>
+                            <?php endif; ?>
+                        </div>
                     </div>
 
 

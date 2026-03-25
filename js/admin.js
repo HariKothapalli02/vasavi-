@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const apiBase = (window.APP_BASE_URL || "").replace(/\/$/, "");
     let allStudents = [];
+    let currentLeaderboardData = [];
     console.log('Admin JS Loaded. Super Admin:', window.IS_SUPER_ADMIN, 'Role:', window.userRole);
 
     // Logout
@@ -367,6 +368,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const res = await fetch(apiBase + `/admin/leaderboard?type=${viewType}`);
         const data = await res.json();
+        currentLeaderboardData = data;
 
         const tabs = document.querySelectorAll('.l-tab');
         if (tabs.length > 0) {
@@ -382,7 +384,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             });
         }
-        renderLeaderboard(data);
+
+        applyLeaderboardFilter();
+    }
+
+    function applyLeaderboardFilter() {
+        const limitSelect = document.getElementById('leaderboardLimit');
+        if (!limitSelect) {
+            renderLeaderboard(currentLeaderboardData);
+            return;
+        }
+
+        const limitVal = limitSelect.value;
+        let filteredData = [...currentLeaderboardData];
+
+        if (limitVal && limitVal !== 'all') {
+            const limit = parseInt(limitVal);
+            filteredData = filteredData.slice(0, limit);
+        }
+
+        renderLeaderboard(filteredData);
+    }
+
+    // Leaderboard Limit Listener
+    const limitSelect = document.getElementById('leaderboardLimit');
+    if (limitSelect) {
+        limitSelect.addEventListener('change', applyLeaderboardFilter);
     }
 
     function renderLeaderboard(data) {
