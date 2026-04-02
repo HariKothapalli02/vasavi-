@@ -53,7 +53,6 @@ if ($method === 'GET') {
         $query = "
             SELECT u.id, u.name, u.department, u.roll_number, u.is_submitted, u.is_sent_to_panel,
                    ar.cgpa, ar.is_hod_submitted,
-                   (ar.academic_comments IS NOT NULL AND ar.academic_comments != '') as has_academic_comments,
                    (SELECT COUNT(*) FROM co_curricular WHERE user_id = u.id) as co_curricular_count,
                    (SELECT COUNT(*) FROM extracurricular WHERE user_id = u.id) as extracurricular_count,
                    (SELECT COUNT(*) FROM final_scores WHERE user_id = u.id) as is_evaluated,
@@ -229,12 +228,10 @@ if ($method === 'GET') {
         $isAdmin = true; 
         $isSuperAdmin = !isset($_SESSION['user']['department']) || empty($_SESSION['user']['department']);
 
-        // HODs can only update comments
+        // HODs can only update overall comments
         // Super Admins can update scores AND comments
         
         // Comments provided by HOD or Super Admin
-        $academic_comments = $input['academic_comments'] ?? '';
-        $honours_minors_comments = $input['honours_minors_comments'] ?? '';
         $co_scores = $input['co_scores'] ?? [];
         $extra_scores = $input['extra_scores'] ?? [];
 
@@ -252,31 +249,14 @@ if ($method === 'GET') {
                 $hod_date = $input['hod_evaluation_date'] ?? '';
                 $hod_overall = $input['hod_overall_comments'] ?? '';
 
-                // 1. Update Academic Comments & HOD Submission Details
-                db_run("INSERT INTO academic_records (user_id, academic_comments, honours_minors_comments, competitive_exams_comments, hod_name, hod_evaluation_date, hod_overall_comments, is_hod_submitted) VALUES (?, ?, ?, ?, ?, ?, ?, 1) 
+                // 1. Update HOD Submission Details
+                db_run("INSERT INTO academic_records (user_id, hod_name, hod_evaluation_date, hod_overall_comments, is_hod_submitted) VALUES (?, ?, ?, ?, 1) 
                         ON DUPLICATE KEY UPDATE 
-                        academic_comments = VALUES(academic_comments), 
-                        honours_minors_comments = VALUES(honours_minors_comments), 
-                        competitive_exams_comments = VALUES(competitive_exams_comments),
                         hod_name = VALUES(hod_name),
                         hod_evaluation_date = VALUES(hod_evaluation_date),
                         hod_overall_comments = VALUES(hod_overall_comments),
                         is_hod_submitted = 1",
-                        [$user_id, $academic_comments, $honours_minors_comments, $input['competitive_exams_comments'] ?? '', $hod_name, $hod_date, $hod_overall]);
-
-                // 2. Update Co-curricular Comments
-                foreach ($co_scores as $item) {
-                    if (isset($item['hod_comments'])) {
-                        db_run("UPDATE co_curricular SET hod_comments = ? WHERE id = ? AND user_id = ?", [$item['hod_comments'], $item['id'], $user_id]);
-                    }
-                }
-
-                // 3. Update Extracurricular Comments
-                foreach ($extra_scores as $item) {
-                    if (isset($item['hod_comments'])) {
-                        db_run("UPDATE extracurricular SET hod_comments = ? WHERE id = ? AND user_id = ?", [$item['hod_comments'], $item['id'], $user_id]);
-                    }
-                }
+                        [$user_id, $hod_name, $hod_date, $hod_overall]);
             }
 
             // Scoring (Available ONLY to Super Admin)

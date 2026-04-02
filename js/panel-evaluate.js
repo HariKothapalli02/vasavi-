@@ -125,12 +125,6 @@ function renderProfile(data, userId) {
             if (!html) html = raw;
         }
 
-        if (comments) {
-            html += `<div style="margin-top:10px; padding:10px; background:#f0f9ff; border-left:4px solid #0ea5e9; border-radius:4px;">
-                        <small style="color:#0369a1; font-weight:700; text-transform:uppercase; font-size:0.7rem; display:block; margin-bottom:4px;">HOD Remarks:</small>
-                        <div style="font-size:0.9rem; color:#075985;">${comments}</div>
-                    </div>`;
-        }
         return html;
     };
     document.getElementById('acHonours').innerHTML = renderHonours();
@@ -161,12 +155,6 @@ function renderProfile(data, userId) {
             html = raw;
         }
 
-        if (comments) {
-            html += `<div style="margin-top:10px; padding:10px; background:#f0f9ff; border-left:4px solid #0ea5e9; border-radius:4px;">
-                        <small style="color:#0369a1; font-weight:700; text-transform:uppercase; font-size:0.7rem; display:block; margin-bottom:4px;">HOD Remarks:</small>
-                        <div style="font-size:0.9rem; color:#075985;">${comments}</div>
-                    </div>`;
-        }
         return html;
     };
     document.getElementById('acExams').innerHTML = renderExams();
@@ -193,7 +181,7 @@ function renderProfile(data, userId) {
         if (!items || items.length === 0) return '<p style="color:var(--text-muted); padding:0.5rem;">None recorded.</p>';
         return `
             <table class="custom-table">
-                <thead><tr><th>Details</th><th style="width:180px;">HOD Remarks</th><th style="width:120px;">Proof</th></tr></thead>
+                <thead><tr><th>Details</th><th style="width:120px;">Proof</th></tr></thead>
                 <tbody>
                     ${items.map(item => `<tr>
                         <td>
@@ -201,7 +189,6 @@ function renderProfile(data, userId) {
                             ${item.level ? `<div style="font-size:0.75rem; color:#64748b;">${item.level}</div>` : ''}
                             ${item.description ? `<div style="font-size:0.75rem; color:#64748b;">${item.description}</div>` : ''}
                         </td>
-                        <td style="font-size:0.85rem; color:#0369a1;">${item.hod_comments || '<span style="color:#cbd5e1;">-</span>'}</td>
                         <td>${getCertHtml(item.certificate_path)}</td>
                     </tr>`).join('')}
                 </tbody>

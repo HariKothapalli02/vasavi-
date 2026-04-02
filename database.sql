@@ -37,11 +37,8 @@ CREATE TABLE IF NOT EXISTS academic_records (
     certifications TEXT,
     honours_minors TEXT,
     competitive_exams TEXT,
-    academic_comments TEXT,
     present_backlogs INT DEFAULT 0,
     history_of_backlogs INT DEFAULT 0,
-    honours_minors_comments TEXT,
-    competitive_exams_comments TEXT,
     hod_name VARCHAR(255),
     hod_evaluation_date VARCHAR(50),
     hod_overall_comments TEXT,
@@ -59,7 +56,6 @@ CREATE TABLE IF NOT EXISTS co_curricular (
     date VARCHAR(50),
     certificate_path VARCHAR(255),
     score FLOAT,
-    hod_comments TEXT,
     FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
@@ -73,7 +69,6 @@ CREATE TABLE IF NOT EXISTS extracurricular (
     level VARCHAR(50),
     certificate_path VARCHAR(255),
     score FLOAT,
-    hod_comments TEXT,
     FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 

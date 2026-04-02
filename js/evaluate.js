@@ -166,9 +166,8 @@ document.addEventListener('DOMContentLoaded', () => {
             <p style="margin:0; font-weight:bold;">Honours / Minors</p>
             <div style="margin-bottom:10px;">${honourText}</div>
             ${hasHonours ? `
-            <div style="margin-top: 10px;">
-                <label style="font-size:0.85rem; font-weight:600; color:#475569; display:block; margin-bottom:5px;">HOD Comments <span style="color:#ef4444;">*</span></label>
-                <textarea class="form-control item-comment-input" data-id="academic_honours" data-type="academic_honours" rows="2" placeholder="Required: Honours/Minors Comments..." style="width:100%; font-size:0.9rem; padding:8px; border:1px solid #cbd5e1;" ${IS_SUPER_ADMIN || window.IS_LOCKED ? 'readonly' : ''}>${academic.honours_minors_comments || ''}</textarea>
+            <div style="margin-top: 10px; color:var(--text-muted); font-size:0.85rem;">
+                <i class="fa-solid fa-circle-info"></i> Student has submitted Honours/Minors details.
             </div>` : ''}
         </div>`;
 
@@ -207,9 +206,8 @@ document.addEventListener('DOMContentLoaded', () => {
             <p style="margin:0; font-weight:bold; margin-bottom:10px;">Competitive Exams</p>
             <div style="font-size:0.95rem;">${examText}</div>
              ${hasExams ? `
-             <div style="margin-top: 15px;">
-                <label style="font-size:0.85rem; font-weight:600; color:#475569; display:block; margin-bottom:5px;">HOD Comments <span style="color:#ef4444;">*</span></label>
-                <textarea class="form-control item-comment-input" data-id="academic_exams" data-type="academic_exams" rows="2" placeholder="Required: Competitive Exams Comments..." style="width:100%; font-size:0.9rem; padding:8px; border:1px solid #cbd5e1;" ${IS_SUPER_ADMIN || window.IS_LOCKED ? 'readonly' : ''}>${academic.competitive_exams_comments || ''}</textarea>
+             <div style="margin-top: 15px; color:var(--text-muted); font-size:0.85rem;">
+                <i class="fa-solid fa-circle-info"></i> Student has submitted Competitive Exam details.
             </div>` : ''}
         </div>`;
 
@@ -255,10 +253,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             <label style="font-size: 0.8rem;">Marks:</label>
                             <input type="number" step="0.1" class="item-score ${typeStr}-score" data-id="${c.id}" value="${c.score || 0}" style="width: 70px; padding: 5px; border-radius:5px; border:1px solid #ddd;">
                         </div>` : ''}
-                    </div>
-                    <div style="margin-top: 10px;">
-                        <label style="font-size:0.85rem; font-weight:600; color:#475569; display:block; margin-bottom:5px;">HOD Comments <span style="color:#ef4444;">*</span></label>
-                        <textarea class="form-control item-comment-input" data-id="${c.id}" data-type="${typeStr}" data-label="${c.title || c.name || label}" rows="1" placeholder="Required: Details review comments..." style="width:100%; font-size:0.9rem; padding:8px; border:1px solid #cbd5e1;" ${IS_SUPER_ADMIN || window.IS_LOCKED ? 'readonly' : ''}>${c.hod_comments || ''}</textarea>
                     </div>
                 </div>`;
             });
@@ -414,13 +408,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const scores = data.finalScore || {};
         const acad = data.academic || {};
 
-        // Prefill General Academic Comments
-        const commentsAcad = document.getElementById('txtAcademicComments');
-        if (commentsAcad) commentsAcad.value = acad.academic_comments || '';
-
-        const commentsHonours = document.getElementById('txtHonoursMinorsComments');
-        if (commentsHonours) commentsHonours.value = acad.honours_minors_comments || '';
-
         if (IS_SUPER_ADMIN) {
             // Calculate Academic CGPA Score automatically
             let topperCgpa = parseFloat(data.user.topper_cgpa);
@@ -451,17 +438,30 @@ document.addEventListener('DOMContentLoaded', () => {
             setScore('scCo', 'valCo', scores.co_curricular_score || 0);
             setScore('scExtra', 'valExtra', scores.extracurricular_score || 0);
 
-            if (window.IS_FINAL_LOCKED) {
-                const finalSect = document.getElementById('finalSubmitSection');
-                if (finalSect) finalSect.style.display = 'none';
-                const lockAlert = document.getElementById('superAdminLockAlert');
-                if (lockAlert) lockAlert.classList.remove('hidden');
+            // Disable all item scores too
+            document.querySelectorAll('.item-score').forEach(input => input.disabled = true);
 
-                const mainBtn = document.getElementById('mainSubmitBtn');
-                if (mainBtn) mainBtn.style.display = 'none';
-
-                // Disable all item scores too
-                document.querySelectorAll('.item-score').forEach(input => input.disabled = true);
+            // Always show HOD Remarks for Super Admin if they exist
+            if (acad.hod_overall_comments) {
+                const remarksDiv = document.createElement('div');
+                remarksDiv.className = 'list-item-card';
+                remarksDiv.style.marginTop = '2rem';
+                remarksDiv.style.background = '#f0f9ff';
+                remarksDiv.style.border = '1px solid #bae6fd';
+                remarksDiv.innerHTML = `
+                    <h5 style="color:#0369a1; border-bottom:1px solid #bae6fd; padding-bottom:10px; margin-bottom:15px; font-weight:600;">
+                        <i class="fa-solid fa-comment-dots"></i> Overall HOD Remarks
+                    </h5>
+                    <div style="color:#075985; font-size:1.05rem; line-height:1.6; font-weight:500;">
+                        ${acad.hod_overall_comments}
+                    </div>
+                    <div style="margin-top:1rem; display:flex; justify-content:space-between; align-items:center; border-top:1px solid #bae6fd; padding-top:1rem; font-size:0.85rem; color:#0369a1;">
+                        <span><i class="fa-solid fa-user-tie"></i> ${acad.hod_name || 'HOD'}</span>
+                        <span><i class="fa-solid fa-calendar"></i> ${acad.hod_evaluation_date || 'N/A'}</span>
+                    </div>
+                `;
+                const scoringForm = document.getElementById('scoreForm');
+                scoringForm.parentElement.insertBefore(remarksDiv, scoringForm);
             }
         } else {
             // HOD View: Show Overall Comment and Footer
@@ -537,24 +537,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!IS_SUPER_ADMIN) {
                 const missing = [];
 
-                // Item level comments
-                document.querySelectorAll('.item-comment-input').forEach(input => {
-                    if (!input.value.trim()) {
-                        const label = input.dataset.label || "A section";
-                        missing.push(label);
-                        input.style.borderColor = '#ef4444';
-                    } else {
-                        input.style.borderColor = '#cbd5e1';
-                    }
-                });
-
-                // Footer details
-                const overall = document.getElementById('txtHodOverall');
-                if (!overall?.value?.trim()) {
-                    missing.push("Overall HOD Remarks");
-                    if (overall) overall.style.borderColor = '#ef4444';
-                } else if (overall) overall.style.borderColor = '#cbd5e1';
-
                 const hodName = document.getElementById('txtHodName');
                 if (!hodName?.value?.trim()) {
                     missing.push("Name of HOD");
@@ -578,44 +560,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // 2. Gather Comments & Item-level data
-            const coScores = [];
-            const coInputs = document.querySelectorAll('.item-comment-input[data-type="co"]');
-            coInputs.forEach(input => {
-                const id = input.dataset.id;
-                const comment = input.value;
-                const scoreInput = document.querySelector(`.co-score[data-id="${id}"]`);
-                const score = scoreInput ? (parseFloat(scoreInput.value) || 0) : null;
-
-                const item = { id: id, hod_comments: comment };
-                if (score !== null) item.score = score;
-                coScores.push(item);
-            });
-
-            const extraScores = [];
-            const extraInputs = document.querySelectorAll('.item-comment-input[data-type="extra"]');
-            extraInputs.forEach(input => {
-                const id = input.dataset.id;
-                const comment = input.value;
-                const scoreInput = document.querySelector(`.extra-score[data-id="${id}"]`);
-                const score = scoreInput ? (parseFloat(scoreInput.value) || 0) : null;
-
-                const item = { id: id, hod_comments: comment };
-                if (score !== null) item.score = score;
-                extraScores.push(item);
-            });
-
-            // Scrape granular academic comments
-            const acadHonoursComment = document.querySelector('.item-comment-input[data-id="academic_honours"]')?.value || '';
-            const acadExamsComment = document.querySelector('.item-comment-input[data-id="academic_exams"]')?.value || '';
-
             const data = {
                 user_id: document.getElementById('evalUserId').value,
-                academic_comments: '',
-                honours_minors_comments: acadHonoursComment,
-                competitive_exams_comments: acadExamsComment,
-                co_scores: coScores,
-                extra_scores: extraScores,
                 hod_name: document.getElementById('txtHodName')?.value || '',
                 hod_evaluation_date: document.getElementById('txtHodDate')?.value || '',
                 hod_overall_comments: document.getElementById('txtHodOverall')?.value || '',
