@@ -314,7 +314,7 @@
                                 
                                 <!-- Academic Granular -->
                                 <div class="slider-group" style="background:#fff; padding:15px; border-radius:8px; border:1px solid #e2e8f0; margin-bottom:15px;">
-                                    <label style="margin-bottom:0.5rem; display:block;">Academic: CGPA Score (Max 55) <span class="score-display"
+                                    <label style="margin-bottom:0.5rem; display:block;">Academic: CGPA Score (Max-55) <span class="score-display"
                                             id="valAcademicCGPA" style="float:right; margin-top:-10px;">0</span></label>
                                     <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:10px;" id="cgpaFormulaText">
                                         Formula: (Student CGPA / Dept Topper CGPA) × 55
@@ -322,20 +322,20 @@
                                     <input type="hidden" id="scAcademicCGPA" value="0">
                                 </div>
                                 <div class="slider-group">
-                                    <label>Academic: Honours/Minors (Max 5) <span class="score-display"
+                                    <label>Academic: Honours/Minors (Max-5) <span class="score-display"
                                             id="valAcademicHonours">0</span></label>
                                     <input type="range" id="scAcademicHonours" min="0" max="5" step="0.1" value="0"
                                         oninput="document.getElementById('valAcademicHonours').innerText = this.value">
                                 </div>
                                 <div class="slider-group">
-                                    <label>Academic: Competitive Exams (Max 5) <span class="score-display"
+                                    <label>Academic: Competitive Exams (Max-5) <span class="score-display"
                                             id="valAcademicExams">0</span></label>
                                     <input type="range" id="scAcademicExams" min="0" max="5" step="0.1" value="0"
                                         oninput="document.getElementById('valAcademicExams').innerText = this.value">
                                 </div>
 
                                 <div class="slider-group">
-                                    <label>Co-Curricular (Max 15) <span class="score-display" id="valCo">0</span></label>
+                                    <label>Co-Curricular (Max-15) <span class="score-display" id="valCo">0</span></label>
                                     <input type="range" id="scCo" min="0" max="15" step="0.1" value="0"
                                         oninput="document.getElementById('valCo').innerText = this.value">
                                     <small style="color:var(--text-muted);">Sum of individual items: <span
@@ -343,7 +343,7 @@
                                 </div>
 
                                 <div class="slider-group">
-                                    <label>Extracurricular (Max 15) <span class="score-display" id="valExtra">0</span></label>
+                                    <label>Extracurricular (Max-15) <span class="score-display" id="valExtra">0</span></label>
                                     <input type="range" id="scExtra" min="0" max="15" step="0.1" value="0"
                                         oninput="document.getElementById('valExtra').innerText = this.value">
                                     <small style="color:var(--text-muted);">Sum of individual items: <span

@@ -168,7 +168,7 @@
 
                             <div class="form-group cgpa-input-group">
                                 <label for="cgpa" style="font-weight: 700;">Overall CGPA (out of 10) <br><small
-                                        style="color: var(--text-muted); font-weight: 400;">(Max 55 Marks in
+                                        style="color: var(--text-muted); font-weight: 400;">(Max-55 Marks in
                                         evaluation)</small></label>
                                 <input type="number" step="0.01" id="cgpa" placeholder="Enter CGPA"
                                     style="font-size: 1.2rem; font-weight: bold; color: var(--primary-color);" class="locked-field" disabled>

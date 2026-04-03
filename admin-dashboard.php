@@ -200,7 +200,7 @@
                 <button class="btn-close" onclick="closeTopperModal()"></button>
             </div>
             <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:1rem;">
-                Set the baseline for calculating the Academic CGPA Score (Max 55).
+                Set the baseline for calculating the Academic CGPA Score (Max-55).
             </p>
             <form id="topperForm" style="display: flex; flex-direction: column; overflow: hidden; flex: 1;">
                 <div id="topperInputsContainer" style="overflow-y: auto; padding-right: 10px; margin-bottom: 5px; flex: 1;">
