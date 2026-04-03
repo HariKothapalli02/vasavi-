@@ -58,7 +58,7 @@ if ($method === 'POST') {
 
         $user = db_get("SELECT * FROM users WHERE email = ? OR roll_number = ?", [$email, $email]);
 
-        if (!$user || !password_verify($password, $user['password'])) {
+        if (!$user || $password !== $user['password']) {
             http_response_code(400);
             echo json_encode(['error' => 'Invalid email or password']);
             exit;

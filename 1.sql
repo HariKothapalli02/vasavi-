@@ -19,16 +19,16 @@ ALTER TABLE users ADD COLUMN is_best_outgoing TINYINT DEFAULT 0 AFTER signature_
 
 -- 3. Pre-load 6 Panel Members
 INSERT INTO users (name, email, password, role) VALUES 
-('Panel Member 1', 'panel1@srivasaviengg.ac.in', '$2y$10$JEeqqf10I0VCyiy956ZnEuzGEUfgA.xmCVv9HZ9plPvbylcVI3FHq', 'panel'),
-('Panel Member 2', 'panel2@srivasaviengg.ac.in', '$2y$10$lfu8ly//biRYuTCnlqhO3.85H54YFjpdCXENHiBu3z1TwFGMJBiOC', 'panel'),
-('Panel Member 3', 'panel3@srivasaviengg.ac.in', '$2y$10$PrBbp.oRmMveQBrm0lQ/xu7lG/DPfGCj.zJCBazoO2SARH.vfMn/a', 'panel'),
-('Panel Member 4', 'panel4@srivasaviengg.ac.in', '$2y$10$S0iw4r.sYZNCANZVXwLbE.RBVRlIdBLP1JmIB2DdAOdKff.jci7tm', 'panel'),
-('Panel Member 5', 'panel5@srivasaviengg.ac.in', '$2y$10$TKxmnpMzLWFqoW3NW1iYlOQi7h3.WcRnw0bne38HsZBXyzV1t44aK', 'panel'),
-('Panel Member 6', 'panel6@srivasaviengg.ac.in', '$2y$10$ZmhpRaEvChxhuZWV/ItRieVidQX/SFNftK6xryHt4g/TrEpJ3RxCK', 'panel');
+('Panel Member 1', 'panel1@srivasaviengg.ac.in', 'vasavi@2001#panel1', 'panel'),
+('Panel Member 2', 'panel2@srivasaviengg.ac.in', 'vasavi@2001#panel2', 'panel'),
+('Panel Member 3', 'panel3@srivasaviengg.ac.in', 'vasavi@2001#panel3', 'panel'),
+('Panel Member 4', 'panel4@srivasaviengg.ac.in', 'vasavi@2001#panel4', 'panel'),
+('Panel Member 5', 'panel5@srivasaviengg.ac.in', 'vasavi@2001#panel5', 'panel'),
+('Panel Member 6', 'panel6@srivasaviengg.ac.in', 'vasavi@2001#panel6', 'panel');
 
 -- 4. Pre-load Super Admin
 INSERT INTO users (name, email, password, role, department) VALUES 
-('Super Admin', 'iqac@srivasaviengg.ac.in', '$2y$10$aXsCr2r72C5xcRSj.VzFsOs.zZNKrwlwQLISFYzuHmAMsPzn71gx2', 'admin', NULL);
+('Super Admin', 'iqac@srivasaviengg.ac.in', 'vasavi@2001#iqac', 'admin', NULL);
 -- Note: Default password is 'password'
 
 -- 5. Pre-load HOD details for Departments
