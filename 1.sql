@@ -33,12 +33,12 @@ INSERT INTO users (name, email, password, role, department) VALUES
 
 -- 5. Pre-load HOD details for Departments
 INSERT INTO users (name, email, password, role, department) VALUES 
-('HOD CSE/CST', 'hod_cse@srivasaviengg.ac.in', '$2y$10$WWP.hgTyTLkWpZPF2rpUiukByPAVTK7pVcuBv.eJqXuBraxHvF9BW', 'admin', 'CSE,CST'),
-('HOD CAI/AIM', 'hod_cai@srivasaviengg.ac.in', '$2y$10$fPtldMvLZXxgvBrwO/RKtefNxWbcU1tIgagXWYz1ExKs8NKoGdW1q', 'admin', 'CAI,AIM'),
-('HOD ECE/ECT', 'hod_ece@srivasaviengg.ac.in', '$2y$10$xz/b5D9kb.FnWOp4H2hhvOQEdci3Ng37CC3heUBeIWpKkh5il2Snq', 'admin', 'ECE,ECT'),
-('HOD EEE', 'hod_eee@srivasaviengg.ac.in', '$2y$10$402Ibo0Qdbkq6gO1d6WIiOEzcgYcIKS1Gs4YRxqbrnSWCn9WBOXr2', 'admin', 'EEE'),
-('HOD ME', 'hod_me@srivasaviengg.ac.in', '$2y$10$30s3a0QwM05BBUrWttRJVuQrXub0gE93aY8GTvm8xylKoHwJ03ZDC', 'admin', 'ME'),
-('HOD CE', 'hod_ce@srivasaviengg.ac.in', '$2y$10$aeGgEfEUbfifjYPneR9vN.NPpeYjX9kmyRwgTPqvijVeOR11honHm', 'admin', 'CE');
+('HOD CSE/CST', 'hod_cse@srivasaviengg.ac.in', 'vasavi@2001#cse', 'admin', 'CSE,CST'),
+('HOD CAI/AIM', 'hod_cai@srivasaviengg.ac.in', 'vasavi@2001#cai', 'admin', 'CAI,AIM'),
+('HOD ECE/ECT', 'hod_ece@srivasaviengg.ac.in', 'vasavi@2001#ece', 'admin', 'ECE,ECT'),
+('HOD EEE', 'hod_eee@srivasaviengg.ac.in', 'vasavi@2001#eee', 'admin', 'EEE'),
+('HOD ME', 'hod_me@srivasaviengg.ac.in', 'vasavi@2001#me', 'admin', 'ME'),
+('HOD CE', 'hod_ce@srivasaviengg.ac.in', 'vasavi@2001#ce', 'admin', 'CE');
 
 -- 6. Unlock Students (Run this to restore access to students after import)
 UPDATE users SET is_submitted = 0 WHERE role = 'student';
