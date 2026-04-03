@@ -473,6 +473,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 const scoringForm = document.getElementById('scoreForm');
                 scoringForm.parentElement.insertBefore(remarksDiv, scoringForm);
             }
+
+            // SUPER ADMIN FINAL LOCKING
+            if (window.IS_FINAL_LOCKED) {
+                const finalSection = document.getElementById('finalSubmitSection');
+                if (finalSection) finalSection.style.display = 'none';
+
+                const lockAlert = document.getElementById('superAdminLockAlert');
+                if (lockAlert) lockAlert.classList.remove('hidden');
+
+                const mainBtn = document.getElementById('mainSubmitBtn');
+                if (mainBtn) {
+                    mainBtn.disabled = true;
+                    mainBtn.style.display = 'none';
+                }
+
+                // Disable all extra range inputs that might not be in setScore
+                document.querySelectorAll('input[type="range"]').forEach(input => input.disabled = true);
+            }
         } else {
             // HOD View: Show Overall Comment and Footer
             const formFooter = document.createElement('div');
