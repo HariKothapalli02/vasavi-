@@ -2185,43 +2185,60 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Final Submit
+    function validateFinalSubmit() {
+        const place = document.getElementById('declPlace').value.trim();
+        const sigInput = document.getElementById('declSignature');
+        const isChecked = document.getElementById('declCheck').checked;
+        const submitBtn = document.getElementById('finalSubmitBtn');
+        const sigPreview = document.getElementById('signaturePreview');
+        const hasSignature = (sigInput.files && sigInput.files[0]) || (sigPreview && sigPreview.style.display !== 'none');
+
+        if (place && hasSignature && isChecked) {
+            submitBtn.disabled = false;
+            submitBtn.style.opacity = '1';
+        } else {
+            submitBtn.disabled = true;
+            submitBtn.style.opacity = '0.5';
+        }
+    }
+
+    const declPlace = document.getElementById('declPlace');
+    const declCheck = document.getElementById('declCheck');
+    const declSigInput = document.getElementById('declSignature');
+
+    if (declPlace) declPlace.addEventListener('input', validateFinalSubmit);
+    if (declCheck) declCheck.addEventListener('change', validateFinalSubmit);
+    if (declSigInput) declSigInput.addEventListener('change', validateFinalSubmit);
+
     const finalSubmitBtn = document.getElementById('finalSubmitBtn');
     if (finalSubmitBtn) {
         finalSubmitBtn.addEventListener('click', async () => {
             const btn = finalSubmitBtn;
             const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
-            btn.disabled = true;
 
-            // 1. Validation
+            // 1. Validation (Double check)
             const place = document.getElementById('declPlace').value.trim();
             const date = document.getElementById('declDate').value.trim();
             const sigFile = document.getElementById('declSignature').files[0];
             const isChecked = document.getElementById('declCheck').checked;
+            const sigPreview = document.getElementById('signaturePreview');
+            const hasExistingSig = sigPreview && sigPreview.style.display !== 'none';
 
-            if (!isChecked) {
-                alert('Please accept the declaration to proceed.');
-                return;
-            }
-            if (!place) {
-                alert('Please enter the Place in the declaration section.');
-                return;
-            }
-            if (!sigFile) {
-                // If it's already submitted (edit mode check? no, final submit implies first time)
-                // We'll enforce signature upload for now. 
-                // TODO: If we allowed re-submission, we'd check if one exists.
-                alert('Please upload your signature.');
+            if (!isChecked || !place || (!sigFile && !hasExistingSig)) {
+                alert('Please ensure Place is entered, Signature is uploaded, and Declaration is checked.');
                 return;
             }
 
             if (!confirm('Are you sure you want to submit your application? Once submitted, you cannot make changes.')) return;
 
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+            btn.disabled = true;
+
             // 2. Prepare Data
             const fd = new FormData();
             fd.append('declaration_place', place);
             fd.append('declaration_date', date);
-            fd.append('signature', sigFile);
+            if (sigFile) fd.append('signature', sigFile);
 
             try {
                 const res = await fetch('student/submit', {
@@ -2233,7 +2250,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     alert(data.message);
                     window.location.reload();
                 } else {
-                    alert('Error: ' + data.error);
+                    alert('Error: ' + (data.error || 'Submission failed'));
                 }
             } catch (err) {
                 console.error(err);
@@ -2241,9 +2258,13 @@ document.addEventListener('DOMContentLoaded', () => {
             } finally {
                 btn.innerHTML = originalText;
                 btn.disabled = false;
+                validateFinalSubmit(); // Re-run validation status
             }
         });
     }
+
+    // Call validation on load in case browser pre-filled fields
+    setTimeout(validateFinalSubmit, 500);
 
 
     // --- ACADEMIC FORM GLOBAL LISTENER ---

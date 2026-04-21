@@ -683,7 +683,7 @@
                             <p style="margin-bottom: 1rem; color: var(--text-muted);">Ensure all information is correct
                                 before final submission.</p>
                             <button id="finalSubmitBtn" class="btn-primary"
-                                style="background: #ef4444; font-size: 1.1rem; padding: 1rem 3rem;">
+                                style="background: #ef4444; font-size: 1.1rem; padding: 1rem 3rem;" disabled>
                                 <i class="fas fa-paper-plane"></i> Final Submit
                             </button>
                         </div>
