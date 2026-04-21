@@ -202,8 +202,6 @@
                         <i class="fa-solid fa-graduation-cap"></i>
                     <?php endif; ?>
                 </div>
-                    <i class="fa-solid fa-graduation-cap"></i>
-                </div>
                 <div class="logo-text">
                     <h2>AdminPanel</h2>
                     <?php 
