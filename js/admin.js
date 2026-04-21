@@ -348,11 +348,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div style="display:flex; align-items:center; gap: 0.5rem;">
                     <small>${s.department}</small>
                     ${window.IS_SUPER_ADMIN ? (
-                    s.is_sent_to_panel == 1
+                    `
+                        <div style="display:flex; align-items:center; gap: 0.5rem;">
+                            ${s.is_sent_to_panel == 1
                         ? `<span style="color: #6366f1; font-size: 0.8rem; font-weight: 500;"><i class="fa-solid fa-circle-check"></i> Sent to Panel</span>`
-                        : `<button class="btn btn-send-panel" onclick="sendToPanel(${s.id}, event)">
-                             <i class="fa-solid fa-paper-plane"></i> Send to Panel
-                        </button>`
+                        : `<button class="btn btn-send-panel" onclick="sendToPanel(${s.id}, event)" style="padding: 4px 8px; font-size: 0.75rem;">
+                                     <i class="fa-solid fa-paper-plane"></i> Send to Panel
+                                </button>`
+                    }
+                            <button class="btn btn-reset-submission" onclick="resetSubmission(${s.id}, event)" title="Reset Submission" style="padding: 4px 8px; font-size: 0.75rem; background: #94a3b8; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                <i class="fa-solid fa-rotate-left"></i> Reset
+                            </button>
+                        </div>
+                        `
                 ) : ''}
                 </div>
             </div>
