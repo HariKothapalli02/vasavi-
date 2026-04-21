@@ -24,7 +24,6 @@
             background: none;
             width: 100%;
             text-align: left;
-            transition: all 0.3s;
         }
 
         .section-content {

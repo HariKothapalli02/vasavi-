@@ -645,10 +645,10 @@ document.addEventListener('DOMContentLoaded', () => {
             let html = '';
             data.forEach(t => {
                 html += `
-                    <div class="topper-input-group" style="margin-bottom: 1rem;">
-                        <label style="display:block; font-size:0.85rem; color:var(--text-muted); margin-bottom:0.25rem;">${t.department}</label>
+                    <div class="topper-input-group">
+                        <label>${t.department}</label>
                         <input type="number" step="0.01" min="0" max="10" 
-                               class="form-control"
+                               class="topper-input"
                                name="topper_${t.department}" 
                                data-dept="${t.department}" 
                                value="${parseFloat(t.topper_cgpa).toFixed(2)}" required>

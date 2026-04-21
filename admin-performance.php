@@ -25,24 +25,6 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            padding: 12px 20px;
-            color: var(--text-color);
-            border-radius: 8px;
-            transition: all 0.3s;
-        }
-
-        .nav-item i {
-            width: 20px;
-            text-align: center;
-        }
-
-        .nav-item.active {
-            background: var(--primary-color);
-            color: white;
-        }
-
-        .nav-item:hover:not(.active) {
-            background: rgba(99, 102, 241, 0.1);
         }
 
         .leaderboard-tabs {

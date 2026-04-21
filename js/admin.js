@@ -636,6 +636,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="topper-input-group">
                         <label>${t.department}</label>
                         <input type="number" step="0.01" min="0" max="10" 
+                               class="topper-input"
                                name="topper_${t.department}" 
                                data-dept="${t.department}" 
                                value="${parseFloat(t.topper_cgpa).toFixed(2)}" required>
