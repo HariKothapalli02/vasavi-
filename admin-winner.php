@@ -355,7 +355,7 @@
     <script src="js/tilt-effect.js"></script>
     <script src="js/trophy-3d.js"></script>
     <script src="js/celebration-effects.js"></script>
-    <script type="module" src="js/admin.js?v=25"></script>
+    <script type="module" src="js/admin.js?v=26"></script>
 </body>
 
 </html>

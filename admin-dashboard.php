@@ -224,7 +224,7 @@
     </div>
 
     <script src="js/responsive.js"></script>
-    <script type="module" src="js/admin.js?v=25"></script>
+    <script type="module" src="js/admin.js?v=26"></script>
 </body>
 
 </html>
