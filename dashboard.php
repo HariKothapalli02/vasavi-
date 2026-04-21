@@ -49,8 +49,8 @@
                     <span>Extracurricular</span>
                 </button>
                 <button class="nav-item tab-btn" data-tab="recommendation">
-                    <i class="fas fa-envelope-open-text"></i>
-                    <span>Letter</span>
+                    <i class="fas fa-file-signature"></i>
+                    <span>Declaration</span>
                 </button>
             </div>
 
@@ -611,7 +611,7 @@
             <div id="recommendation" class="tab-content">
                 <div class="glass-card">
                     <div class="card-header">
-                        <h2><i class="fas fa-envelope-open-text" style="color: var(--primary-color);"></i> Recommendation Letter</h2>
+                        <h2><i class="fas fa-file-signature" style="color: var(--primary-color);"></i> Recommendation & Declaration</h2>
                     </div>
                     <div style="padding: 2rem;">
                         <p style="margin-bottom: 1.5rem; color: var(--text-muted);">
