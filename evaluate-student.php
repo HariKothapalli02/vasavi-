@@ -11,13 +11,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css?v=20">
+    <link rel="stylesheet" href="css/style.css?v=25">
     <script>
         window.APP_BASE_URL = "<?php echo get_base_url(); ?>";
         window.USER_ROLE = "admin";
         window.IS_SUPER_ADMIN = <?php echo (!isset($_SESSION['user']['department']) || empty($_SESSION['user']['department'])) ? 'true' : 'false'; ?>;
     </script>
     <style>
+        .nav-item { cursor: pointer; text-decoration: none; display: flex; align-items: center; gap: 10px; }
         .evaluate-page-container {
             display: flex;
             flex-direction: column;
@@ -426,7 +427,7 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/responsive.js"></script>
-    <script src="js/evaluate.js?v=20"></script>
+    <script src="js/evaluate.js?v=25"></script>
     <script>
         function switchMobileTab(tab, btn) {
             const details = document.getElementById('detailsCol');
