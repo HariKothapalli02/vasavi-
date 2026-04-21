@@ -609,6 +609,29 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    window.resetSubmission = async (id, event) => {
+        event.stopPropagation();
+        if (!confirm('Are you sure you want to reset this student\'s submission? This will allow the student to edit their form and re-submit. All evaluation progress for this student will be unlocked.')) return;
+
+        try {
+            const res = await fetch(apiBase + '/admin/reset-submission', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ user_id: id })
+            });
+            const data = await res.json();
+            if (res.ok) {
+                alert(data.message);
+                loadStudents();
+            } else {
+                alert('Error: ' + data.error);
+            }
+        } catch (err) {
+            console.error(err);
+            alert('Failed to reset submission');
+        }
+    };
+
     // Search
     const searchInput = document.getElementById('studentSearch');
     if (searchInput) {

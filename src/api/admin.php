@@ -374,5 +374,28 @@ if ($method === 'GET') {
             echo json_encode(['error' => 'Database Error: ' . $e->getMessage()]);
         }
         exit;
+    } elseif ($action === 'reset-submission') {
+        try {
+            if (!empty($_SESSION['user']['department'])) {
+                http_response_code(403);
+                echo json_encode(['error' => 'Unauthorized: Only Super Admin can reset submissions']);
+                exit;
+            }
+            $input = json_decode(file_get_contents('php://input'), true);
+            $user_id = $input['user_id'] ?? null;
+            if (!$user_id) {
+                http_response_code(400);
+                echo json_encode(['error' => 'User ID required']);
+                exit;
+            }
+            db_run("UPDATE users SET is_submitted = 0, is_sent_to_panel = 0 WHERE id = ?", [$user_id]);
+            db_run("UPDATE academic_records SET is_hod_submitted = 0 WHERE user_id = ?", [$user_id]);
+            db_run("UPDATE final_scores SET is_final_submitted = 0 WHERE user_id = ?", [$user_id]);
+            echo json_encode(['message' => 'Student submission has been reset successfully.']);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['error' => 'Database Error: ' . $e->getMessage()]);
+        }
+        exit;
     }
 }
