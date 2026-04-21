@@ -627,6 +627,90 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // --- Topper CGPA Modal (Super Admin Only) ---
+    window.openTopperModal = async () => {
+        const modal = document.getElementById('topperModal');
+        const container = document.getElementById('topperInputsContainer');
+        if (!modal || !container) return;
+
+        modal.style.display = 'flex';
+        container.innerHTML = '<div style="text-align:center;"><i class="fa-solid fa-spinner fa-spin"></i> Loading...</div>';
+
+        try {
+            const res = await fetch(apiBase + '/admin/toppers');
+            const data = await res.json();
+
+            if (data.error) throw new Error(data.error);
+
+            let html = '';
+            data.forEach(t => {
+                html += `
+                    <div class="topper-input-group" style="margin-bottom: 1rem;">
+                        <label style="display:block; font-size:0.85rem; color:var(--text-muted); margin-bottom:0.25rem;">${t.department}</label>
+                        <input type="number" step="0.01" min="0" max="10" 
+                               class="form-control"
+                               name="topper_${t.department}" 
+                               data-dept="${t.department}" 
+                               value="${parseFloat(t.topper_cgpa).toFixed(2)}" required>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        } catch (err) {
+            container.innerHTML = `<div class="alert alert-danger">${err.message}</div>`;
+        }
+    };
+
+    window.closeTopperModal = () => {
+        const modal = document.getElementById('topperModal');
+        if (modal) modal.style.display = 'none';
+    };
+
+    const topperForm = document.getElementById('topperForm');
+    if (topperForm) {
+        topperForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const inputs = topperForm.querySelectorAll('input[type="number"]');
+            const payload = [];
+
+            inputs.forEach(inp => {
+                payload.push({
+                    department: inp.dataset.dept,
+                    topper_cgpa: parseFloat(inp.value)
+                });
+            });
+
+            const submitBtn = topperForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...';
+
+            try {
+                const res = await fetch(apiBase + '/admin/toppers', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    alert('Topper CGPAs updated successfully!');
+                    closeTopperModal();
+                    // Optional: recalculate current page score if visible
+                    if (window.loadStudentDetails && userId) {
+                        loadStudentDetails(userId);
+                    }
+                } else {
+                    alert('Error: ' + data.error);
+                }
+            } catch (err) {
+                alert('Failed to save toppers: ' + err.message);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            }
+        });
+    }
+
 });
 
 // Modal logic removed - certificates now open in a new tab
