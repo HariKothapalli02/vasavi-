@@ -53,7 +53,17 @@
                 <div class="logo-icon">
                     <i class="fa-solid fa-graduation-cap"></i>
                 </div>
-                <h2><?php echo ($_SESSION['user']['role'] === 'panel') ? 'PanelView' : 'AdminPanel'; ?></h2>
+                <div class="logo-text">
+                    <h2>AdminPanel</h2>
+                    <?php 
+                    $user = $_SESSION['user'];
+                    if (empty($user['department'])) {
+                        echo '<span class="sidebar-branch">IQAC Dashboard</span>';
+                    } else {
+                        echo '<span class="sidebar-branch">' . htmlspecialchars($user['department']) . ' Branch</span>';
+                    }
+                    ?>
+                </div>
             </div>
 
             <div class="nav-links">
@@ -73,6 +83,13 @@
                     <i class="fa-solid fa-trophy"></i>
                     <span>Performance</span>
                 </a>
+                <?php $isSuperAdmin = !isset($_SESSION['user']['department']) || empty($_SESSION['user']['department']); ?>
+                <?php if ($isSuperAdmin): ?>
+                <a href="#" class="nav-item" onclick="openTopperModal(); return false;" id="navTopperBtn">
+                    <i class="fa-solid fa-ranking-star"></i>
+                    <span>Set Topper CGPA</span>
+                </a>
+                <?php endif; ?>
             </div>
 
             <div class="sidebar-footer">

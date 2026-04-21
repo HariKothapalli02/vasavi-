@@ -202,45 +202,47 @@
                         <i class="fa-solid fa-graduation-cap"></i>
                     <?php endif; ?>
                 </div>
-                <h2><?php echo ($_SESSION['user']['role'] === 'panel') ? 'Panel View' : 'AdminPanel'; ?></h2>
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div class="logo-text">
+                    <h2>AdminPanel</h2>
+                    <?php 
+                    $user = $_SESSION['user'];
+                    if (empty($user['department'])) {
+                        echo '<span class="sidebar-branch">IQAC Dashboard</span>';
+                    } else {
+                        echo '<span class="sidebar-branch">' . htmlspecialchars($user['department']) . ' Branch</span>';
+                    }
+                    ?>
+                </div>
             </div>
-    
-            <div class="nav-links">
-                <?php if ($_SESSION['user']['role'] === 'panel'): ?>
-                    <a href="panel-dashboard.php" class="nav-item">
-                        <i class="fa-solid fa-list-check"></i>
-                        <span>Assigned Students</span>
-                    </a>
-                <?php else: ?>
-                    <a href="admin-dashboard.php" class="nav-item">
-                        <i class="fa-solid fa-chart-line"></i>
-                        <span>Overview</span>
-                    </a>
-                <?php endif; ?>
 
+            <div class="nav-links">
+                <a href="admin-dashboard.php" class="nav-item">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Overview</span>
+                </a>
                 <a href="admin-winner.php" class="nav-item active">
                     <i class="fa-solid fa-crown"></i>
                     <span>Winner 2026</span>
                 </a>
-
-                <?php if ($_SESSION['user']['role'] === 'admin'): ?>
-                    <a href="admin-students.php" class="nav-item">
-                        <i class="fa-solid fa-users"></i>
-                        <span>Students</span>
-                    </a>
-                    <a href="admin-performance.php" class="nav-item">
-                        <i class="fa-solid fa-trophy"></i>
-                        <span>Performance</span>
-                    </a>
-                    <?php if (empty($_SESSION['user']['department'])): ?>
-                    <a href="#" class="nav-item" onclick="openTopperModal(); return false;" id="navTopperBtn">
-                        <i class="fa-solid fa-ranking-star"></i>
-                        <span>Set Topper CGPA</span>
-                    </a>
-                    <?php endif; ?>
+                <a href="admin-students.php" class="nav-item">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Students</span>
+                </a>
+                <a href="admin-performance.php" class="nav-item">
+                    <i class="fa-solid fa-trophy"></i>
+                    <span>Performance</span>
+                </a>
+                <?php $isSuperAdmin = !isset($_SESSION['user']['department']) || empty($_SESSION['user']['department']); ?>
+                <?php if ($isSuperAdmin): ?>
+                <a href="#" class="nav-item" onclick="openTopperModal(); return false;" id="navTopperBtn">
+                    <i class="fa-solid fa-ranking-star"></i>
+                    <span>Set Topper CGPA</span>
+                </a>
                 <?php endif; ?>
             </div>
-    
+
             <div class="sidebar-footer">
                 <button id="logoutBtn" class="logout-btn">
                     <i class="fa-solid fa-right-from-bracket"></i>

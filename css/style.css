@@ -887,11 +887,30 @@ body.admin-body {
     box-shadow: 0 4px 6px rgba(79, 70, 229, 0.2);
 }
 
+.logo-text {
+    display: flex;
+    flex-direction: column;
+}
+
 .sidebar-header h2 {
     font-size: 1.25rem;
     margin: 0;
     font-weight: 700;
     color: var(--text-main);
+}
+
+.sidebar-branch {
+    display: inline-block;
+    font-size: 0.7rem;
+    color: var(--primary-color);
+    font-weight: 700;
+    margin-top: 0.15rem;
+    background: #e0e7ff;
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 1px solid rgba(79, 70, 229, 0.1);
+    white-space: nowrap;
+    width: fit-content;
 }
 
 .nav-links {
