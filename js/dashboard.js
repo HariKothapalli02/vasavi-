@@ -2204,7 +2204,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const declPlace = document.getElementById('declPlace');
     const declCheck = document.getElementById('declCheck');
-    const declSigInput = document.getElementById('declSignature');
+    // declSigInput is already declared at line 2109
 
     if (declPlace) declPlace.addEventListener('input', validateFinalSubmit);
     if (declCheck) declCheck.addEventListener('change', validateFinalSubmit);
