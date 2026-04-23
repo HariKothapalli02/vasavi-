@@ -77,11 +77,16 @@ document.addEventListener('DOMContentLoaded', () => {
     let isAppSubmitted = false;
 
     async function initDashboard() {
-        await loadProfile();
-        await Promise.all([loadAllData(), loadAcademic()]);
-
-        if (isAppSubmitted) {
-            disableEditing();
+        try {
+            await loadProfile();
+            // Load other data but don't let them block the whole dashboard if they fail
+            await Promise.allSettled([loadAllData(), loadAcademic()]);
+        } catch (err) {
+            console.error('Dashboard init error:', err);
+        } finally {
+            if (isAppSubmitted) {
+                disableEditing();
+            }
         }
     }
 
@@ -169,12 +174,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const sigPreview = document.getElementById('signaturePreview');
                 const sigImg = sigPreview.querySelector('img');
                 if (sigPreview && sigImg) {
-                    const icon = getFileIcon(data.signature_filename);
-                    if (icon) {
-                        sigImg.src = icon;
-                    } else {
-                        sigImg.src = apiBase + '/files/' + data.signature_path.replace('FILE:', '');
-                    }
+                    // Signatures are always treated as images for preview
+                    sigImg.src = apiBase + '/files/' + data.signature_path.replace('FILE:', '');
                     sigPreview.style.display = 'block';
                 }
             }
@@ -785,7 +786,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         try {
-            const res = await fetch('student/academic');
+            const res = await fetch(apiBase + '/student/academic');
             if (res.ok) {
                 const data = await res.json();
                 if (data) {
@@ -1145,7 +1146,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 fd.append('data', JSON.stringify(data));
 
-                const res = await fetch('student/activities/save-all', { method: 'POST', body: fd });
+                const res = await fetch(apiBase + '/student/activities/save-all', { method: 'POST', body: fd });
                 if (res.ok) {
                     alert('All Co-Curricular Activities Saved Successfully!');
                 } else {
@@ -1326,7 +1327,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 fd.append('data', JSON.stringify(data));
 
-                const res = await fetch('student/activities/save-all', { method: 'POST', body: fd });
+                const res = await fetch(apiBase + '/student/activities/save-all', { method: 'POST', body: fd });
                 if (res.ok) {
                     alert('All Extracurricular Activities Saved Successfully!');
                 } else {
@@ -2162,7 +2163,7 @@ document.addEventListener('DOMContentLoaded', () => {
             fd.append('recommendation_letter', fileInput.files[0]);
 
             try {
-                const res = await fetch('student/recommendation', {
+                const res = await fetch(apiBase + '/student/recommendation', {
                     method: 'POST',
                     body: fd
                 });
@@ -2213,10 +2214,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const finalSubmitBtn = document.getElementById('finalSubmitBtn');
     if (finalSubmitBtn) {
         finalSubmitBtn.addEventListener('click', async () => {
+            if (finalSubmitBtn.disabled) return;
+
             const btn = finalSubmitBtn;
             const originalText = btn.innerHTML;
 
-            // 1. Validation (Double check)
             const place = document.getElementById('declPlace').value.trim();
             const date = document.getElementById('declDate').value.trim();
             const sigFile = document.getElementById('declSignature').files[0];
@@ -2234,31 +2236,39 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
             btn.disabled = true;
 
-            // 2. Prepare Data
             const fd = new FormData();
             fd.append('declaration_place', place);
             fd.append('declaration_date', date);
             if (sigFile) fd.append('signature', sigFile);
 
             try {
-                const res = await fetch('student/submit', {
+                const res = await fetch(apiBase + '/student/submit', {
                     method: 'POST',
                     body: fd
                 });
-                const data = await res.json();
+
+                let data;
+                const text = await res.text();
+                try {
+                    data = JSON.parse(text);
+                } catch (e) {
+                    console.error('Invalid JSON response:', text);
+                    throw new Error('Server returned an unexpected response format.');
+                }
+
                 if (res.ok) {
-                    alert(data.message);
+                    alert(data.message || 'Application submitted successfully!');
                     window.location.reload();
                 } else {
                     alert('Error: ' + (data.error || 'Submission failed'));
                 }
             } catch (err) {
                 console.error(err);
-                alert('Network error during submission.');
+                alert('Submission Error: ' + err.message);
             } finally {
                 btn.innerHTML = originalText;
                 btn.disabled = false;
-                validateFinalSubmit(); // Re-run validation status
+                validateFinalSubmit();
             }
         });
     }

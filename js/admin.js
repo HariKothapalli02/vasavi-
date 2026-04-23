@@ -587,7 +587,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!confirm('Are you sure you want to send this student to the panel?')) return;
 
         try {
-            const res = await fetch('admin/send_to_panel', {
+            const res = await fetch(apiBase + '/admin/send_to_panel', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ user_id: id })
@@ -656,7 +656,7 @@ document.addEventListener('DOMContentLoaded', () => {
         container.innerHTML = '<div style="text-align:center;"><i class="fa-solid fa-spinner fa-spin"></i> Loading...</div>';
 
         try {
-            const res = await fetch('admin/toppers');
+            const res = await fetch(apiBase + '/admin/toppers');
             const data = await res.json();
 
             if (data.error) throw new Error(data.error);
@@ -705,7 +705,7 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...';
 
             try {
-                const res = await fetch('admin/toppers', {
+                const res = await fetch(apiBase + '/admin/toppers', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
