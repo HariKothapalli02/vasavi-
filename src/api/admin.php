@@ -116,7 +116,6 @@ if ($method === 'GET') {
                        WHERE is_best_outgoing = 1 LIMIT 1");
         echo json_encode($row ?: new stdClass());
     } elseif ($action === 'toppers') {
-        // Fetch all distinct departments from students and join with existing topper CGPAs
         $query = "
             SELECT d.department, IFNULL(dt.topper_cgpa, 0) as topper_cgpa
             FROM (SELECT DISTINCT department FROM users WHERE role = 'student') d
@@ -124,6 +123,9 @@ if ($method === 'GET') {
             ORDER BY d.department ASC";
         $toppers = db_all($query);
         echo json_encode($toppers);
+    } elseif ($action === 'panels') {
+        $panels = db_all("SELECT id, name, email FROM users WHERE role = 'panel' ORDER BY id ASC");
+        echo json_encode($panels);
     } elseif (preg_match('/students\/(\d+)/', $action, $matches)) {
         try {
             $userId = $matches[1];
@@ -139,7 +141,10 @@ if ($method === 'GET') {
             $academic = db_get("SELECT * FROM academic_records WHERE user_id = ?", [$userId]);
             $coCurricular = db_all("SELECT * FROM co_curricular WHERE user_id = ?", [$userId]);
             $extracurricular = db_all("SELECT * FROM extracurricular WHERE user_id = ?", [$userId]);
-            $interview = db_all("SELECT im.*, u.name as panel_name FROM interview_marks im JOIN users u ON im.panel_id = u.id WHERE im.user_id = ?", [$userId]);
+            $interview = db_all("SELECT im.*, u.name as actual_name, u.email as panel_email 
+                                 FROM interview_marks im 
+                                 JOIN users u ON im.panel_id = u.id 
+                                 WHERE im.user_id = ?", [$userId]);
             $finalScore = db_get("SELECT * FROM final_scores WHERE user_id = ?", [$userId]);
 
             echo json_encode([
@@ -209,13 +214,36 @@ if ($method === 'GET') {
             echo json_encode(['error' => 'Invalid data format']);
             exit;
         }
-        
         foreach ($input as $row) {
             $dept = $row['department'] ?? '';
             $cgpa = floatval($row['topper_cgpa'] ?? 10.0);
             if ($dept) {
                 db_run("INSERT INTO department_toppers (department, topper_cgpa) VALUES (?, ?) 
                         ON DUPLICATE KEY UPDATE topper_cgpa = VALUES(topper_cgpa)", [$dept, $cgpa]);
+            }
+        }
+        echo json_encode(['success' => true]);
+        
+    } elseif ($action === 'panels') {
+        $isSuperAdmin = !isset($_SESSION['user']['department']) || empty($_SESSION['user']['department']);
+        if (!$isSuperAdmin) {
+            http_response_code(403);
+            echo json_encode(['error' => 'Only Super Admin can manage panel members']);
+            exit;
+        }
+        
+        $input = json_decode(file_get_contents('php://input'), true);
+        if (!is_array($input)) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Invalid data format']);
+            exit;
+        }
+        
+        foreach ($input as $row) {
+            $id = intval($row['id'] ?? 0);
+            $name = $row['name'] ?? '';
+            if ($id > 0) {
+                db_run("UPDATE users SET name = ? WHERE id = ? AND role = 'panel'", [$name, $id]);
             }
         }
         echo json_encode(['success' => true]);

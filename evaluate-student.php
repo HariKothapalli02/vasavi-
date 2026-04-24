@@ -238,10 +238,13 @@
                     <i class="fa-solid fa-trophy"></i>
                     <span>Performance</span>
                 </a>
-                <?php if ($isSuperAdmin): ?>
                 <a href="#" class="nav-item" onclick="openTopperModal(); return false;" id="navTopperBtn">
                     <i class="fa-solid fa-ranking-star"></i>
                     <span>Set Topper</span>
+                </a>
+                <a href="admin-dashboard.php?openPanel=true" class="nav-item">
+                    <i class="fa-solid fa-id-card-clip"></i>
+                    <span>Panel Members</span>
                 </a>
                 <?php endif; ?>
             </div>

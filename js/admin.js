@@ -12,6 +12,16 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentLeaderboardData = [];
     console.log('Admin JS Loaded. Super Admin:', window.IS_SUPER_ADMIN, 'Role:', window.userRole);
 
+    // Check for openPanel URL parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('openPanel') === 'true' && window.IS_SUPER_ADMIN) {
+        setTimeout(() => {
+            if (typeof window.openPanelModal === 'function') {
+                window.openPanelModal();
+            }
+        }, 500);
+    }
+
     // Logout
     const logoutBtn = document.getElementById('logoutBtn');
     if (logoutBtn) {
@@ -719,6 +729,88 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } catch (err) {
                 alert('Failed to save toppers: ' + err.message);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            }
+        });
+    }
+
+    // --- Panel Modal ---
+    window.openPanelModal = async () => {
+        const modal = document.getElementById('panelModal');
+        const container = document.getElementById('panelInputsContainer');
+        if (!modal || !container) return;
+
+        modal.style.display = 'flex';
+        container.innerHTML = '<div style="text-align:center;"><i class="fa-solid fa-spinner fa-spin"></i> Loading...</div>';
+
+        try {
+            const res = await fetch(apiBase + '/admin/panels');
+            const data = await res.json();
+
+            if (data.error) throw new Error(data.error);
+
+            let html = '';
+            data.forEach((p, idx) => {
+                html += `
+                    <div class="topper-input-group">
+                        <label>Panel ${idx + 1}</label>
+                        <input type="text" 
+                               class="panel-input"
+                               name="panel_${p.id}" 
+                               data-id="${p.id}" 
+                               value="${p.name || ''}" 
+                               placeholder="Assign Name"
+                               style="width: 250px; text-align: left;">
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        } catch (err) {
+            container.innerHTML = `<div class="alert alert-danger">${err.message}</div>`;
+        }
+    };
+
+    window.closePanelModal = () => {
+        const modal = document.getElementById('panelModal');
+        if (modal) modal.style.display = 'none';
+    };
+
+    const panelForm = document.getElementById('panelForm');
+    if (panelForm) {
+        panelForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const inputs = panelForm.querySelectorAll('.panel-input');
+            const payload = [];
+
+            inputs.forEach(inp => {
+                payload.push({
+                    id: parseInt(inp.dataset.id),
+                    name: inp.value.trim()
+                });
+            });
+
+            const submitBtn = panelForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...';
+
+            try {
+                const res = await fetch(apiBase + '/admin/panels', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    alert('Panel names updated successfully!');
+                    closePanelModal();
+                } else {
+                    alert('Error: ' + data.error);
+                }
+            } catch (err) {
+                alert('Failed to save panel names: ' + err.message);
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalText;
