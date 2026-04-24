@@ -241,9 +241,9 @@
                 <?php if ($isSuperAdmin): ?>
                 <a href="#" class="nav-item" onclick="openTopperModal(); return false;" id="navTopperBtn">
                     <i class="fa-solid fa-ranking-star"></i>
-                    <span>Set Topper</span>
+                    <span>Set Topper CGPA</span>
                 </a>
-                <a href="admin-dashboard.php?openPanel=true" class="nav-item">
+                <a href="#" class="nav-item" onclick="openPanelModal(); return false;">
                     <i class="fa-solid fa-id-card-clip"></i>
                     <span>Panel Members</span>
                 </a>
@@ -432,8 +432,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <?php include_once __DIR__ . '/src/includes/modals.php'; ?>
     <script src="js/responsive.js"></script>
-    <script type="module" src="js/admin.js?v=26"></script>
-    <script src="js/evaluate.js?v=26"></script>
+    <script src="js/admin.js?v=27"></script>
+    <script src="js/evaluate.js?v=27"></script>
     <script>
         function switchMobileTab(tab, btn) {
             const details = document.getElementById('detailsCol');

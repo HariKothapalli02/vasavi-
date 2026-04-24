@@ -339,7 +339,7 @@
     <script src="js/tilt-effect.js"></script>
     <script src="js/trophy-3d.js"></script>
     <script src="js/celebration-effects.js"></script>
-    <script type="module" src="js/admin.js?v=26"></script>
+    <script src="js/admin.js?v=27"></script>
 </body>
 
 </html>

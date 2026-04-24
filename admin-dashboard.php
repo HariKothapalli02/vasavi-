@@ -175,7 +175,7 @@
                     <i class="fa-solid fa-ranking-star"></i>
                     <span>Set Topper CGPA</span>
                 </a>
-                <a href="#" class="nav-item" onclick="openPanelModal(); return false;" id="navPanelBtn">
+                <a href="#" class="nav-item" onclick="openPanelModal(); return false;">
                     <i class="fa-solid fa-id-card-clip"></i>
                     <span>Panel Members</span>
                 </a>
@@ -255,7 +255,7 @@
 
     <?php include_once __DIR__ . '/src/includes/modals.php'; ?>
     <script src="js/responsive.js"></script>
-    <script type="module" src="js/admin.js?v=26"></script>
+    <script src="js/admin.js?v=27"></script>
 </body>
 
 </html>

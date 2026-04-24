@@ -203,7 +203,7 @@
     <?php include_once __DIR__ . '/src/includes/modals.php'; ?>
 
     <script src="js/responsive.js"></script>
-    <script type="module" src="js/admin.js?v=26"></script>
+    <script src="js/admin.js?v=27"></script>
 </body>
 
 </html>
