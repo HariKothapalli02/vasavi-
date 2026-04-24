@@ -82,6 +82,52 @@
             font-weight: bold;
             color: var(--primary-color);
         }
+        /* Modal Styling */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            animation: modalFadeIn 0.3s ease-out;
+            position: relative;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .btn-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: color 0.2s;
+        }
+
+        .btn-close:hover {
+            color: var(--error-color);
+        }
+
+        .btn-close::before {
+            content: "\f00d";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+        }
     </style>
 </head>
 

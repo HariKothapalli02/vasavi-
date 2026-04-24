@@ -14,12 +14,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Check for openPanel URL parameter
     const urlParams = new URLSearchParams(window.location.search);
+    console.log('URL params:', urlParams.toString());
     if (urlParams.get('openPanel') === 'true' && window.IS_SUPER_ADMIN) {
+        console.log('Detected openPanel=true, scheduling modal open...');
         setTimeout(() => {
+            console.log('Timeout fired. Checking for openPanelModal...');
             if (typeof window.openPanelModal === 'function') {
+                console.log('Calling window.openPanelModal()...');
                 window.openPanelModal();
+            } else {
+                console.error('window.openPanelModal is not a function!');
             }
-        }, 500);
+        }, 800);
     }
 
     // Logout
