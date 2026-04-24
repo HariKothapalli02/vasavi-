@@ -141,7 +141,7 @@ if ($method === 'GET') {
             $academic = db_get("SELECT * FROM academic_records WHERE user_id = ?", [$userId]);
             $coCurricular = db_all("SELECT * FROM co_curricular WHERE user_id = ?", [$userId]);
             $extracurricular = db_all("SELECT * FROM extracurricular WHERE user_id = ?", [$userId]);
-            $interview = db_all("SELECT im.*, u.name as actual_name, u.email as panel_email 
+            $interview = db_all("SELECT im.*, u.name as panel_name, u.email as panel_email 
                                  FROM interview_marks im 
                                  JOIN users u ON im.panel_id = u.id 
                                  WHERE im.user_id = ?", [$userId]);

@@ -1,3 +1,52 @@
+const apiBase = (window.APP_BASE_URL || "").replace(/\/$/, "");
+
+// --- Functions Exposed Globally ---
+window.openTopperModal = async () => {
+    const modal = document.getElementById('topperModal');
+    const container = document.getElementById('topperInputsContainer');
+    if (!modal || !container) return;
+    modal.style.display = 'flex';
+    container.innerHTML = '<div style="text-align:center;"><i class="fa-solid fa-spinner fa-spin"></i> Loading...</div>';
+    try {
+        const res = await fetch(apiBase + '/admin/toppers');
+        const data = await res.json();
+        if (data.error) throw new Error(data.error);
+        let html = '';
+        data.forEach(t => {
+            html += `<div class="topper-input-group"><label>${t.department}</label><input type="number" step="0.01" min="0" max="10" class="topper-input" name="topper_${t.department}" data-dept="${t.department}" value="${parseFloat(t.topper_cgpa).toFixed(2)}" required></div>`;
+        });
+        container.innerHTML = html;
+    } catch (err) { container.innerHTML = `<div class="alert alert-danger">${err.message}</div>`; }
+};
+
+window.closeTopperModal = () => {
+    const modal = document.getElementById('topperModal');
+    if (modal) modal.style.display = 'none';
+};
+
+window.openPanelModal = async () => {
+    const modal = document.getElementById('panelModal');
+    const container = document.getElementById('panelInputsContainer');
+    if (!modal || !container) return;
+    modal.style.display = 'flex';
+    container.innerHTML = '<div style="text-align:center;"><i class="fa-solid fa-spinner fa-spin"></i> Loading...</div>';
+    try {
+        const res = await fetch(apiBase + '/admin/panels');
+        const data = await res.json();
+        if (data.error) throw new Error(data.error);
+        let html = '';
+        data.forEach((p, idx) => {
+            html += `<div class="topper-input-group"><label>Panel ${idx + 1}</label><input type="text" class="panel-input" name="panel_${p.id}" data-id="${p.id}" value="${p.name || ''}" placeholder="Assign Name" style="width: 250px; text-align: left;"></div>`;
+        });
+        container.innerHTML = html;
+    } catch (err) { container.innerHTML = `<div class="alert alert-danger">${err.message}</div>`; }
+};
+
+window.closePanelModal = () => {
+    const modal = document.getElementById('panelModal');
+    if (modal) modal.style.display = 'none';
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     // Global Chart.js Defaults
     if (window.Chart) {
@@ -7,7 +56,6 @@ document.addEventListener('DOMContentLoaded', () => {
         Chart.defaults.maintainAspectRatio = false;
     }
 
-    const apiBase = (window.APP_BASE_URL || "").replace(/\/$/, "");
     let allStudents = [];
     let currentLeaderboardData = [];
     console.log('Admin JS Loaded. Super Admin:', window.IS_SUPER_ADMIN, 'Role:', window.userRole);
@@ -662,126 +710,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Topper CGPA Modal ---
-    window.openTopperModal = async () => {
-        const modal = document.getElementById('topperModal');
-        const container = document.getElementById('topperInputsContainer');
-        if (!modal || !container) return;
-
-        modal.style.display = 'flex';
-        container.innerHTML = '<div style="text-align:center;"><i class="fa-solid fa-spinner fa-spin"></i> Loading...</div>';
-
-        try {
-            const res = await fetch(apiBase + '/admin/toppers');
-            const data = await res.json();
-
-            if (data.error) throw new Error(data.error);
-
-            let html = '';
-            data.forEach(t => {
-                html += `
-                    <div class="topper-input-group">
-                        <label>${t.department}</label>
-                        <input type="number" step="0.01" min="0" max="10" 
-                               class="topper-input"
-                               name="topper_${t.department}" 
-                               data-dept="${t.department}" 
-                               value="${parseFloat(t.topper_cgpa).toFixed(2)}" required>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
-        } catch (err) {
-            container.innerHTML = `<div class="alert alert-danger">${err.message}</div>`;
-        }
-    };
-
-    window.closeTopperModal = () => {
-        const modal = document.getElementById('topperModal');
-        if (modal) modal.style.display = 'none';
-    };
-
-    const topperForm = document.getElementById('topperForm');
-    if (topperForm) {
-        topperForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const inputs = topperForm.querySelectorAll('input[type="number"]');
-            const payload = [];
-
-            inputs.forEach(inp => {
-                payload.push({
-                    department: inp.dataset.dept,
-                    topper_cgpa: parseFloat(inp.value)
-                });
-            });
-
-            const submitBtn = topperForm.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerHTML;
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...';
-
-            try {
-                const res = await fetch(apiBase + '/admin/toppers', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                const data = await res.json();
-                if (res.ok) {
-                    alert('Topper CGPAs updated successfully!');
-                    closeTopperModal();
-                } else {
-                    alert('Error: ' + data.error);
-                }
-            } catch (err) {
-                alert('Failed to save toppers: ' + err.message);
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalText;
-            }
-        });
-    }
-
-    // --- Panel Modal ---
-    window.openPanelModal = async () => {
-        const modal = document.getElementById('panelModal');
-        const container = document.getElementById('panelInputsContainer');
-        if (!modal || !container) return;
-
-        modal.style.display = 'flex';
-        container.innerHTML = '<div style="text-align:center;"><i class="fa-solid fa-spinner fa-spin"></i> Loading...</div>';
-
-        try {
-            const res = await fetch(apiBase + '/admin/panels');
-            const data = await res.json();
-
-            if (data.error) throw new Error(data.error);
-
-            let html = '';
-            data.forEach((p, idx) => {
-                html += `
-                    <div class="topper-input-group">
-                        <label>Panel ${idx + 1}</label>
-                        <input type="text" 
-                               class="panel-input"
-                               name="panel_${p.id}" 
-                               data-id="${p.id}" 
-                               value="${p.name || ''}" 
-                               placeholder="Assign Name"
-                               style="width: 250px; text-align: left;">
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
-        } catch (err) {
-            container.innerHTML = `<div class="alert alert-danger">${err.message}</div>`;
-        }
-    };
-
-    window.closePanelModal = () => {
-        const modal = document.getElementById('panelModal');
-        if (modal) modal.style.display = 'none';
-    };
+    // Modal form submissions...
 
     const panelForm = document.getElementById('panelForm');
     if (panelForm) {

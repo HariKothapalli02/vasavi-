@@ -337,7 +337,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <tbody>
                         ${data.interview.map(im => `
                                 <tr>
-                                    <td>${im.actual_name || 'Panel Member'}</td>
+                                    <td>${im.panel_name || `Panel Member (ID: ${im.panel_id})`}</td>
                                     <td style="text-align:right; font-weight:bold;">${parseFloat(im.score).toFixed(1)}</td>
                                 </tr>
                             `).join('')}

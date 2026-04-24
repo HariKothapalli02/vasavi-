@@ -430,8 +430,10 @@
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <?php include_once __DIR__ . '/src/includes/modals.php'; ?>
     <script src="js/responsive.js"></script>
-    <script src="js/evaluate.js?v=25"></script>
+    <script type="module" src="js/admin.js?v=26"></script>
+    <script src="js/evaluate.js?v=26"></script>
     <script>
         function switchMobileTab(tab, btn) {
             const details = document.getElementById('detailsCol');
