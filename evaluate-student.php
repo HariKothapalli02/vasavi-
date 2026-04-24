@@ -238,6 +238,7 @@
                     <i class="fa-solid fa-trophy"></i>
                     <span>Performance</span>
                 </a>
+                <?php if ($isSuperAdmin): ?>
                 <a href="#" class="nav-item" onclick="openTopperModal(); return false;" id="navTopperBtn">
                     <i class="fa-solid fa-ranking-star"></i>
                     <span>Set Topper</span>

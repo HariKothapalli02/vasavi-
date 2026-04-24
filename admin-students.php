@@ -71,6 +71,10 @@
                     <i class="fa-solid fa-ranking-star"></i>
                     <span>Set Topper CGPA</span>
                 </a>
+                <a href="admin-dashboard.php?openPanel=true" class="nav-item">
+                    <i class="fa-solid fa-id-card-clip"></i>
+                    <span>Panel Members</span>
+                </a>
                 <?php endif; ?>
             </div>
 

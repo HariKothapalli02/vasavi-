@@ -335,18 +335,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         </tr>
                     </thead>
                     <tbody>
-                        ${data.interview.map((im, idx) => {
-                const panelNumMatch = (im.panel_email || '').match(/panel(\d+)/i);
-                const panelLabel = panelNumMatch ? `Panel ${panelNumMatch[1]}` : `Panel ${idx + 1}`;
-                return `
+                        ${data.interview.map(im => `
                                 <tr>
-                                    <td title="Name: ${im.actual_name || 'Unset'}" style="cursor:help;">
-                                        ${panelLabel}
-                                    </td>
+                                    <td>${im.actual_name || 'Panel Member'}</td>
                                     <td style="text-align:right; font-weight:bold;">${parseFloat(im.score).toFixed(1)}</td>
                                 </tr>
-                            `;
-            }).join('')}
+                            `).join('')}
                     </tbody>
                     <tfoot>
                         <tr style="border-top: 2px solid #e2e8f0;">
