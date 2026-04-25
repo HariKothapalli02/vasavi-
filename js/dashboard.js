@@ -399,11 +399,15 @@ document.addEventListener('DOMContentLoaded', () => {
                             <textarea class="paper-title input-full" rows="2">${item.title || item.name || ''}</textarea>
                         </div>
                         <div style="grid-column: 1 / -1;">
-                             <input type="file" class="paper-file input-full mt-2" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                             <input type="file" class="paper-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
                              <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
-                             ${getCertHtml(item.certificate_path)}
+                             <input type="hidden" class="entry-id" value="${item.id || ''}">
+                             ${getCertHtml(item.certificate_path, item.filename)}
                         </div>
-                        <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
+                        <div class="entry-actions" style="grid-column: 1 / -1; display:flex; gap:10px; margin-top:10px;">
+                            <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
+                            <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
+                        </div>
                     `;
                     return div;
                 });
@@ -421,11 +425,15 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div style="grid-column: 1 / -1;">
                             <label class="form-label">Description (Event, Prize, etc)</label>
                             <input type="text" class="inter-desc input-full" value="${desc}">
-                             <input type="file" class="inter-file input-full mt-2" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                             <input type="file" class="inter-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
                              <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
-                             ${getCertHtml(item.certificate_path)}
+                             <input type="hidden" class="entry-id" value="${item.id || ''}">
+                             ${getCertHtml(item.certificate_path, item.filename)}
                         </div>
-                        <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
+                        <div class="entry-actions" style="grid-column: 1 / -1; display:flex; gap:10px; margin-top:10px;">
+                            <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
+                            <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
+                        </div>
                     `;
                     return div;
                 });
@@ -442,11 +450,15 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div>
                              <label class="form-label">Description / Prize</label>
                             <input type="text" class="dept-desc input-full" value="${item.description || ''}">
-                             <input type="file" class="dept-file input-full mt-2" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                             <input type="file" class="dept-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
                              <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
-                             ${getCertHtml(item.certificate_path)}
+                             <input type="hidden" class="entry-id" value="${item.id || ''}">
+                             ${getCertHtml(item.certificate_path, item.filename)}
                         </div>
-                        <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
+                        <div class="entry-actions" style="display:flex; gap:10px; margin-top:10px;">
+                            <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
+                            <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
+                        </div>
                     `;
                     return div;
                 });
@@ -458,10 +470,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     div.innerHTML = `
                         <label class="form-label">Seminar Topic</label>
                         <input type="text" class="seminar-topic input-full" value="${item.title || item.name || ''}">
-                        <input type="file" class="seminar-file input-full mt-2" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                        <input type="file" class="seminar-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
                         <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
-                        ${getCertHtml(item.certificate_path)}
-                        <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
+                        <input type="hidden" class="entry-id" value="${item.id || ''}">
+                        ${getCertHtml(item.certificate_path, item.filename)}
+                        <div class="entry-actions" style="display:flex; gap:10px; margin-top:10px;">
+                            <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
+                            <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
+                        </div>
                     `;
                     return div;
                 });
@@ -475,10 +491,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     div.innerHTML = `
                         <label class="form-label">Semester (e.g. 3, 4)</label>
                         <input type="number" class="rep-semester input-full" value="${sem}" min="1" max="8">
-                        <input type="file" class="rep-file input-full mt-2" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                        <input type="file" class="rep-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
                         <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
-                        ${getCertHtml(item.certificate_path)}
-                        <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
+                        <input type="hidden" class="entry-id" value="${item.id || ''}">
+                        ${getCertHtml(item.certificate_path, item.filename)}
+                        <div class="entry-actions" style="display:flex; gap:10px; margin-top:10px;">
+                            <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
+                            <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
+                        </div>
                     `;
                     return div;
                 });
@@ -490,10 +510,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     div.innerHTML = `
                         <label class="form-label">Professional Body Name</label>
                         <input type="text" class="membership-name input-full" value="${item.name || item.title || ''}">
-                        <input type="file" class="membership-file input-full mt-2" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                        <input type="file" class="membership-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
                         <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
-                        ${getCertHtml(item.certificate_path)}
-                        <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
+                        <input type="hidden" class="entry-id" value="${item.id || ''}">
+                        ${getCertHtml(item.certificate_path, item.filename)}
+                        <div class="entry-actions" style="display:flex; gap:10px; margin-top:10px;">
+                            <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
+                            <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
+                        </div>
                     `;
                     return div;
                 });
@@ -505,10 +529,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     div.innerHTML = `
                         <label class="form-label">Certification Name</label>
                         <input type="text" class="moocs-name input-full" value="${item.name || item.title || ''}">
-                        <input type="file" class="moocs-file input-full mt-2" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                        <input type="file" class="moocs-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
                         <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
-                        ${getCertHtml(item.certificate_path)}
-                        <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
+                        <input type="hidden" class="entry-id" value="${item.id || ''}">
+                        ${getCertHtml(item.certificate_path, item.filename)}
+                        <div class="entry-actions" style="display:flex; gap:10px; margin-top:10px;">
+                            <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
+                            <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
+                        </div>
                     `;
                     return div;
                 });
@@ -532,10 +560,14 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <input type="text" class="internship-duration input-full" value="${duration}">
                             </div>
                         </div>
-                        <input type="file" class="internship-file input-full mt-2" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                        <input type="file" class="internship-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
                         <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
-                        ${getCertHtml(item.certificate_path)}
-                        <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
+                        <input type="hidden" class="entry-id" value="${item.id || ''}">
+                        ${getCertHtml(item.certificate_path, item.filename)}
+                        <div class="entry-actions" style="display:flex; gap:10px; margin-top:10px;">
+                            <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
+                            <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
+                        </div>
                     `;
                     return div;
                 });
@@ -550,11 +582,15 @@ document.addEventListener('DOMContentLoaded', () => {
                             <input type="text" class="awards-name input-full" value="${item.name || item.title || ''}">
                         </div>
                         <div style="grid-column: 1 / -1;">
-                             <input type="file" class="awards-file input-full mt-2" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                             <input type="file" class="awards-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
                              <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
-                             ${getCertHtml(item.certificate_path)}
+                             <input type="hidden" class="entry-id" value="${item.id || ''}">
+                             ${getCertHtml(item.certificate_path, item.filename)}
                         </div>
-                        <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
+                        <div class="entry-actions" style="grid-column: 1 / -1; display:flex; gap:10px; margin-top:10px;">
+                            <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
+                            <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
+                        </div>
                     `;
                     return div;
                 });
@@ -588,11 +624,15 @@ document.addEventListener('DOMContentLoaded', () => {
                             </select>
                         </div>
                         <div style="grid-column: 1 / -1;">
-                             <input type="file" class="uni-team-file input-full mt-2" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                             <input type="file" class="uni-team-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
                              <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
-                             ${getCertHtml(item.certificate_path)}
+                             <input type="hidden" class="entry-id" value="${item.id || ''}">
+                             ${getCertHtml(item.certificate_path, item.filename)}
                         </div>
-                        <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
+                        <div class="entry-actions" style="grid-column: 1 / -1; display:flex; gap:10px; margin-top:10px;">
+                            <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
+                            <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
+                        </div>
                     `;
                     return div;
                 });
@@ -617,11 +657,15 @@ document.addEventListener('DOMContentLoaded', () => {
                             </select>
                         </div>
                         <div style="grid-column: 1 / -1;">
-                             <input type="file" class="outside-file input-full mt-2" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                             <input type="file" class="outside-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
                              <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
-                             ${getCertHtml(item.certificate_path)}
+                             <input type="hidden" class="entry-id" value="${item.id || ''}">
+                             ${getCertHtml(item.certificate_path, item.filename)}
                         </div>
-                        <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
+                        <div class="entry-actions" style="grid-column: 1 / -1; display:flex; gap:10px; margin-top:10px;">
+                            <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
+                            <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
+                        </div>
                     `;
                     return div;
                 });
@@ -646,11 +690,15 @@ document.addEventListener('DOMContentLoaded', () => {
                             </select>
                         </div>
                         <div style="grid-column: 1 / -1;">
-                             <input type="file" class="within-file input-full mt-2" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                             <input type="file" class="within-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
                              <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
-                             ${getCertHtml(item.certificate_path)}
+                             <input type="hidden" class="entry-id" value="${item.id || ''}">
+                             ${getCertHtml(item.certificate_path, item.filename)}
                         </div>
-                        <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
+                        <div class="entry-actions" style="grid-column: 1 / -1; display:flex; gap:10px; margin-top:10px;">
+                            <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
+                            <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
+                        </div>
                     `;
                     return div;
                 });
@@ -675,11 +723,15 @@ document.addEventListener('DOMContentLoaded', () => {
                             </select>
                         </div>
                         <div style="grid-column: 1 / -1;">
-                             <input type="file" class="tech-file input-full mt-2" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                             <input type="file" class="tech-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
                              <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
-                             ${getCertHtml(item.certificate_path)}
+                             <input type="hidden" class="entry-id" value="${item.id || ''}">
+                             ${getCertHtml(item.certificate_path, item.filename)}
                         </div>
-                        <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
+                        <div class="entry-actions" style="grid-column: 1 / -1; display:flex; gap:10px; margin-top:10px;">
+                            <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
+                            <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
+                        </div>
                     `;
                     return div;
                 });
@@ -704,11 +756,15 @@ document.addEventListener('DOMContentLoaded', () => {
                             </select>
                         </div>
                         <div style="grid-column: 1 / -1;">
-                             <input type="file" class="other-coord-file input-full mt-2" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                             <input type="file" class="other-coord-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
                              <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
-                             ${getCertHtml(item.certificate_path)}
+                             <input type="hidden" class="entry-id" value="${item.id || ''}">
+                             ${getCertHtml(item.certificate_path, item.filename)}
                         </div>
-                        <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
+                        <div class="entry-actions" style="grid-column: 1 / -1; display:flex; gap:10px; margin-top:10px;">
+                            <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
+                            <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
+                        </div>
                     `;
                     return div;
                 });
@@ -720,10 +776,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     div.innerHTML = `
                         <label class="form-label">Committee Name</label>
                         <input type="text" class="committee-name input-full" value="${item.title || item.name || ''}">
-                        <input type="file" class="committee-file input-full mt-2" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                        <input type="file" class="committee-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
                         <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
-                        ${getCertHtml(item.certificate_path)}
-                        <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
+                        <input type="hidden" class="entry-id" value="${item.id || ''}">
+                        ${getCertHtml(item.certificate_path, item.filename)}
+                        <div class="entry-actions" style="display:flex; gap:10px; margin-top:10px;">
+                            <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
+                            <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
+                        </div>
                     `;
                     return div;
                 });
@@ -735,10 +795,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     div.innerHTML = `
                         <label class="form-label">Award/Contribution</label>
                         <input type="text" class="ext-awards-name input-full" value="${item.title || item.name || ''}">
-                        <input type="file" class="ext-awards-file input-full mt-2" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                        <input type="file" class="ext-awards-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
                         <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
-                        ${getCertHtml(item.certificate_path)}
-                        <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
+                        <input type="hidden" class="entry-id" value="${item.id || ''}">
+                        ${getCertHtml(item.certificate_path, item.filename)}
+                        <div class="entry-actions" style="display:flex; gap:10px; margin-top:10px;">
+                            <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
+                            <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
+                        </div>
                     `;
                     return div;
                 });
@@ -750,10 +814,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     div.innerHTML = `
                         <label class="form-label">About Activity</label>
                         <input type="text" class="nss-name input-full" value="${item.title || item.name || ''}">
-                        <input type="file" class="nss-file input-full mt-2" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                        <input type="file" class="nss-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
                         <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
-                        ${getCertHtml(item.certificate_path)}
-                        <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
+                        <input type="hidden" class="entry-id" value="${item.id || ''}">
+                        ${getCertHtml(item.certificate_path, item.filename)}
+                        <div class="entry-actions" style="display:flex; gap:10px; margin-top:10px;">
+                            <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
+                            <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
+                        </div>
                     `;
                     return div;
                 });
@@ -800,16 +868,19 @@ document.addEventListener('DOMContentLoaded', () => {
                                 const courseContainer = document.getElementById('courseListContainer');
                                 if (courseContainer && parsed.courses && Array.isArray(parsed.courses)) {
                                     courseContainer.innerHTML = '';
-                                    parsed.courses.forEach(c => {
+                                    parsed.courses.forEach((c, index) => {
                                         const div = document.createElement('div');
                                         div.className = 'nptel-row dynamic-entry-grid';
                                         div.style.marginBottom = '0.5rem';
                                         const certLink = getCertHtml(c.certificate_path);
                                         div.innerHTML = `<input type="text" class="nptel-course input-full" value="${c.name || ''}" placeholder="Course Name">
-                                                           <input type="file" class="nptel-file input-full mt-1" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                                                           <input type="file" class="nptel-file input-full mt-1" accept=".pdf,.png,.jpg,.jpeg">
                                                            <input type="hidden" class="nptel-existing-path" value="${c.certificate_path || ''}">
                                                            ${certLink}
-                                                           <button type="button" class="btn-remove" title="Remove Course"><i class="fas fa-times"></i></button>`;
+                                                           <div class="entry-actions" style="display:flex; gap:10px; margin-top:10px;">
+                                                               <button type="button" class="btn-save-academic" data-type="nptel" data-index="${index}" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
+                                                               <button type="button" class="btn-remove" title="Remove Course" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
+                                                           </div>`;
                                         courseContainer.appendChild(div);
                                     });
                                 }
@@ -860,7 +931,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             examContainer.innerHTML = '';
                             if (Array.isArray(parsed)) {
                                 // New JSON Format
-                                parsed.forEach(ex => {
+                                parsed.forEach((ex, index) => {
                                     const div = document.createElement('div');
                                     div.className = 'exam-entry dynamic-entry-grid';
                                     div.style.marginBottom = '0.5rem';
@@ -869,11 +940,14 @@ document.addEventListener('DOMContentLoaded', () => {
                                             <input type="text" class="exam-name input-full" value="${ex.name || ''}" placeholder="Exam Name">
                                             <input type="text" class="exam-score input-full" value="${ex.score || ''}" placeholder="Rank / Score">
                                             <div style="grid-column: 1 / -1; margin-top: 0.5rem;">
-                                                <input type="file" class="exam-file input-full" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                                                <input type="file" class="exam-file input-full" accept=".pdf,.png,.jpg,.jpeg">
                                                 <input type="hidden" class="exam-existing-path" value="${ex.certificate_path || ''}">
                                                 ${certLink}
                                             </div>
-                                            <button type="button" class="btn-remove" title="Remove Exam"><i class="fas fa-times"></i></button>`;
+                                            <div class="entry-actions" style="grid-column: 1 / -1; display:flex; gap:10px; margin-top:10px;">
+                                                <button type="button" class="btn-save-academic" data-type="exam" data-index="${index}" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
+                                                <button type="button" class="btn-remove" title="Remove Exam" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
+                                            </div>`;
                                     examContainer.appendChild(div);
                                 });
                             } else if (data.competitive_exams && data.competitive_exams !== 'No') {
@@ -938,8 +1012,11 @@ document.addEventListener('DOMContentLoaded', () => {
             div.className = 'nptel-row dynamic-entry-grid';
             div.innerHTML = `
                     <input type="text" class="nptel-course input-full" placeholder="Course Name">
-                    <input type="file" class="nptel-file input-full" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
-                    <button type="button" class="btn-remove" title="Remove Course"><i class="fas fa-times"></i></button>
+                    <input type="file" class="nptel-file input-full mt-1" accept=".pdf,.png,.jpg,.jpeg">
+                    <div class="entry-actions" style="display:flex; gap:10px; margin-top:10px;">
+                        <button type="button" class="btn-save-academic" data-type="nptel" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
+                        <button type="button" class="btn-remove" title="Remove Course" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
+                    </div>
                 `;
             courseContainer.appendChild(div);
         });
@@ -976,9 +1053,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     <input type="text" class="exam-name input-full" placeholder="Exam Name (e.g. GATE)">
                     <input type="text" class="exam-score input-full" placeholder="Rank / Score">
                     <div style="grid-column: 1 / -1; margin-top: 0.5rem;">
-                        <input type="file" class="exam-file input-full" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                        <input type="file" class="exam-file input-full" accept=".pdf,.png,.jpg,.jpeg">
                     </div>
-                    <button type="button" class="btn-remove" title="Remove Exam"><i class="fas fa-times"></i></button>
+                    <div class="entry-actions" style="grid-column: 1 / -1; display:flex; gap:10px; margin-top:10px;">
+                        <button type="button" class="btn-save-academic" data-type="exam" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
+                        <button type="button" class="btn-remove" title="Remove Exam" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
+                    </div>
                 `;
             examContainer.appendChild(div);
             div.querySelector('input').focus();
@@ -1014,187 +1094,8 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Master Save: Co-Curricular (CONSOLIDATED)
-    const saveCoCurricularMasterBtn = document.getElementById('saveCoCurricularMasterBtn');
-    if (saveCoCurricularMasterBtn) {
-        saveCoCurricularMasterBtn.addEventListener('click', async (e) => {
-            e.preventDefault();
-            const btn = saveCoCurricularMasterBtn;
-
-            const fd = new FormData();
-            fd.append('type', 'co_curricular');
-            const data = {};
-            const allSelectedFiles = [];
-
-            // Helper to collect files and data
-            const collect = (selector, activityType, filePrefix, score) => {
-                const items = [];
-                document.querySelectorAll(selector).forEach((div, idx) => {
-                    const title = (div.querySelector('.paper-title') || div.querySelector('.inter-college') || div.querySelector('.dept-event') || div.querySelector('.seminar-topic') || div.querySelector('.rep-semester') || div.querySelector('.membership-name') || div.querySelector('.moocs-name') || div.querySelector('.internship-name') || div.querySelector('.awards-name'))?.value.trim() || '';
-                    const desc = (div.querySelector('.paper-journal') || div.querySelector('.inter-desc') || div.querySelector('.dept-desc') || div.querySelector('.internship-duration'))?.value.trim() || '';
-                    const fileInput = div.querySelector('input[type="file"]');
-                    const existingPath = div.querySelector('.existing-path')?.value || null;
-
-                    if (title || desc) {
-                        items.push({ name: title, description: desc, score: score, existing_path: existingPath });
-                        if (fileInput?.files[0]) {
-                            allSelectedFiles.push(fileInput.files[0]);
-                            fd.append(`file_${filePrefix.replace(/ /g, '_')}_${items.length - 1}`, fileInput.files[0]);
-                        }
-                    }
-                });
-                data[activityType] = items;
-            };
-
-            collect('.paper-entry', 'Paper Publications', 'Paper_Publications', 3);
-            collect('.inter-entry', 'Inter-College Activity', 'Inter-College_Activity', 3);
-            collect('.intra-dept-entry', 'Intra-Department Winner', 'Intra-Department_Winner', 1);
-            collect('.seminar-entry', 'Seminars Delivered', 'Seminars_Delivered', 2);
-            collect('.rep-entry', 'Class Representative', 'Class_Representative', 2);
-            collect('.membership-entry', 'Professional Body Membership', 'Professional_Body_Membership', 1);
-            collect('.moocs-entry', 'MOOCs Certification', 'MOOCs_Certification', 2);
-            collect('.internship-entry', 'Internship/Consultancy', 'Internship/Consultancy', 2);
-            collect('.awards-entry', 'Award/Contribution', 'Award/Contribution', 2);
-
-            // 1. Client-side Validation (Type & Size)
-            const validationError = validateFiles(allSelectedFiles);
-            if (validationError) {
-                alert(validationError);
-                return;
-            }
-
-            // 2. 10+ Files Prompt
-            if (allSelectedFiles.length > 10) {
-                if (!confirm(`You are uploading ${allSelectedFiles.length} files at once. Large uploads may fail depending on your internet speed. Would you like to save these now and continue?`)) {
-                    return;
-                }
-            }
-
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving All...';
-            btn.disabled = true;
-
-            try {
-                fd.append('data', JSON.stringify(data));
-                const res = await fetch(apiBase + '/student/activities/save-all', { method: 'POST', body: fd });
-                if (res.ok) {
-                    alert('All Co-Curricular Activities Saved Successfully!');
-                    location.reload(); // Reload to refresh existing paths and UI
-                } else {
-                    let errMsg = 'Error saving activities. Please try again.';
-                    try {
-                        const errData = await res.json();
-                        errMsg = errData.error || errMsg;
-                    } catch (e) {
-                        const raw = await res.text();
-                        if (raw) errMsg = raw.substring(0, 100);
-                    }
-                    alert(errMsg);
-                }
-            } catch (err) {
-                console.error(err);
-                alert('Connection error while saving. Please check your network.');
-            } finally {
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-            }
-        });
-    }
 
     // Master Save: Extracurricular (CONSOLIDATED)
-    const saveExtracurricularMasterBtn = document.getElementById('saveExtracurricularMasterBtn');
-    if (saveExtracurricularMasterBtn) {
-        saveExtracurricularMasterBtn.addEventListener('click', async (e) => {
-            e.preventDefault();
-            const btn = saveExtracurricularMasterBtn;
-
-            const fd = new FormData();
-            fd.append('type', 'extracurricular');
-            const data = {};
-            const allSelectedFiles = [];
-
-            const collectExt = (selector, activityType, filePrefix) => {
-                const items = [];
-                document.querySelectorAll(selector).forEach((div, idx) => {
-                    const name = (div.querySelector('.uni-team-name') || div.querySelector('.outside-name') || div.querySelector('.within-name') || div.querySelector('.tech-name') || div.querySelector('.other-coord-name') || div.querySelector('.committee-name') || div.querySelector('.nss-name') || div.querySelector('.ext-awards-name'))?.value.trim() || '';
-                    const type = (div.querySelector('.uni-team-type') || div.querySelector('.outside-type') || div.querySelector('.within-type') || div.querySelector('.tech-type') || div.querySelector('.other-coord-type'))?.value || '';
-                    const fileInput = div.querySelector('input[type="file"]');
-                    const existingPath = div.querySelector('.existing-path')?.value || null;
-
-                    if (name) {
-                        let score = 1; let level = 'Participant'; let desc = '';
-                        if (selector.includes('uni-team')) {
-                            score = type === 'individual' ? 3 : 2; level = type === 'individual' ? 'Individual' : 'Group'; desc = `Selection Type: ${type}`;
-                        } else if (selector.includes('outside')) {
-                            score = type === 'prize' ? 5 : 1; level = type === 'prize' ? 'Winner' : 'Participant'; desc = `Achievement: ${type}`;
-                        } else if (selector.includes('within')) {
-                            score = type === 'prize' ? 2 : 1; level = type === 'prize' ? 'Winner' : 'Participant'; desc = `Achievement: ${type}`;
-                        } else if (selector.includes('tech-entry') || selector.includes('other-coord')) {
-                            score = type === 'college' ? 2 : 1; level = type === 'college' ? 'College' : 'Department'; desc = `Level: ${type}`;
-                        }
-
-                        items.push({ name, description: desc, level, score, existing_path: existingPath });
-                        if (fileInput?.files[0]) {
-                            allSelectedFiles.push(fileInput.files[0]);
-                            fd.append(`file_${filePrefix.replace(/ /g, '_')}_${items.length - 1}`, fileInput.files[0]);
-                        }
-                    }
-                });
-                data[activityType] = items;
-            };
-
-            collectExt('.uni-team-entry', 'University Team Selection', 'University_Team_Selection');
-            collectExt('.outside-entry', 'Outside College Activity', 'Outside_College_Activity');
-            collectExt('.within-entry', 'Within College Activity', 'Within_College_Activity');
-            collectExt('.tech-entry', 'Tech Fest Coordinator', 'Tech_Fest_Coordinator');
-            collectExt('.other-coord-entry', 'Other Coordinator', 'Other_Coordinator');
-            collectExt('.committee-entry', 'Committee Member', 'Committee_Member');
-            collectExt('.nss-entry', 'NSS/Social Service', 'NSS/Social_Service');
-            collectExt('.ext-awards-entry', 'Extracurricular Award', 'Extracurricular_Award');
-
-            // 1. Client-side Validation
-            const validationError = validateFiles(allSelectedFiles);
-            if (validationError) {
-                alert(validationError);
-                return;
-            }
-
-            // 2. 10+ Files Prompt
-            if (allSelectedFiles.length > 10) {
-                if (!confirm(`You are uploading ${allSelectedFiles.length} files at once. Large uploads may fail depending on your internet speed. Would you like to save these now and continue?`)) {
-                    return;
-                }
-            }
-
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving All...';
-            btn.disabled = true;
-
-            try {
-                fd.append('data', JSON.stringify(data));
-                const res = await fetch(apiBase + '/student/activities/save-all', { method: 'POST', body: fd });
-                if (res.ok) {
-                    alert('All Extracurricular Activities Saved Successfully!');
-                    location.reload();
-                } else {
-                    let errMsg = 'Error saving activities. Please try again.';
-                    try {
-                        const errData = await res.json();
-                        errMsg = errData.error || errMsg;
-                    } catch (e) {
-                        const raw = await res.text();
-                        if (raw) errMsg = raw.substring(0, 100);
-                    }
-                    alert(errMsg);
-                }
-            } catch (err) {
-                console.error(err);
-                alert('Connection error while saving. Please check your network.');
-            } finally {
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-            }
-        });
-    }
 
 
     // Papers
@@ -1290,9 +1191,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div style="grid-column: 1 / -1;">
                         <label class="form-label">Description (Event, Prize, etc)</label>
                         <input type="text" class="inter-desc input-full" placeholder="Details">
-                         <input type="file" class="inter-file input-full mt-2" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                        <input type="file" class="inter-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
                     </div>
-                    <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
+                    <div class="entry-actions" style="grid-column: 1 / -1; display:flex; gap:10px; margin-top:10px;">
+                        <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
+                        <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
+                    </div>
                 `;
             interContainer.appendChild(div);
         });
@@ -1335,9 +1239,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div style="grid-column: 1 / -1;">
                         <label class="form-label">Description / Prize</label>
                         <input type="text" class="dept-desc input-full" placeholder="Description">
-                         <input type="file" class="dept-file input-full mt-2" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                        <input type="file" class="dept-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
                     </div>
-                    <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
+                    <div class="entry-actions" style="grid-column: 1 / -1; display:flex; gap:10px; margin-top:10px;">
+                        <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
+                        <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
+                    </div>
                 `;
             intraDeptContainer.appendChild(div);
         });
@@ -1375,8 +1282,11 @@ document.addEventListener('DOMContentLoaded', () => {
             div.innerHTML = `
                 <label class="form-label">Seminar Topic</label>
                 <input type="text" class="seminar-topic input-full" placeholder="Enter Seminar Topic">
-                <input type="file" class="seminar-file input-full mt-2" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
-                <button type="button" class="btn-remove" title="Remove Seminar"><i class="fas fa-times"></i></button>
+                <input type="file" class="seminar-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                <div class="entry-actions" style="display:flex; gap:10px; margin-top:10px;">
+                    <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
+                    <button type="button" class="btn-remove" title="Remove Seminar" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
+                </div>
             `;
             seminarContainer.appendChild(div);
         });
@@ -1414,8 +1324,11 @@ document.addEventListener('DOMContentLoaded', () => {
             div.innerHTML = `
                 <label class="form-label">Semester (e.g. 3, 4)</label>
                 <input type="number" class="rep-semester input-full" placeholder="Enter Semester" min="1" max="8">
-                <input type="file" class="rep-file input-full mt-2" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
-                <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
+                <input type="file" class="rep-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                <div class="entry-actions" style="display:flex; gap:10px; margin-top:10px;">
+                    <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
+                    <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
+                </div>
             `;
             repContainer.appendChild(div);
         });
@@ -1453,8 +1366,11 @@ document.addEventListener('DOMContentLoaded', () => {
             div.innerHTML = `
                 <label class="form-label">Professional Body Name</label>
                 <input type="text" class="membership-name input-full" placeholder="Enter Body Name">
-                <input type="file" class="membership-file input-full mt-2" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
-                <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
+                <input type="file" class="membership-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                <div class="entry-actions" style="display:flex; gap:10px; margin-top:10px;">
+                    <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
+                    <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
+                </div>
             `;
             membershipContainer.appendChild(div);
         });
@@ -1492,8 +1408,11 @@ document.addEventListener('DOMContentLoaded', () => {
             div.innerHTML = `
                 <label class="form-label">Certification Name</label>
                 <input type="text" class="moocs-name input-full" placeholder="Enter Certification Name">
-                <input type="file" class="moocs-file input-full mt-2" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
-                <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
+                <input type="file" class="moocs-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                <div class="entry-actions" style="display:flex; gap:10px; margin-top:10px;">
+                    <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
+                    <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
+                </div>
             `;
             moocsContainer.appendChild(div);
         });
@@ -1539,8 +1458,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         <input type="text" class="internship-duration input-full" placeholder="e.g. 2 months">
                     </div>
                 </div>
-                <input type="file" class="internship-file input-full mt-2" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
-                <button type="button" class="btn-remove" title="Remove Internship"><i class="fas fa-times"></i></button>
+                <input type="file" class="internship-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                <div class="entry-actions" style="display:flex; gap:10px; margin-top:10px;">
+                    <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
+                    <button type="button" class="btn-remove" title="Remove Internship" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
+                </div>
             `;
             internshipContainer.appendChild(div);
         });
@@ -1578,8 +1500,11 @@ document.addEventListener('DOMContentLoaded', () => {
             div.innerHTML = `
                 <label class="form-label">Award / Contribution</label>
                 <input type="text" class="awards-name input-full" placeholder="Enter Details">
-                <input type="file" class="awards-file input-full mt-2" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
-                <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
+                <input type="file" class="awards-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                <div class="entry-actions" style="display:flex; gap:10px; margin-top:10px;">
+                    <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
+                    <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
+                </div>
             `;
             awardsContainer.appendChild(div);
         });
@@ -1628,9 +1553,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     </select>
                 </div>
                 <div style="grid-column: 1 / -1;">
-                    <input type="file" class="uni-team-file input-full mt-2" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                    <input type="file" class="uni-team-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
                 </div>
-                <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
+                <div class="entry-actions" style="grid-column: 1 / -1; display:flex; gap:10px; margin-top:10px;">
+                    <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
+                    <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
+                </div>
             `;
             uniTeamContainer.appendChild(div);
         });
@@ -1678,9 +1606,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     </select>
                 </div>
                 <div style="grid-column: 1 / -1;">
-                    <input type="file" class="outside-file input-full mt-2" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                    <input type="file" class="outside-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
                 </div>
-                <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
+                <div class="entry-actions" style="grid-column: 1 / -1; display:flex; gap:10px; margin-top:10px;">
+                    <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
+                    <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
+                </div>
             `;
             outsideContainer.appendChild(div);
         });
@@ -1728,9 +1659,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     </select>
                 </div>
                 <div style="grid-column: 1 / -1;">
-                    <input type="file" class="within-file input-full mt-2" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                    <input type="file" class="within-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
                 </div>
-                <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
+                <div class="entry-actions" style="grid-column: 1 / -1; display:flex; gap:10px; margin-top:10px;">
+                    <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
+                    <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
+                </div>
             `;
             withinContainer.appendChild(div);
         });
@@ -1778,9 +1712,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     </select>
                 </div>
                 <div style="grid-column: 1 / -1;">
-                    <input type="file" class="tech-file input-full mt-2" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                    <input type="file" class="tech-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
                 </div>
-                <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
+                <div class="entry-actions" style="grid-column: 1 / -1; display:flex; gap:10px; margin-top:10px;">
+                    <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
+                    <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
+                </div>
             `;
             techContainer.appendChild(div);
         });
@@ -1828,9 +1765,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     </select>
                 </div>
                 <div style="grid-column: 1 / -1;">
-                    <input type="file" class="other-coord-file input-full mt-2" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                    <input type="file" class="other-coord-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
                 </div>
-                <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
+                <div class="entry-actions" style="grid-column: 1 / -1; display:flex; gap:10px; margin-top:10px;">
+                    <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
+                    <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
+                </div>
             `;
             otherCoordContainer.appendChild(div);
         });
@@ -1868,8 +1808,11 @@ document.addEventListener('DOMContentLoaded', () => {
             div.innerHTML = `
                 <label class="form-label">Committee Name</label>
                 <input type="text" class="committee-name input-full" placeholder="Enter Committee Name">
-                <input type="file" class="committee-file input-full mt-2" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
-                <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
+                <input type="file" class="committee-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                <div class="entry-actions" style="display:flex; gap:10px; margin-top:10px;">
+                    <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
+                    <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
+                </div>
             `;
             committeeContainer.appendChild(div);
         });
@@ -1907,8 +1850,11 @@ document.addEventListener('DOMContentLoaded', () => {
             div.innerHTML = `
                 <label class="form-label">About Activity</label>
                 <input type="text" class="nss-name input-full" placeholder="Enter Activity Description">
-                <input type="file" class="nss-file input-full mt-2" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
-                <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
+                <input type="file" class="nss-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                <div class="entry-actions" style="display:flex; gap:10px; margin-top:10px;">
+                    <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
+                    <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
+                </div>
             `;
             nssContainer.appendChild(div);
         });
@@ -1946,8 +1892,11 @@ document.addEventListener('DOMContentLoaded', () => {
             div.innerHTML = `
                 <label class="form-label">Award/Contribution</label>
                 <input type="text" class="ext-awards-name input-full" placeholder="Enter Details">
-                <input type="file" class="ext-awards-file input-full mt-2" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
-                <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
+                <input type="file" class="ext-awards-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                <div class="entry-actions" style="display:flex; gap:10px; margin-top:10px;">
+                    <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
+                    <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
+                </div>
             `;
             extAwardsContainer.appendChild(div);
         });
@@ -2167,69 +2116,10 @@ document.addEventListener('DOMContentLoaded', () => {
             fd.append('cgpa', safeGet('cgpa'));
             for (let i = 1; i <= 7; i++) fd.append(`sgpa_sem${i}`, safeGet(`sgpa${i}`));
 
-            const academicFiles = [];
-            // Honours
-            const pursuingEl = document.querySelector('input[name="pursuingHonours"]:checked');
-            if (pursuingEl && pursuingEl.value === 'yes') {
-                const typeEl = document.querySelector('input[name="degreeType"]:checked');
-                fd.append('honours_minors_type', typeEl ? typeEl.value : 'Degree');
-
-                const courses = [];
-                document.querySelectorAll('.nptel-row').forEach((row, idx) => {
-                    const name = row.querySelector('.nptel-course')?.value.trim();
-                    const file = row.querySelector('.nptel-file')?.files[0];
-                    const existing = row.querySelector('.nptel-existing-path')?.value;
-                    if (name) {
-                        courses.push({ name, existing_path: existing || null });
-                        if (file) {
-                            academicFiles.push(file);
-                            fd.append(`nptel_file_${courses.length - 1}`, file);
-                        }
-                    }
-                });
-                fd.append('nptel_courses', JSON.stringify(courses));
-            } else {
-                fd.append('honours_minors_type', 'No');
-            }
-
-            // Exams
-            const examsEl = document.querySelector('input[name="qualifiedExams"]:checked');
-            if (examsEl && examsEl.value === 'yes') {
-                const exams = [];
-                document.querySelectorAll('.exam-entry').forEach((div, idx) => {
-                    const name = div.querySelector('.exam-name')?.value.trim();
-                    const score = div.querySelector('.exam-score')?.value.trim();
-                    const file = div.querySelector('.exam-file')?.files[0];
-                    const existing = div.querySelector('.exam-existing-path')?.value;
-                    if (name) {
-                        exams.push({ name, score, certificate_path: existing || null });
-                        if (file) {
-                            academicFiles.push(file);
-                            fd.append(`exam_file_${exams.length - 1}`, file);
-                        }
-                    }
-                });
-                fd.append('exam_details', JSON.stringify(exams));
-            } else {
-                fd.append('competitive_exams', 'No');
-            }
-
-            // Client-side Validation for Academic Files
-            const validationError = validateFiles(academicFiles);
-            if (validationError) {
-                alert(validationError);
-                if (btn) {
-                    btn.innerHTML = originalText;
-                    btn.disabled = false;
-                }
-                return;
-            }
-
             try {
                 const res = await fetch(apiBase + '/student/academic', { method: 'POST', body: fd });
                 if (res.ok) {
-                    alert('Academic Details Saved');
-                    location.reload();
+                    alert('Academic SGPA Details Saved');
                 } else {
                     let errMsg = 'Server error saving academic details';
                     try {
@@ -2252,6 +2142,157 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // --- INDIVIDUAL SAVING SYSTEM ---
+
+    async function saveIndividualActivity(btn) {
+        const row = btn.closest('.dynamic-entry');
+        if (!row) return;
+
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+        btn.disabled = true;
+
+        const fd = new FormData();
+        const entryId = row.querySelector('.entry-id')?.value || '';
+        if (entryId) fd.append('id', entryId);
+
+        // Determine activity category based on container or class
+        let category = '';
+        if (row.closest('#papersListContainer')) category = 'Papers Published';
+        else if (row.closest('#interListContainer')) category = 'Inter-College Activity';
+        else if (row.closest('#intraDeptListContainer')) category = 'Intra-Department Winner';
+        else if (row.closest('#seminarListContainer')) category = 'Seminars Delivered';
+        else if (row.closest('#repListContainer')) category = 'Class Representative';
+        else if (row.closest('#membershipListContainer')) category = 'Professional Body Membership';
+        else if (row.closest('#moocsListContainer')) category = 'MOOCs Certification';
+        else if (row.closest('#internshipListContainer')) category = 'Internship/Consultancy';
+        else if (row.closest('#awardsListContainer')) category = 'Award/Contribution';
+        else if (row.closest('#uniTeamListContainer')) category = 'University Team Selection';
+        else if (row.closest('#outsideListContainer')) category = 'Outside College Activity';
+        else if (row.closest('#withinListContainer')) category = 'Within College Activity';
+        else if (row.closest('#techListContainer')) category = 'Tech Fest Coordinator';
+        else if (row.closest('#otherCoordListContainer')) category = 'Other Coordinator';
+        else if (row.closest('#committeeListContainer')) category = 'Committee Member';
+        else if (row.closest('#nssListContainer')) category = 'NSS/Social Service';
+        else if (row.closest('#extAwardsListContainer')) category = 'Extracurricular Award';
+
+        fd.append('category', category);
+
+        // Collect fields
+        const nameInput = row.querySelector('input[type="text"]:not(.existing-path), textarea:not(.existing-path)');
+        const name = nameInput?.value.trim() || '';
+
+        let description = '';
+        let score = 1;
+        let level = 'Participant';
+
+        // Specific field collection based on classes
+        if (row.classList.contains('inter-entry') || row.classList.contains('intra-dept-entry')) {
+            description = row.querySelector('.inter-desc, .dept-desc')?.value.trim() || '';
+        } else if (row.classList.contains('rep-entry')) {
+            const sem = row.querySelector('.rep-semester')?.value || '';
+            description = sem ? `Semester ${sem}` : '';
+        } else if (row.classList.contains('internship-entry')) {
+            const dur = row.querySelector('.internship-duration')?.value.trim() || '';
+            description = dur ? `Duration: ${dur}` : '';
+        } else if (row.querySelector('select')) {
+            const sel = row.querySelector('select');
+            const val = sel.value;
+            description = sel.options[sel.selectedIndex].text;
+
+            // Score calculation for dropdowns
+            if (val === 'individual') { score = 3; level = 'Individual'; }
+            else if (val === 'group') { score = 2; level = 'Group'; }
+            else if (val === 'prize') {
+                if (category.includes('Outside')) { score = 5; level = 'Winner'; }
+                else { score = 2; level = 'Winner'; }
+            }
+            else if (val === 'college') { score = 2; level = 'College'; }
+        }
+
+        fd.append('name', name);
+        fd.append('description', description);
+        fd.append('level', level);
+        fd.append('score', score);
+
+        const fileInput = row.querySelector('input[type="file"]');
+        if (fileInput?.files[0]) {
+            const vErr = validateFiles(fileInput.files);
+            if (vErr) { alert(vErr); btn.innerHTML = originalText; btn.disabled = false; return; }
+            fd.append('certificate', fileInput.files[0]);
+        }
+
+        try {
+            const res = await fetch(apiBase + '/student/activities/save-single', { method: 'POST', body: fd });
+            const data = await res.json();
+            if (res.ok) {
+                alert('Record saved successfully!');
+                if (data.id) {
+                    let idHidden = row.querySelector('.entry-id');
+                    if (!idHidden) {
+                        idHidden = document.createElement('input');
+                        idHidden.type = 'hidden';
+                        idHidden.className = 'entry-id';
+                        row.appendChild(idHidden);
+                    }
+                    idHidden.value = data.id;
+                }
+            } else { alert('Error: ' + (data.error || 'Failed to save')); }
+        } catch (e) { alert('Network error. Please try again.'); } finally {
+            btn.innerHTML = originalText; btn.disabled = false;
+        }
+    }
+
+    async function saveIndividualAcademic(btn) {
+        const row = btn.closest('.nptel-row, .exam-entry');
+        if (!row) return;
+        const type = btn.getAttribute('data-type');
+        const index = btn.getAttribute('data-index');
+
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+        btn.disabled = true;
+
+        const fd = new FormData();
+        fd.append('type', type);
+        if (index !== null && index !== undefined) fd.append('index', index);
+
+        if (type === 'nptel') {
+            const input = row.querySelector('.nptel-name, .nptel-course');
+            fd.append('name', input?.value.trim() || '');
+        } else {
+            fd.append('name', row.querySelector('.exam-name')?.value.trim() || '');
+            fd.append('score', row.querySelector('.exam-score')?.value.trim() || '');
+        }
+
+        const fileInput = row.querySelector('input[type="file"]');
+        if (fileInput?.files[0]) {
+            const vErr = validateFiles(fileInput.files);
+            if (vErr) { alert(vErr); btn.innerHTML = originalText; btn.disabled = false; return; }
+            fd.append('certificate', fileInput.files[0]);
+        }
+
+        try {
+            const res = await fetch(apiBase + '/student/academic/save-item', { method: 'POST', body: fd });
+            const data = await res.json();
+            if (res.ok) {
+                alert('Item saved!');
+                if (data.index !== undefined) btn.setAttribute('data-index', data.index);
+            } else { alert('Error: ' + (data.error || 'Failed to save')); }
+        } catch (e) { alert('Connection error.'); } finally {
+            btn.innerHTML = originalText; btn.disabled = false;
+        }
+    }
+
+    // Event Delegation for Save Buttons
+    document.addEventListener('click', (e) => {
+        const saveItemBtn = e.target.closest('.btn-save-item');
+        if (saveItemBtn) { saveIndividualActivity(saveItemBtn); return; }
+
+        const saveAcademicBtn = e.target.closest('.btn-save-academic');
+        if (saveAcademicBtn) { saveIndividualAcademic(saveAcademicBtn); return; }
+    });
 
     // Initialize
     initDashboard();

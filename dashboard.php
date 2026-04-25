@@ -259,10 +259,6 @@
                                 </div>
                             
 
-                            <button type="submit" id="saveAcademicBtn" class="btn-primary"
-                                style="margin-top: 2rem; width: 100%; font-size: 1.1rem; padding: 1rem;">
-                                <i class="fas fa-save"></i> Save Academic Details
-                            </button>
                         </form>
                     </div>
                 </div>
@@ -437,10 +433,6 @@
                             </div>
                         </div>
                         
-                        <!-- Master Save Button for Co-Curricular -->
-                        <button type="button" id="saveCoCurricularMasterBtn" class="btn-primary" style="margin-top: 2rem; width: 100%; font-size: 1.1rem; padding: 1rem;">
-                            <i class="fas fa-save"></i> Save Co-Curricular Activities
-                        </button>
                     </div>
                 </div>
             </div>
@@ -598,10 +590,6 @@
                             </div>
                         </div>
 
-                        <!-- Master Save Button for Extracurricular -->
-                        <button type="button" id="saveExtracurricularMasterBtn" class="btn-primary" style="margin-top: 2rem; width: 100%; font-size: 1.1rem; padding: 1rem;">
-                            <i class="fas fa-save"></i> Save Extracurricular Activities
-                        </button>
 
                         </div>
                     </div>
