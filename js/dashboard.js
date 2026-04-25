@@ -1141,10 +1141,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.error('Bulk save error:', errStr);
                     alert('Error saving activities. Please try again.');
                 }
-
             } catch (err) {
                 console.error(err);
                 alert('Connection error while saving. Please check your network.');
+            } finally {
                 btn.innerHTML = originalText;
                 btn.disabled = false;
             }
@@ -1324,6 +1324,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (err) {
                 console.error(err);
                 alert('Connection error while saving. Please check your network.');
+            } finally {
                 btn.innerHTML = originalText;
                 btn.disabled = false;
             }
@@ -2154,7 +2155,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
                 if (res.ok) {
                     alert('Recommendation Letter uploaded successfully!');
-                    // Refresh view logic or reload
                     window.location.reload();
                 } else {
                     const err = await res.json();
@@ -2163,6 +2163,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (error) {
                 console.error(error);
                 alert('Network error.');
+            } finally {
                 btn.innerHTML = originalText;
                 btn.disabled = false;
             }
@@ -2326,6 +2327,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (err) {
                 console.error(err);
                 alert('Network error: ' + err.message);
+            } finally {
                 if (btn) {
                     btn.innerHTML = originalText;
                     btn.disabled = false;
