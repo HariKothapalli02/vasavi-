@@ -188,10 +188,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function disableEditing() {
         requestAnimationFrame(() => {
-            document.querySelectorAll('input, textarea, select').forEach(el => el.disabled = true);
-            document.querySelectorAll('.btn-remove, button[id^="add"], button[id^="save"], #finalSubmitBtn, #saveAcademicBtn, #saveProfileBtn, #saveRecBtn').forEach(btn => {
-                if (btn.id !== 'downloadPdfBtn') btn.style.display = 'none';
+            // Disable all interactive form elements
+            document.querySelectorAll('input, textarea, select, button.btn-remove').forEach(el => {
+                el.disabled = true;
+                if (el.tagName === 'BUTTON') el.style.display = 'none';
             });
+
+            // Hide all Save and Add buttons
+            document.querySelectorAll('button[id^="save"], button[id^="add"], #finalSubmitBtn, .entry-actions, .btn-remove').forEach(btn => {
+                if (btn.id !== 'downloadPdfBtn') {
+                    btn.style.display = 'none';
+                    btn.disabled = true;
+                }
+            });
+
+            // Specific UI tweaks for locked state
+            const addButtons = document.querySelectorAll('.btn-add');
+            addButtons.forEach(btn => btn.style.display = 'none');
         });
     }
 
@@ -604,10 +617,7 @@ document.addEventListener('DOMContentLoaded', () => {
                              <input type="hidden" class="entry-id" value="${item.id || ''}">
                              ${getCertHtml(item.certificate_path, item.filename)}
                         </div>
-                        <div class="entry-actions" style="grid-column: 1 / -1; display:flex; gap:10px; margin-top:10px;">
-                            <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
-                            <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
-                        </div>
+                        <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
                     `;
                     return div;
                 });
@@ -637,10 +647,7 @@ document.addEventListener('DOMContentLoaded', () => {
                              <input type="hidden" class="entry-id" value="${item.id || ''}">
                              ${getCertHtml(item.certificate_path, item.filename)}
                         </div>
-                        <div class="entry-actions" style="grid-column: 1 / -1; display:flex; gap:10px; margin-top:10px;">
-                            <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
-                            <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
-                        </div>
+                        <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
                     `;
                     return div;
                 });
@@ -670,10 +677,7 @@ document.addEventListener('DOMContentLoaded', () => {
                              <input type="hidden" class="entry-id" value="${item.id || ''}">
                              ${getCertHtml(item.certificate_path, item.filename)}
                         </div>
-                        <div class="entry-actions" style="grid-column: 1 / -1; display:flex; gap:10px; margin-top:10px;">
-                            <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
-                            <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
-                        </div>
+                        <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
                     `;
                     return div;
                 });
@@ -703,10 +707,7 @@ document.addEventListener('DOMContentLoaded', () => {
                              <input type="hidden" class="entry-id" value="${item.id || ''}">
                              ${getCertHtml(item.certificate_path, item.filename)}
                         </div>
-                        <div class="entry-actions" style="grid-column: 1 / -1; display:flex; gap:10px; margin-top:10px;">
-                            <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
-                            <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
-                        </div>
+                        <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
                     `;
                     return div;
                 });
@@ -736,10 +737,7 @@ document.addEventListener('DOMContentLoaded', () => {
                              <input type="hidden" class="entry-id" value="${item.id || ''}">
                              ${getCertHtml(item.certificate_path, item.filename)}
                         </div>
-                        <div class="entry-actions" style="grid-column: 1 / -1; display:flex; gap:10px; margin-top:10px;">
-                            <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
-                            <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
-                        </div>
+                        <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
                     `;
                     return div;
                 });
@@ -755,10 +753,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
                         <input type="hidden" class="entry-id" value="${item.id || ''}">
                         ${getCertHtml(item.certificate_path, item.filename)}
-                        <div class="entry-actions" style="display:flex; gap:10px; margin-top:10px;">
-                            <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
-                            <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
-                        </div>
+                        <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
                     `;
                     return div;
                 });
@@ -774,10 +769,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
                         <input type="hidden" class="entry-id" value="${item.id || ''}">
                         ${getCertHtml(item.certificate_path, item.filename)}
-                        <div class="entry-actions" style="display:flex; gap:10px; margin-top:10px;">
-                            <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
-                            <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
-                        </div>
+                        <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
                     `;
                     return div;
                 });
@@ -793,10 +785,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
                         <input type="hidden" class="entry-id" value="${item.id || ''}">
                         ${getCertHtml(item.certificate_path, item.filename)}
-                        <div class="entry-actions" style="display:flex; gap:10px; margin-top:10px;">
-                            <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
-                            <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
-                        </div>
+                        <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
                     `;
                     return div;
                 });
@@ -852,10 +841,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                                            <input type="file" class="nptel-file input-full mt-1" accept=".pdf,.png,.jpg,.jpeg">
                                                            <input type="hidden" class="nptel-existing-path" value="${c.certificate_path || ''}">
                                                            ${certLink}
-                                                           <div class="entry-actions" style="display:flex; gap:10px; margin-top:10px;">
-                                                               <button type="button" class="btn-save-academic" data-type="nptel" data-index="${index}" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
-                                                               <button type="button" class="btn-remove" title="Remove Course" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
-                                                           </div>`;
+                                                           <button type="button" class="btn-remove" title="Remove Course"><i class="fas fa-times"></i></button>`;
                                         courseContainer.appendChild(div);
                                     });
                                 }
