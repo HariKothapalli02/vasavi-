@@ -304,9 +304,10 @@
                             </div>
                             <div id="interDetails" class="hidden activity-details">
                                 <div id="interListContainer"></div>
-                                <div class="actions">
+                                <div class="actions" style="display: flex; gap: 10px;">
                                     <button type="button" id="addInterBtn" class="btn-secondary"><i
                                             class="fas fa-plus"></i> Add Event</button>
+                                    <button type="button" id="saveInterBtn" class="btn-action"><i class="fas fa-save"></i> Save Events</button>
                                 </div>
                             </div>
                         </div>
@@ -323,9 +324,10 @@
                             </div>
                             <div id="intraDeptDetails" class="hidden activity-details">
                                 <div id="intraDeptListContainer"></div>
-                                <div class="actions">
+                                <div class="actions" style="display: flex; gap: 10px;">
                                     <button type="button" id="addIntraDeptBtn" class="btn-secondary"><i
                                             class="fas fa-plus"></i> Add Event</button>
+                                    <button type="button" id="saveIntraBtn" class="btn-action"><i class="fas fa-save"></i> Save Events</button>
                                 </div>
                             </div>
                         </div>
@@ -397,9 +399,10 @@
                             </div>
                             <div id="moocsDetails" class="hidden activity-details">
                                 <div id="moocsListContainer"></div>
-                                <div class="actions">
+                                <div class="actions" style="display: flex; gap: 10px;">
                                     <button type="button" id="addMoocsBtn" class="btn-secondary"><i
                                             class="fas fa-plus"></i> Add Certification</button>
+                                    <button type="button" id="saveMoocsBtn" class="btn-action"><i class="fas fa-save"></i> Save Certs</button>
                                 </div>
                             </div>
                         </div>
@@ -579,9 +582,10 @@
                             </div>
                             <div id="nssDetails" class="hidden activity-details">
                                 <div id="nssListContainer"></div>
-                                <div class="actions">
+                                <div class="actions" style="display: flex; gap: 10px;">
                                     <button type="button" id="addNssBtn" class="btn-secondary"><i
                                             class="fas fa-plus"></i> Add Activity</button>
+                                    <button type="button" id="saveNssBtn" class="btn-action"><i class="fas fa-save"></i> Save Activities</button>
                                 </div>
                             </div>
                         </div>
