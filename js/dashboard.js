@@ -398,16 +398,14 @@ document.addEventListener('DOMContentLoaded', () => {
                             <label class="form-label">Title of the paper and Authors</label>
                             <textarea class="paper-title input-full" rows="2">${item.title || item.name || ''}</textarea>
                         </div>
+                        </div>
                         <div style="grid-column: 1 / -1;">
                              <input type="file" class="paper-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
                              <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
                              <input type="hidden" class="entry-id" value="${item.id || ''}">
                              ${getCertHtml(item.certificate_path, item.filename)}
                         </div>
-                        <div class="entry-actions" style="grid-column: 1 / -1; display:flex; gap:10px; margin-top:10px;">
-                            <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
-                            <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
-                        </div>
+                        <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
                     `;
                     return div;
                 });
@@ -422,6 +420,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <label class="form-label">College Name</label>
                             <input type="text" class="inter-college input-full" value="${item.title || ''}">
                         </div>
+                        </div>
                         <div style="grid-column: 1 / -1;">
                             <label class="form-label">Description (Event, Prize, etc)</label>
                             <input type="text" class="inter-desc input-full" value="${desc}">
@@ -430,10 +429,7 @@ document.addEventListener('DOMContentLoaded', () => {
                              <input type="hidden" class="entry-id" value="${item.id || ''}">
                              ${getCertHtml(item.certificate_path, item.filename)}
                         </div>
-                        <div class="entry-actions" style="grid-column: 1 / -1; display:flex; gap:10px; margin-top:10px;">
-                            <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
-                            <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
-                        </div>
+                        <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
                     `;
                     return div;
                 });
@@ -455,10 +451,7 @@ document.addEventListener('DOMContentLoaded', () => {
                              <input type="hidden" class="entry-id" value="${item.id || ''}">
                              ${getCertHtml(item.certificate_path, item.filename)}
                         </div>
-                        <div class="entry-actions" style="display:flex; gap:10px; margin-top:10px;">
-                            <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
-                            <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
-                        </div>
+                        <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
                     `;
                     return div;
                 });
@@ -474,10 +467,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
                         <input type="hidden" class="entry-id" value="${item.id || ''}">
                         ${getCertHtml(item.certificate_path, item.filename)}
-                        <div class="entry-actions" style="display:flex; gap:10px; margin-top:10px;">
-                            <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
-                            <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
-                        </div>
+                        <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
                     `;
                     return div;
                 });
@@ -495,10 +485,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
                         <input type="hidden" class="entry-id" value="${item.id || ''}">
                         ${getCertHtml(item.certificate_path, item.filename)}
-                        <div class="entry-actions" style="display:flex; gap:10px; margin-top:10px;">
-                            <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
-                            <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
-                        </div>
+                        <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
                     `;
                     return div;
                 });
@@ -514,10 +501,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
                         <input type="hidden" class="entry-id" value="${item.id || ''}">
                         ${getCertHtml(item.certificate_path, item.filename)}
-                        <div class="entry-actions" style="display:flex; gap:10px; margin-top:10px;">
-                            <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
-                            <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
-                        </div>
+                        <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
                     `;
                     return div;
                 });
@@ -533,10 +517,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
                         <input type="hidden" class="entry-id" value="${item.id || ''}">
                         ${getCertHtml(item.certificate_path, item.filename)}
-                        <div class="entry-actions" style="display:flex; gap:10px; margin-top:10px;">
-                            <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
-                            <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
-                        </div>
+                        <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
                     `;
                     return div;
                 });
@@ -564,10 +545,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
                         <input type="hidden" class="entry-id" value="${item.id || ''}">
                         ${getCertHtml(item.certificate_path, item.filename)}
-                        <div class="entry-actions" style="display:flex; gap:10px; margin-top:10px;">
-                            <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
-                            <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
-                        </div>
+                        <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
                     `;
                     return div;
                 });
@@ -587,10 +565,7 @@ document.addEventListener('DOMContentLoaded', () => {
                              <input type="hidden" class="entry-id" value="${item.id || ''}">
                              ${getCertHtml(item.certificate_path, item.filename)}
                         </div>
-                        <div class="entry-actions" style="grid-column: 1 / -1; display:flex; gap:10px; margin-top:10px;">
-                            <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
-                            <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
-                        </div>
+                        <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
                     `;
                     return div;
                 });
@@ -1193,10 +1168,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <input type="text" class="inter-desc input-full" placeholder="Details">
                         <input type="file" class="inter-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
                     </div>
-                    <div class="entry-actions" style="grid-column: 1 / -1; display:flex; gap:10px; margin-top:10px;">
-                        <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
-                        <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
-                    </div>
+                    <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
                 `;
             interContainer.appendChild(div);
         });
@@ -1241,10 +1213,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <input type="text" class="dept-desc input-full" placeholder="Description">
                         <input type="file" class="dept-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
                     </div>
-                    <div class="entry-actions" style="grid-column: 1 / -1; display:flex; gap:10px; margin-top:10px;">
-                        <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
-                        <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
-                    </div>
+                    <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
                 `;
             intraDeptContainer.appendChild(div);
         });
@@ -1283,10 +1252,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <label class="form-label">Seminar Topic</label>
                 <input type="text" class="seminar-topic input-full" placeholder="Enter Seminar Topic">
                 <input type="file" class="seminar-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
-                <div class="entry-actions" style="display:flex; gap:10px; margin-top:10px;">
-                    <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
-                    <button type="button" class="btn-remove" title="Remove Seminar" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
-                </div>
+                <button type="button" class="btn-remove" title="Remove Seminar"><i class="fas fa-times"></i></button>
             `;
             seminarContainer.appendChild(div);
         });
@@ -1325,10 +1291,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <label class="form-label">Semester (e.g. 3, 4)</label>
                 <input type="number" class="rep-semester input-full" placeholder="Enter Semester" min="1" max="8">
                 <input type="file" class="rep-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
-                <div class="entry-actions" style="display:flex; gap:10px; margin-top:10px;">
-                    <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
-                    <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
-                </div>
+                <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
             `;
             repContainer.appendChild(div);
         });
@@ -1367,10 +1330,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <label class="form-label">Professional Body Name</label>
                 <input type="text" class="membership-name input-full" placeholder="Enter Body Name">
                 <input type="file" class="membership-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
-                <div class="entry-actions" style="display:flex; gap:10px; margin-top:10px;">
-                    <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
-                    <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
-                </div>
+                <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
             `;
             membershipContainer.appendChild(div);
         });
@@ -1409,10 +1369,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <label class="form-label">Certification Name</label>
                 <input type="text" class="moocs-name input-full" placeholder="Enter Certification Name">
                 <input type="file" class="moocs-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
-                <div class="entry-actions" style="display:flex; gap:10px; margin-top:10px;">
-                    <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
-                    <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
-                </div>
+                <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
             `;
             moocsContainer.appendChild(div);
         });
@@ -1459,10 +1416,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </div>
                 <input type="file" class="internship-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
-                <div class="entry-actions" style="display:flex; gap:10px; margin-top:10px;">
-                    <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
-                    <button type="button" class="btn-remove" title="Remove Internship" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
-                </div>
+                <button type="button" class="btn-remove" title="Remove Internship"><i class="fas fa-times"></i></button>
             `;
             internshipContainer.appendChild(div);
         });
@@ -1851,10 +1805,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <label class="form-label">About Activity</label>
                 <input type="text" class="nss-name input-full" placeholder="Enter Activity Description">
                 <input type="file" class="nss-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
-                <div class="entry-actions" style="display:flex; gap:10px; margin-top:10px;">
-                    <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
-                    <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
-                </div>
+                <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
             `;
             nssContainer.appendChild(div);
         });
@@ -1893,10 +1844,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <label class="form-label">Award/Contribution</label>
                 <input type="text" class="ext-awards-name input-full" placeholder="Enter Details">
                 <input type="file" class="ext-awards-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
-                <div class="entry-actions" style="display:flex; gap:10px; margin-top:10px;">
-                    <button type="button" class="btn-save-item" style="background:#2563eb; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;"><i class="fas fa-save"></i> Save</button>
-                    <button type="button" class="btn-remove" title="Remove Entry" style="position:static; padding:8px 16px;"><i class="fas fa-trash"></i> Remove</button>
-                </div>
+                <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
             `;
             extAwardsContainer.appendChild(div);
         });
@@ -2019,10 +1967,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    const declPlace = document.getElementById('declPlace');
-    const declCheck = document.getElementById('declCheck');
-    // declSigInput is already declared at line 2109
-
     if (declPlace) declPlace.addEventListener('input', validateFinalSubmit);
     if (declCheck) declCheck.addEventListener('change', validateFinalSubmit);
     if (declSigInput) declSigInput.addEventListener('change', validateFinalSubmit);
@@ -2143,156 +2087,178 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- INDIVIDUAL SAVING SYSTEM ---
+    // --- SECTION SAVING SYSTEM ---
 
-    async function saveIndividualActivity(btn) {
-        const row = btn.closest('.dynamic-entry');
-        if (!row) return;
+    async function saveSection(btn, containerId, category, type = 'co_curricular') {
+        const container = document.getElementById(containerId);
+        if (!container) return;
 
-        const originalText = btn.innerHTML;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-        btn.disabled = true;
-
-        const fd = new FormData();
-        const entryId = row.querySelector('.entry-id')?.value || '';
-        if (entryId) fd.append('id', entryId);
-
-        // Determine activity category based on container or class
-        let category = '';
-        if (row.closest('#papersListContainer')) category = 'Papers Published';
-        else if (row.closest('#interListContainer')) category = 'Inter-College Activity';
-        else if (row.closest('#intraDeptListContainer')) category = 'Intra-Department Winner';
-        else if (row.closest('#seminarListContainer')) category = 'Seminars Delivered';
-        else if (row.closest('#repListContainer')) category = 'Class Representative';
-        else if (row.closest('#membershipListContainer')) category = 'Professional Body Membership';
-        else if (row.closest('#moocsListContainer')) category = 'MOOCs Certification';
-        else if (row.closest('#internshipListContainer')) category = 'Internship/Consultancy';
-        else if (row.closest('#awardsListContainer')) category = 'Award/Contribution';
-        else if (row.closest('#uniTeamListContainer')) category = 'University Team Selection';
-        else if (row.closest('#outsideListContainer')) category = 'Outside College Activity';
-        else if (row.closest('#withinListContainer')) category = 'Within College Activity';
-        else if (row.closest('#techListContainer')) category = 'Tech Fest Coordinator';
-        else if (row.closest('#otherCoordListContainer')) category = 'Other Coordinator';
-        else if (row.closest('#committeeListContainer')) category = 'Committee Member';
-        else if (row.closest('#nssListContainer')) category = 'NSS/Social Service';
-        else if (row.closest('#extAwardsListContainer')) category = 'Extracurricular Award';
-
-        fd.append('category', category);
-
-        // Collect fields
-        const nameInput = row.querySelector('input[type="text"]:not(.existing-path), textarea:not(.existing-path)');
-        const name = nameInput?.value.trim() || '';
-
-        let description = '';
-        let score = 1;
-        let level = 'Participant';
-
-        // Specific field collection based on classes
-        if (row.classList.contains('inter-entry') || row.classList.contains('intra-dept-entry')) {
-            description = row.querySelector('.inter-desc, .dept-desc')?.value.trim() || '';
-        } else if (row.classList.contains('rep-entry')) {
-            const sem = row.querySelector('.rep-semester')?.value || '';
-            description = sem ? `Semester ${sem}` : '';
-        } else if (row.classList.contains('internship-entry')) {
-            const dur = row.querySelector('.internship-duration')?.value.trim() || '';
-            description = dur ? `Duration: ${dur}` : '';
-        } else if (row.querySelector('select')) {
-            const sel = row.querySelector('select');
-            const val = sel.value;
-            description = sel.options[sel.selectedIndex].text;
-
-            // Score calculation for dropdowns
-            if (val === 'individual') { score = 3; level = 'Individual'; }
-            else if (val === 'group') { score = 2; level = 'Group'; }
-            else if (val === 'prize') {
-                if (category.includes('Outside')) { score = 5; level = 'Winner'; }
-                else { score = 2; level = 'Winner'; }
-            }
-            else if (val === 'college') { score = 2; level = 'College'; }
-        }
-
-        fd.append('name', name);
-        fd.append('description', description);
-        fd.append('level', level);
-        fd.append('score', score);
-
-        const fileInput = row.querySelector('input[type="file"]');
-        if (fileInput?.files[0]) {
-            const vErr = validateFiles(fileInput.files);
-            if (vErr) { alert(vErr); btn.innerHTML = originalText; btn.disabled = false; return; }
-            fd.append('certificate', fileInput.files[0]);
-        }
-
-        try {
-            const res = await fetch(apiBase + '/student/activities/save-single', { method: 'POST', body: fd });
-            const data = await res.json();
-            if (res.ok) {
-                alert('Record saved successfully!');
-                if (data.id) {
-                    let idHidden = row.querySelector('.entry-id');
-                    if (!idHidden) {
-                        idHidden = document.createElement('input');
-                        idHidden.type = 'hidden';
-                        idHidden.className = 'entry-id';
-                        row.appendChild(idHidden);
-                    }
-                    idHidden.value = data.id;
-                }
-            } else { alert('Error: ' + (data.error || 'Failed to save')); }
-        } catch (e) { alert('Network error. Please try again.'); } finally {
-            btn.innerHTML = originalText; btn.disabled = false;
-        }
-    }
-
-    async function saveIndividualAcademic(btn) {
-        const row = btn.closest('.nptel-row, .exam-entry');
-        if (!row) return;
-        const type = btn.getAttribute('data-type');
-        const index = btn.getAttribute('data-index');
+        const entries = container.querySelectorAll('.dynamic-entry');
 
         const originalText = btn.innerHTML;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
         btn.disabled = true;
 
         const fd = new FormData();
         fd.append('type', type);
-        if (index !== null && index !== undefined) fd.append('index', index);
+        fd.append('activity_type', category);
 
-        if (type === 'nptel') {
-            const input = row.querySelector('.nptel-name, .nptel-course');
-            fd.append('name', input?.value.trim() || '');
-        } else {
-            fd.append('name', row.querySelector('.exam-name')?.value.trim() || '');
-            fd.append('score', row.querySelector('.exam-score')?.value.trim() || '');
-        }
+        const dataArr = [];
+        let hasError = false;
 
-        const fileInput = row.querySelector('input[type="file"]');
-        if (fileInput?.files[0]) {
-            const vErr = validateFiles(fileInput.files);
-            if (vErr) { alert(vErr); btn.innerHTML = originalText; btn.disabled = false; return; }
-            fd.append('certificate', fileInput.files[0]);
-        }
+        entries.forEach((row, index) => {
+            const entryId = row.querySelector('.entry-id')?.value || '';
+            const nameInput = row.querySelector('input[type="text"]:not(.existing-path), textarea:not(.existing-path)');
+            const name = nameInput?.value.trim() || '';
+
+            if (!name) return; // Skip empty entries
+
+            let description = '';
+            let score = 1;
+            let level = 'Participant';
+
+            // Category specific logic
+            if (row.classList.contains('inter-entry') || row.classList.contains('intra-dept-entry')) {
+                description = row.querySelector('.inter-desc, .dept-desc')?.value.trim() || '';
+            } else if (row.classList.contains('rep-entry')) {
+                const sem = row.querySelector('.rep-semester')?.value || '';
+                description = sem ? `Semester ${sem}` : '';
+            } else if (row.classList.contains('internship-entry')) {
+                const dur = row.querySelector('.internship-duration')?.value.trim() || '';
+                description = dur ? `Duration: ${dur}` : '';
+            } else if (row.querySelector('select')) {
+                const sel = row.querySelector('select');
+                const val = sel.value;
+                description = sel.options[sel.selectedIndex].text;
+                if (val === 'individual') { score = 3; level = 'Individual'; }
+                else if (val === 'group') { score = 2; level = 'Group'; }
+                else if (val === 'prize') {
+                    if (category.includes('Outside')) { score = 5; level = 'Winner'; }
+                    else { score = 2; level = 'Winner'; }
+                }
+                else if (val === 'college') { score = 2; level = 'College'; }
+            }
+
+            const itemData = { id: entryId, name: name, description: description, level: level, score: score };
+
+            const fileInput = row.querySelector('input[type="file"]');
+            if (fileInput?.files[0]) {
+                const vErr = validateFiles(fileInput.files);
+                if (vErr) { alert(`Error in entry ${index + 1}: ${vErr}`); hasError = true; return; }
+                fd.append(`file_${index}`, fileInput.files[0]);
+            }
+
+            dataArr.push(itemData);
+        });
+
+        if (hasError) { btn.innerHTML = originalText; btn.disabled = false; return; }
+
+        fd.append('entries', JSON.stringify(dataArr));
 
         try {
-            const res = await fetch(apiBase + '/student/academic/save-item', { method: 'POST', body: fd });
+            const res = await fetch(apiBase + '/student/activities/save-section', { method: 'POST', body: fd });
             const data = await res.json();
             if (res.ok) {
-                alert('Item saved!');
-                if (data.index !== undefined) btn.setAttribute('data-index', data.index);
+                alert(`${category} section saved successfully!`);
+                location.reload();
+            } else { alert('Error: ' + (data.error || 'Failed to save section')); }
+        } catch (e) { console.error(e); alert('Network error.'); } finally {
+            btn.innerHTML = originalText; btn.disabled = false;
+        }
+    }
+
+    async function saveAcademicSection(btn, containerId, itemType) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        const entries = container.querySelectorAll('.nptel-row, .exam-entry');
+
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+        btn.disabled = true;
+
+        const fd = new FormData();
+        fd.append('item_type', itemType);
+
+        const dataArr = [];
+        let hasError = false;
+
+        entries.forEach((row, index) => {
+            let itemData = {};
+            if (itemType === 'nptel') {
+                const input = row.querySelector('.nptel-name, .nptel-course');
+                const name = input?.value.trim() || '';
+                if (!name) return;
+                itemData = { name: name };
+            } else {
+                const name = row.querySelector('.exam-name')?.value.trim() || '';
+                if (!name) return;
+                itemData = { name: name, score: row.querySelector('.exam-score')?.value.trim() || '' };
+            }
+
+            const fileInput = row.querySelector('input[type="file"]');
+            if (fileInput?.files[0]) {
+                const vErr = validateFiles(fileInput.files);
+                if (vErr) { alert(`Error in entry ${index + 1}: ${vErr}`); hasError = true; return; }
+                fd.append(`file_${index}`, fileInput.files[0]);
+            }
+            dataArr.push(itemData);
+        });
+
+        if (hasError) { btn.innerHTML = originalText; btn.disabled = false; return; }
+        if (itemType === 'nptel') {
+            fd.append('honours_minors_type', document.querySelector('input[name="degreeType"]:checked')?.value || 'Honours');
+        }
+
+        fd.append('entries', JSON.stringify(dataArr));
+
+        try {
+            const res = await fetch(apiBase + '/student/academic/save-section', { method: 'POST', body: fd });
+            const data = await res.json();
+            if (res.ok) {
+                alert('Academic section saved successfully!');
+                location.reload();
             } else { alert('Error: ' + (data.error || 'Failed to save')); }
         } catch (e) { alert('Connection error.'); } finally {
             btn.innerHTML = originalText; btn.disabled = false;
         }
     }
 
-    // Event Delegation for Save Buttons
-    document.addEventListener('click', (e) => {
-        const saveItemBtn = e.target.closest('.btn-save-item');
-        if (saveItemBtn) { saveIndividualActivity(saveItemBtn); return; }
+    // Wire up section save buttons
+    const sectionButtons = [
+        { id: 'saveHonoursBtn', container: 'courseListContainer', cat: 'nptel', isAcad: true },
+        { id: 'saveExamsBtn', container: 'examListContainer', cat: 'exam', isAcad: true },
+        { id: 'savePapersBtn', container: 'paperListContainer', cat: 'Papers Published' },
+        { id: 'saveInterBtn', container: 'interListContainer', cat: 'Inter-College Activity' },
+        { id: 'saveIntraBtn', container: 'intraDeptListContainer', cat: 'Intra-Department Winner' },
+        { id: 'saveSeminarsBtn', container: 'seminarListContainer', cat: 'Seminars Delivered' },
+        { id: 'saveRepBtn', container: 'repListContainer', cat: 'Class Representative' },
+        { id: 'saveMembershipBtn', container: 'membershipListContainer', cat: 'Professional Body Membership' },
+        { id: 'saveMoocsBtn', container: 'moocsListContainer', cat: 'MOOCs Certification' },
+        { id: 'saveInternshipBtn', container: 'internshipListContainer', cat: 'Internship/Consultancy' },
+        { id: 'saveAwardsBtn', container: 'awardsListContainer', cat: 'Award/Contribution' },
+        { id: 'saveUniTeamBtn', container: 'uniTeamListContainer', cat: 'University Team Selection', type: 'extracurricular' },
+        { id: 'saveOutsideBtn', container: 'outsideListContainer', cat: 'Outside College Activity', type: 'extracurricular' },
+        { id: 'saveWithinBtn', container: 'withinListContainer', cat: 'Within College Activity', type: 'extracurricular' },
+        { id: 'saveTechBtn', container: 'techListContainer', cat: 'Tech Fest Coordinator', type: 'extracurricular' },
+        { id: 'saveOtherCoordBtn', container: 'otherCoordListContainer', cat: 'Other Coordinator', type: 'extracurricular' },
+        { id: 'saveCommitteeBtn', container: 'committeeListContainer', cat: 'Committee Member', type: 'extracurricular' },
+        { id: 'saveNssBtn', container: 'nssListContainer', cat: 'NSS/Social Service', type: 'extracurricular' },
+        { id: 'saveExtAwardsBtn', container: 'extAwardsListContainer', cat: 'Extracurricular Award', type: 'extracurricular' }
+    ];
 
-        const saveAcademicBtn = e.target.closest('.btn-save-academic');
-        if (saveAcademicBtn) { saveIndividualAcademic(saveAcademicBtn); return; }
+    sectionButtons.forEach(config => {
+        const btn = document.getElementById(config.id);
+        if (btn) {
+            btn.addEventListener('click', () => {
+                if (config.isAcad) {
+                    saveAcademicSection(btn, config.container, config.cat);
+                } else {
+                    saveSection(btn, config.container, config.cat, config.type || 'co_curricular');
+                }
+            });
+        }
     });
+
 
     // Initialize
     initDashboard();

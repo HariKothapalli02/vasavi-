@@ -219,8 +219,10 @@
                                                 <button type="button" class="btn-remove" title="Remove Course"><i class="fas fa-times"></i></button>
                                             </div>
                                         </div>
-                                        <button type="button" id="addCourseBtn" class="btn-secondary"><i
-                                                class="fas fa-plus"></i> Add Course</button>
+                                        <div class="actions" style="margin-top: 1rem; display: flex; gap: 10px;">
+                                            <button type="button" id="addCourseBtn" class="btn-secondary"><i class="fas fa-plus"></i> Add Course</button>
+                                            <button type="button" id="saveHonoursBtn" class="btn-action"><i class="fas fa-save"></i> Save Honours/Minors</button>
+                                        </div>
                                     </div>
                                 </div>
                             
@@ -254,8 +256,10 @@
                                             <button type="button" class="btn-remove" title="Remove Exam"><i class="fas fa-times"></i></button>
                                         </div>
                                     </div>
-                                    <button type="button" id="addExamBtn" class="btn-secondary"><i
-                                            class="fas fa-plus"></i> Add Exam</button>
+                                    <div class="actions" style="margin-top: 1rem; display: flex; gap: 10px;">
+                                        <button type="button" id="addExamBtn" class="btn-secondary"><i class="fas fa-plus"></i> Add Exam</button>
+                                        <button type="button" id="saveExamsBtn" class="btn-action"><i class="fas fa-save"></i> Save Exam Details</button>
+                                    </div>
                                 </div>
                             
 
@@ -282,9 +286,9 @@
                             </div>
                             <div id="paperDetails" class="hidden activity-details">
                                 <div id="paperListContainer"></div>
-                                <div class="actions">
-                                    <button type="button" id="addPaperBtn" class="btn-secondary"><i
-                                            class="fas fa-plus"></i> Add Paper</button>
+                                <div class="actions" style="display: flex; gap: 10px;">
+                                    <button type="button" id="addPaperBtn" class="btn-secondary"><i class="fas fa-plus"></i> Add Paper</button>
+                                    <button type="button" id="savePapersBtn" class="btn-action"><i class="fas fa-save"></i> Save Papers</button>
                                 </div>
                             </div>
                         </div>
@@ -337,9 +341,10 @@
                             </div>
                             <div id="seminarDetails" class="hidden activity-details">
                                 <div id="seminarListContainer"></div>
-                                <div class="actions">
+                                <div class="actions" style="display: flex; gap: 10px;">
                                     <button type="button" id="addSeminarBtn" class="btn-secondary"><i
                                             class="fas fa-plus"></i> Add Seminar</button>
+                                    <button type="button" id="saveSeminarsBtn" class="btn-action"><i class="fas fa-save"></i> Save Seminars</button>
                                 </div>
                             </div>
                         </div>
@@ -354,9 +359,10 @@
                             </div>
                             <div id="repDetails" class="hidden activity-details">
                                 <div id="repListContainer"></div>
-                                <div class="actions">
+                                <div class="actions" style="display: flex; gap: 10px;">
                                     <button type="button" id="addRepBtn" class="btn-secondary"><i
                                             class="fas fa-plus"></i> Add Semester</button>
+                                    <button type="button" id="saveRepBtn" class="btn-action"><i class="fas fa-save"></i> Save Roles</button>
                                 </div>
                             </div>
                         </div>
@@ -373,9 +379,10 @@
                             </div>
                             <div id="membershipDetails" class="hidden activity-details">
                                 <div id="membershipListContainer"></div>
-                                <div class="actions">
+                                <div class="actions" style="display: flex; gap: 10px;">
                                     <button type="button" id="addMembershipBtn" class="btn-secondary"><i
                                             class="fas fa-plus"></i> Add Membership</button>
+                                    <button type="button" id="saveMembershipBtn" class="btn-action"><i class="fas fa-save"></i> Save Memberships</button>
                                 </div>
                             </div>
                         </div>
@@ -409,9 +416,10 @@
                             </div>
                             <div id="internshipDetails" class="hidden activity-details">
                                 <div id="internshipListContainer"></div>
-                                <div class="actions">
+                                <div class="actions" style="display: flex; gap: 10px;">
                                     <button type="button" id="addInternshipBtn" class="btn-secondary"><i
                                             class="fas fa-plus"></i> Add Internship</button>
+                                    <button type="button" id="saveInternshipBtn" class="btn-action"><i class="fas fa-save"></i> Save Internships</button>
                                 </div>
                             </div>
                         </div>
@@ -426,9 +434,10 @@
                             </div>
                             <div id="awardsDetails" class="hidden activity-details">
                                 <div id="awardsListContainer"></div>
-                                <div class="actions">
+                                <div class="actions" style="display: flex; gap: 10px;">
                                     <button type="button" id="addAwardsBtn" class="btn-secondary"><i
                                             class="fas fa-plus"></i> Add Contribution</button>
+                                    <button type="button" id="saveAwardsBtn" class="btn-action"><i class="fas fa-save"></i> Save Contributions</button>
                                 </div>
                             </div>
                         </div>
@@ -457,9 +466,10 @@
                             </div>
                             <div id="uniTeamDetails" class="hidden activity-details">
                                 <div id="uniTeamListContainer"></div>
-                                <div class="actions">
+                                <div class="actions" style="display: flex; gap: 10px;">
                                     <button type="button" id="addUniTeamBtn" class="btn-secondary"><i
                                             class="fas fa-plus"></i> Add Selection</button>
+                                    <button type="button" id="saveUniTeamBtn" class="btn-action"><i class="fas fa-save"></i> Save Team Info</button>
                                 </div>
                             </div>
                         </div>
@@ -475,9 +485,10 @@
                             </div>
                             <div id="outsideDetails" class="hidden activity-details">
                                 <div id="outsideListContainer"></div>
-                                <div class="actions">
+                                <div class="actions" style="display: flex; gap: 10px;">
                                     <button type="button" id="addOutsideBtn" class="btn-secondary"><i
                                             class="fas fa-plus"></i> Add Event</button>
+                                    <button type="button" id="saveOutsideBtn" class="btn-action"><i class="fas fa-save"></i> Save Events</button>
                                 </div>
                             </div>
                         </div>
@@ -492,9 +503,10 @@
                             </div>
                             <div id="withinDetails" class="hidden activity-details">
                                 <div id="withinListContainer"></div>
-                                <div class="actions">
+                                <div class="actions" style="display: flex; gap: 10px;">
                                     <button type="button" id="addWithinBtn" class="btn-secondary"><i
                                             class="fas fa-plus"></i> Add Event</button>
+                                    <button type="button" id="saveWithinBtn" class="btn-action"><i class="fas fa-save"></i> Save Events</button>
                                 </div>
                             </div>
                         </div>
@@ -509,9 +521,10 @@
                             </div>
                             <div id="techDetails" class="hidden activity-details">
                                 <div id="techListContainer"></div>
-                                <div class="actions">
+                                <div class="actions" style="display: flex; gap: 10px;">
                                     <button type="button" id="addTechBtn" class="btn-secondary"><i
                                             class="fas fa-plus"></i> Add Role</button>
+                                    <button type="button" id="saveTechBtn" class="btn-action"><i class="fas fa-save"></i> Save Roles</button>
                                 </div>
                             </div>
                         </div>
@@ -528,9 +541,10 @@
                             </div>
                             <div id="otherCoordDetails" class="hidden activity-details">
                                 <div id="otherCoordListContainer"></div>
-                                <div class="actions">
+                                <div class="actions" style="display: flex; gap: 10px;">
                                     <button type="button" id="addOtherCoordBtn" class="btn-secondary"><i
                                             class="fas fa-plus"></i> Add Role</button>
+                                    <button type="button" id="saveOtherCoordBtn" class="btn-action"><i class="fas fa-save"></i> Save Roles</button>
                                 </div>
                             </div>
                         </div>
@@ -547,9 +561,10 @@
                             </div>
                             <div id="committeeDetails" class="hidden activity-details">
                                 <div id="committeeListContainer"></div>
-                                <div class="actions">
+                                <div class="actions" style="display: flex; gap: 10px;">
                                     <button type="button" id="addCommitteeBtn" class="btn-secondary"><i
                                             class="fas fa-plus"></i> Add Committee</button>
+                                    <button type="button" id="saveCommitteeBtn" class="btn-action"><i class="fas fa-save"></i> Save Committees</button>
                                 </div>
                             </div>
                         </div>
@@ -583,9 +598,10 @@
                             </div>
                             <div id="extAwardsDetails" class="hidden activity-details">
                                 <div id="extAwardsListContainer"></div>
-                                <div class="actions">
+                                <div class="actions" style="display: flex; gap: 10px;">
                                     <button type="button" id="addExtAwardsBtn" class="btn-secondary"><i
                                             class="fas fa-plus"></i> Add Contribution</button>
+                                    <button type="button" id="saveExtAwardsBtn" class="btn-action"><i class="fas fa-save"></i> Save Awards</button>
                                 </div>
                             </div>
                         </div>

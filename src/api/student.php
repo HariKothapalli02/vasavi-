@@ -198,6 +198,83 @@ if ($method === 'GET') {
             }
             echo json_encode(['message' => 'Academic records updated']);
 
+        } elseif ($action === 'activities/save-section') {
+            $type = $_POST['type'] ?? 'co_curricular';
+            $activity_type = $_POST['activity_type'] ?? '';
+            $entries = json_decode($_POST['entries'] ?? '[]', true);
+            $tableName = ($type === 'co_curricular') ? 'co_curricular' : 'extracurricular';
+
+            // Start "Transaction" - Delete existing for this category
+            db_run("DELETE FROM $tableName WHERE user_id = ? AND activity_type = ?", [$userId, $activity_type]);
+
+            $savedCount = 0;
+            foreach ($entries as $index => $item) {
+                $certPath = $item['existing_path'] ?? null;
+                $newFileId = handleFileUpload($_FILES["file_$index"] ?? null, $userId);
+                if ($newFileId) $certPath = $newFileId;
+
+                if ($type === 'co_curricular') {
+                    db_run("INSERT INTO co_curricular (user_id, activity_type, title, description, date, certificate_path, score) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                        [$userId, $activity_type, $item['name'] ?? '', $item['description'] ?? '', date('Y-m-d H:i:s'), $certPath, $item['score'] ?? 0]);
+                } else {
+                    db_run("INSERT INTO extracurricular (user_id, activity_type, title, description, level, certificate_path, score) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                        [$userId, $activity_type, $item['name'] ?? '', $item['description'] ?? '', $item['level'] ?? 'District', $certPath, $item['score'] ?? 0]);
+                }
+                $savedCount++;
+            }
+            echo json_encode(['message' => "Section $activity_type saved successfully", 'count' => $savedCount]);
+
+        } elseif ($action === 'academic/save-section') {
+            $itemType = $_POST['item_type'] ?? ''; // 'nptel' or 'exam'
+            $entries = json_decode($_POST['entries'] ?? '[]', true);
+
+            $existing = db_get("SELECT * FROM academic_records WHERE user_id = ?", [$userId]);
+            if (!$existing) {
+                db_run("INSERT INTO academic_records (user_id, honours_minors, competitive_exams) VALUES (?, 'No', 'No')", [$userId]);
+                $existing = db_get("SELECT * FROM academic_records WHERE user_id = ?", [$userId]);
+            }
+
+            $currentHonours = json_decode($existing['honours_minors'] ?? '[]', true);
+            $currentExams = json_decode($existing['competitive_exams'] ?? '[]', true);
+
+            $updatedData = [];
+            foreach ($entries as $index => $item) {
+                $certPath = $item['existing_path'] ?? null;
+                
+                // For existing records, we might need to find the old path if not provided
+                if (!$certPath) {
+                    if ($itemType === 'nptel' && isset($currentHonours['courses'])) {
+                        foreach ($currentHonours['courses'] as $old) {
+                            if ($old['name'] === $item['name']) { $certPath = $old['certificate_path']; break; }
+                        }
+                    } elseif ($itemType === 'exam' && is_array($currentExams)) {
+                        foreach ($currentExams as $old) {
+                            if ($old['name'] === $item['name']) { $certPath = $old['certificate_path']; break; }
+                        }
+                    }
+                }
+
+                $newFileId = handleFileUpload($_FILES["file_$index"] ?? null, $userId);
+                if ($newFileId) $certPath = $newFileId;
+
+                if ($itemType === 'nptel') {
+                    $updatedData[] = ['name' => $item['name'], 'certificate_path' => $certPath];
+                } else {
+                    $updatedData[] = ['name' => $item['name'], 'score' => $item['score'] ?? '', 'certificate_path' => $certPath];
+                }
+            }
+
+            if ($itemType === 'nptel') {
+                $type = $_POST['honours_minors_type'] ?? 'Honours';
+                $finalHonours = json_encode(['type' => $type, 'courses' => $updatedData]);
+                db_run("UPDATE academic_records SET honours_minors = ? WHERE user_id = ?", [$finalHonours, $userId]);
+            } else {
+                $finalExams = json_encode($updatedData);
+                db_run("UPDATE academic_records SET competitive_exams = ? WHERE user_id = ?", [$finalExams, $userId]);
+            }
+
+            echo json_encode(['message' => "Academic $itemType section saved"]);
+
         } elseif ($action === 'activities/save-single') {
             $type = $_POST['type'] ?? 'co_curricular';
             $activity_type = $_POST['activity_type'] ?? '';
