@@ -65,6 +65,7 @@ function handleFileUpload($fileArray, $userId) {
     return "FILE:" . db_last_id();
 }
 
+if ($method === 'GET') {
     // Force fresh data from server
     header("Cache-Control: no-cache, must-revalidate");
     // Release session lock early for read operations to improve performance
