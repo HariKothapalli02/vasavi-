@@ -40,7 +40,7 @@ function handleFileUpload($fileArray, $userId) {
 
     if ($fileArray['error'] !== UPLOAD_ERR_OK) {
         $errorMsgs = [
-            UPLOAD_ERR_INI_SIZE   => "File exceeds server's maximum allowed size (post_max_size/upload_max_filesize).",
+            UPLOAD_ERR_INI_SIZE   => "File exceeds server's maximum allowed size.",
             UPLOAD_ERR_FORM_SIZE  => "File exceeds the maximum size specified in the form.",
             UPLOAD_ERR_PARTIAL    => "The file was only partially uploaded.",
             UPLOAD_ERR_NO_TMP_DIR => "Missing a temporary folder on the server.",
@@ -49,6 +49,28 @@ function handleFileUpload($fileArray, $userId) {
         ];
         $msg = $errorMsgs[$fileArray['error']] ?? "Unknown upload error ({$fileArray['error']}).";
         throw new Exception($msg);
+    }
+
+    // 1. Enforce 5MB limit (5 * 1024 * 1024 bytes)
+    $maxSize = 5 * 1024 * 1024;
+    if ($fileArray['size'] > $maxSize) {
+        throw new Exception("File is too large. Maximum size allowed is 5MB.");
+    }
+
+    // 2. Enforce File Type Restriction (PDF, PNG, JPG, JPEG)
+    $allowedExtensions = ['pdf', 'png', 'jpg', 'jpeg'];
+    $fileExt = strtolower(pathinfo($fileArray['name'], PATHINFO_EXTENSION));
+    
+    if (!in_array($fileExt, $allowedExtensions)) {
+        throw new Exception("Invalid file type (.$fileExt). Only PDF, PNG, JPG, and JPEG are allowed.");
+    }
+
+    // Optional: MIME type verification for better security
+    $allowedMime = ['application/pdf', 'image/png', 'image/jpeg', 'image/jpg'];
+    if (!in_array($fileArray['type'], $allowedMime)) {
+        // Some systems might use different MIME types, so we check both extension and mime
+        // but extension is what the user specifically asked for. 
+        // We'll proceed with extension check as primary.
     }
 
     $fileData = file_get_contents($fileArray['tmp_name']);

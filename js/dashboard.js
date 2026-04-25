@@ -218,13 +218,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const photoInput = document.getElementById('pPhoto');
             if (photoInput && photoInput.files[0]) {
+                const validationError = validateFiles(photoInput.files);
+                if (validationError) {
+                    alert(validationError);
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                    return;
+                }
                 fd.append('profile_photo', photoInput.files[0]);
             }
 
             try {
                 const res = await fetch(apiBase + '/student/profile', {
                     method: 'POST',
-                    body: fd // No Content-Type header when using FormData
+                    body: fd
                 });
                 if (res.ok) {
                     alert('Profile Updated Successfully!');
@@ -234,25 +241,19 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (pp) pp.src = apiBase + '/files/' + data.profile_photo.replace('FILE:', '');
                     }
                 } else {
-                    let errMsg = 'Unknown error';
+                    let errMsg = 'Error updating profile';
                     try {
-                        const text = await res.text();
-                        try {
-                            const errData = JSON.parse(text);
-                            errMsg = errData.error || text; // Use JSON error or full text
-                        } catch (jsonErr) {
-                            // Valid JSON parse error, so it's HTML or plain text
-                            console.error('Server returned non-JSON error:', text);
-                            errMsg = `Server Error (${res.status}): ${text.substring(0, 100)}...`;
-                        }
-                    } catch (readErr) {
-                        errMsg = `Could not read response: ${readErr.message}`;
+                        const errData = await res.json();
+                        errMsg = errData.error || errMsg;
+                    } catch (e) {
+                        const raw = await res.text();
+                        if (raw) errMsg = raw.substring(0, 100);
                     }
-                    alert('Error updating profile: ' + errMsg);
+                    alert(errMsg);
                 }
             } catch (e) {
                 console.error('Fetch error:', e);
-                alert(`Network Error Details: ${e.message}\n${e.stack || ''}`);
+                alert(`Network Error: ${e.message}`);
             } finally {
                 btn.innerHTML = originalText;
                 btn.disabled = false;
@@ -996,150 +997,98 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Co-Curricular & Extracurricular Add/Save Logic ---
 
     // Master Save: Co-Curricular (CONSOLIDATED)
+    const validateFiles = (files) => {
+        const allowed = ['pdf', 'png', 'jpg', 'jpeg'];
+        const maxSize = 5 * 1024 * 1024; // 5MB
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const ext = file.name.split('.').pop().toLowerCase();
+            if (!allowed.includes(ext)) {
+                return `Invalid file type: ${file.name}. Only PDF, PNG, JPG, and JPEG are allowed.`;
+            }
+            if (file.size > maxSize) {
+                return `File too large: ${file.name}. Maximum size is 5MB.`;
+            }
+        }
+        return null;
+    };
+
+    // Master Save: Co-Curricular (CONSOLIDATED)
     const saveCoCurricularMasterBtn = document.getElementById('saveCoCurricularMasterBtn');
     if (saveCoCurricularMasterBtn) {
         saveCoCurricularMasterBtn.addEventListener('click', async (e) => {
             e.preventDefault();
             const btn = saveCoCurricularMasterBtn;
+
+            const fd = new FormData();
+            fd.append('type', 'co_curricular');
+            const data = {};
+            const allSelectedFiles = [];
+
+            // Helper to collect files and data
+            const collect = (selector, activityType, filePrefix, score) => {
+                const items = [];
+                document.querySelectorAll(selector).forEach((div, idx) => {
+                    const title = (div.querySelector('.paper-title') || div.querySelector('.inter-college') || div.querySelector('.dept-event') || div.querySelector('.seminar-topic') || div.querySelector('.rep-semester') || div.querySelector('.membership-name') || div.querySelector('.moocs-name') || div.querySelector('.internship-name') || div.querySelector('.awards-name'))?.value.trim() || '';
+                    const desc = (div.querySelector('.paper-journal') || div.querySelector('.inter-desc') || div.querySelector('.dept-desc') || div.querySelector('.internship-duration'))?.value.trim() || '';
+                    const fileInput = div.querySelector('input[type="file"]');
+                    const existingPath = div.querySelector('.existing-path')?.value || null;
+
+                    if (title || desc) {
+                        items.push({ name: title, description: desc, score: score, existing_path: existingPath });
+                        if (fileInput?.files[0]) {
+                            allSelectedFiles.push(fileInput.files[0]);
+                            fd.append(`file_${filePrefix.replace(/ /g, '_')}_${items.length - 1}`, fileInput.files[0]);
+                        }
+                    }
+                });
+                data[activityType] = items;
+            };
+
+            collect('.paper-entry', 'Paper Publications', 'Paper_Publications', 3);
+            collect('.inter-entry', 'Inter-College Activity', 'Inter-College_Activity', 3);
+            collect('.intra-dept-entry', 'Intra-Department Winner', 'Intra-Department_Winner', 1);
+            collect('.seminar-entry', 'Seminars Delivered', 'Seminars_Delivered', 2);
+            collect('.rep-entry', 'Class Representative', 'Class_Representative', 2);
+            collect('.membership-entry', 'Professional Body Membership', 'Professional_Body_Membership', 1);
+            collect('.moocs-entry', 'MOOCs Certification', 'MOOCs_Certification', 2);
+            collect('.internship-entry', 'Internship/Consultancy', 'Internship/Consultancy', 2);
+            collect('.awards-entry', 'Award/Contribution', 'Award/Contribution', 2);
+
+            // 1. Client-side Validation (Type & Size)
+            const validationError = validateFiles(allSelectedFiles);
+            if (validationError) {
+                alert(validationError);
+                return;
+            }
+
+            // 2. 10+ Files Prompt
+            if (allSelectedFiles.length > 10) {
+                if (!confirm(`You are uploading ${allSelectedFiles.length} files at once. Large uploads may fail depending on your internet speed. Would you like to save these now and continue?`)) {
+                    return;
+                }
+            }
+
             const originalText = btn.innerHTML;
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving All...';
             btn.disabled = true;
 
             try {
-                const fd = new FormData();
-                fd.append('type', 'co_curricular');
-                const data = {};
-
-                // 1. Papers
-                const papers = [];
-                document.querySelectorAll('.paper-entry').forEach((div, idx) => {
-                    const journal = div.querySelector('.paper-journal')?.value.trim() || '';
-                    const title = div.querySelector('.paper-title')?.value.trim() || '';
-                    const fileInput = div.querySelector('.paper-file');
-                    const existingPath = div.querySelector('.existing-path')?.value || null;
-                    if (journal || title) {
-                        papers.push({ name: title, description: journal, score: 3, existing_path: existingPath });
-                        if (fileInput?.files[0]) fd.append(`file_Paper_Publications_${papers.length - 1}`, fileInput.files[0]);
-                    }
-                });
-                data['Paper Publications'] = papers;
-
-                // 2. Inter-College
-                const inter = [];
-                document.querySelectorAll('.inter-entry').forEach((div, idx) => {
-                    const college = div.querySelector('.inter-college')?.value.trim() || '';
-                    const desc = div.querySelector('.inter-desc')?.value.trim() || '';
-                    const fileInput = div.querySelector('.inter-file');
-                    const existingPath = div.querySelector('.existing-path')?.value || null;
-                    if (college || desc) {
-                        inter.push({ name: college, description: desc, score: 3, existing_path: existingPath });
-                        if (fileInput?.files[0]) fd.append(`file_Inter-College_Activity_${inter.length - 1}`, fileInput.files[0]);
-                    }
-                });
-                data['Inter-College Activity'] = inter;
-
-                // 3. Intra-Dept
-                const intra = [];
-                document.querySelectorAll('.intra-dept-entry').forEach((div, idx) => {
-                    const event = div.querySelector('.dept-event')?.value.trim() || '';
-                    const desc = div.querySelector('.dept-desc')?.value.trim() || '';
-                    const fileInput = div.querySelector('.dept-file');
-                    const existingPath = div.querySelector('.existing-path')?.value || null;
-                    if (event || desc) {
-                        intra.push({ name: event, description: desc, score: 1, existing_path: existingPath });
-                        if (fileInput?.files[0]) fd.append(`file_Intra-Department_Winner_${intra.length - 1}`, fileInput.files[0]);
-                    }
-                });
-                data['Intra-Department Winner'] = intra;
-
-                // 4. Seminars
-                const seminars = [];
-                document.querySelectorAll('.seminar-entry').forEach((div, idx) => {
-                    const topic = div.querySelector('.seminar-topic')?.value.trim() || '';
-                    const fileInput = div.querySelector('.seminar-file');
-                    const existingPath = div.querySelector('.existing-path')?.value || null;
-                    if (topic) {
-                        seminars.push({ name: topic, description: 'Seminar', score: 2, existing_path: existingPath });
-                        if (fileInput?.files[0]) fd.append(`file_Seminars_Delivered_${seminars.length - 1}`, fileInput.files[0]);
-                    }
-                });
-                data['Seminars Delivered'] = seminars;
-
-                // 5. Class Rep
-                const rep = [];
-                document.querySelectorAll('.rep-entry').forEach((div, idx) => {
-                    const sem = div.querySelector('.rep-semester')?.value.trim() || '';
-                    const fileInput = div.querySelector('.rep-file');
-                    const existingPath = div.querySelector('.existing-path')?.value || null;
-                    if (sem) {
-                        rep.push({ name: `Semester ${sem}`, description: 'Class Representative', score: 2, existing_path: existingPath });
-                        if (fileInput?.files[0]) fd.append(`file_Class_Representative_${rep.length - 1}`, fileInput.files[0]);
-                    }
-                });
-                data['Class Representative'] = rep;
-
-                // 6. Membership
-                const mem = [];
-                document.querySelectorAll('.membership-entry').forEach((div, idx) => {
-                    const name = div.querySelector('.membership-name')?.value.trim() || '';
-                    const fileInput = div.querySelector('.membership-file');
-                    const existingPath = div.querySelector('.existing-path')?.value || null;
-                    if (name) {
-                        mem.push({ name: name, description: 'Member of Professional Body', score: 1, existing_path: existingPath });
-                        if (fileInput?.files[0]) fd.append(`file_Professional_Body_Membership_${mem.length - 1}`, fileInput.files[0]);
-                    }
-                });
-                data['Professional Body Membership'] = mem;
-
-                // 7. MOOCs
-                const moocs = [];
-                document.querySelectorAll('.moocs-entry').forEach((div, idx) => {
-                    const name = div.querySelector('.moocs-name')?.value.trim() || '';
-                    const fileInput = div.querySelector('.moocs-file');
-                    const existingPath = div.querySelector('.existing-path')?.value || null;
-                    if (name) {
-                        moocs.push({ name: name, description: 'MOOCs Certification', score: 2, existing_path: existingPath });
-                        if (fileInput?.files[0]) fd.append(`file_MOOCs_Certification_${moocs.length - 1}`, fileInput.files[0]);
-                    }
-                });
-                data['MOOCs Certification'] = moocs;
-
-                // 8. Internship
-                const intern = [];
-                document.querySelectorAll('.internship-entry').forEach((div, idx) => {
-                    const name = div.querySelector('.internship-name')?.value.trim() || '';
-                    const duration = div.querySelector('.internship-duration')?.value.trim() || '';
-                    const fileInput = div.querySelector('.internship-file');
-                    const existingPath = div.querySelector('.existing-path')?.value || null;
-                    if (name) {
-                        intern.push({ name: name, description: `Duration: ${duration}`, score: 2, existing_path: existingPath });
-                        if (fileInput?.files[0]) fd.append(`file_Internship/Consultancy_${intern.length - 1}`, fileInput.files[0]);
-                    }
-                });
-                data['Internship/Consultancy'] = intern;
-
-                // 9. Awards
-                const awards = [];
-                document.querySelectorAll('.awards-entry').forEach((div, idx) => {
-                    const name = div.querySelector('.awards-name')?.value.trim() || '';
-                    const fileInput = div.querySelector('.awards-file');
-                    const existingPath = div.querySelector('.existing-path')?.value || null;
-                    if (name) {
-                        awards.push({ name: name, description: 'Significant Contribution', score: 2, existing_path: existingPath });
-                        if (fileInput?.files[0]) fd.append(`file_Award/Contribution_${awards.length - 1}`, fileInput.files[0]);
-                    }
-                });
-                data['Award/Contribution'] = awards;
-
                 fd.append('data', JSON.stringify(data));
-
                 const res = await fetch(apiBase + '/student/activities/save-all', { method: 'POST', body: fd });
                 if (res.ok) {
                     alert('All Co-Curricular Activities Saved Successfully!');
+                    location.reload(); // Reload to refresh existing paths and UI
                 } else {
-                    const errStr = await res.text();
-                    console.error('Bulk save error:', errStr);
-                    alert('Error saving activities. Please try again.');
+                    let errMsg = 'Error saving activities. Please try again.';
+                    try {
+                        const errData = await res.json();
+                        errMsg = errData.error || errMsg;
+                    } catch (e) {
+                        const raw = await res.text();
+                        if (raw) errMsg = raw.substring(0, 100);
+                    }
+                    alert(errMsg);
                 }
             } catch (err) {
                 console.error(err);
@@ -1157,169 +1106,85 @@ document.addEventListener('DOMContentLoaded', () => {
         saveExtracurricularMasterBtn.addEventListener('click', async (e) => {
             e.preventDefault();
             const btn = saveExtracurricularMasterBtn;
+
+            const fd = new FormData();
+            fd.append('type', 'extracurricular');
+            const data = {};
+            const allSelectedFiles = [];
+
+            const collectExt = (selector, activityType, filePrefix) => {
+                const items = [];
+                document.querySelectorAll(selector).forEach((div, idx) => {
+                    const name = (div.querySelector('.uni-team-name') || div.querySelector('.outside-name') || div.querySelector('.within-name') || div.querySelector('.tech-name') || div.querySelector('.other-coord-name') || div.querySelector('.committee-name') || div.querySelector('.nss-name') || div.querySelector('.ext-awards-name'))?.value.trim() || '';
+                    const type = (div.querySelector('.uni-team-type') || div.querySelector('.outside-type') || div.querySelector('.within-type') || div.querySelector('.tech-type') || div.querySelector('.other-coord-type'))?.value || '';
+                    const fileInput = div.querySelector('input[type="file"]');
+                    const existingPath = div.querySelector('.existing-path')?.value || null;
+
+                    if (name) {
+                        let score = 1; let level = 'Participant'; let desc = '';
+                        if (selector.includes('uni-team')) {
+                            score = type === 'individual' ? 3 : 2; level = type === 'individual' ? 'Individual' : 'Group'; desc = `Selection Type: ${type}`;
+                        } else if (selector.includes('outside')) {
+                            score = type === 'prize' ? 5 : 1; level = type === 'prize' ? 'Winner' : 'Participant'; desc = `Achievement: ${type}`;
+                        } else if (selector.includes('within')) {
+                            score = type === 'prize' ? 2 : 1; level = type === 'prize' ? 'Winner' : 'Participant'; desc = `Achievement: ${type}`;
+                        } else if (selector.includes('tech-entry') || selector.includes('other-coord')) {
+                            score = type === 'college' ? 2 : 1; level = type === 'college' ? 'College' : 'Department'; desc = `Level: ${type}`;
+                        }
+
+                        items.push({ name, description: desc, level, score, existing_path: existingPath });
+                        if (fileInput?.files[0]) {
+                            allSelectedFiles.push(fileInput.files[0]);
+                            fd.append(`file_${filePrefix.replace(/ /g, '_')}_${items.length - 1}`, fileInput.files[0]);
+                        }
+                    }
+                });
+                data[activityType] = items;
+            };
+
+            collectExt('.uni-team-entry', 'University Team Selection', 'University_Team_Selection');
+            collectExt('.outside-entry', 'Outside College Activity', 'Outside_College_Activity');
+            collectExt('.within-entry', 'Within College Activity', 'Within_College_Activity');
+            collectExt('.tech-entry', 'Tech Fest Coordinator', 'Tech_Fest_Coordinator');
+            collectExt('.other-coord-entry', 'Other Coordinator', 'Other_Coordinator');
+            collectExt('.committee-entry', 'Committee Member', 'Committee_Member');
+            collectExt('.nss-entry', 'NSS/Social Service', 'NSS/Social_Service');
+            collectExt('.ext-awards-entry', 'Extracurricular Award', 'Extracurricular_Award');
+
+            // 1. Client-side Validation
+            const validationError = validateFiles(allSelectedFiles);
+            if (validationError) {
+                alert(validationError);
+                return;
+            }
+
+            // 2. 10+ Files Prompt
+            if (allSelectedFiles.length > 10) {
+                if (!confirm(`You are uploading ${allSelectedFiles.length} files at once. Large uploads may fail depending on your internet speed. Would you like to save these now and continue?`)) {
+                    return;
+                }
+            }
+
             const originalText = btn.innerHTML;
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving All...';
             btn.disabled = true;
 
             try {
-                const fd = new FormData();
-                fd.append('type', 'extracurricular');
-                const data = {};
-
-                // 1. Uni Team
-                const uni = [];
-                document.querySelectorAll('.uni-team-entry').forEach((div, idx) => {
-                    const name = div.querySelector('.uni-team-name')?.value.trim() || '';
-                    const type = div.querySelector('.uni-team-type')?.value;
-                    const fileInput = div.querySelector('.uni-team-file');
-                    const existingPath = div.querySelector('.existing-path')?.value || null;
-                    if (name) {
-                        uni.push({
-                            name: name,
-                            description: `Selection Type: ${type}`,
-                            level: type === 'individual' ? 'Individual' : 'Group',
-                            score: type === 'individual' ? 3 : 2,
-                            existing_path: existingPath
-                        });
-                        if (fileInput?.files[0]) fd.append(`file_University_Team_Selection_${uni.length - 1}`, fileInput.files[0]);
-                    }
-                });
-                data['University Team Selection'] = uni;
-
-                // 2. Outside
-                const outside = [];
-                document.querySelectorAll('.outside-entry').forEach((div, idx) => {
-                    const name = div.querySelector('.outside-name')?.value.trim() || '';
-                    const type = div.querySelector('.outside-type')?.value;
-                    const fileInput = div.querySelector('.outside-file');
-                    const existingPath = div.querySelector('.existing-path')?.value || null;
-                    if (name) {
-                        outside.push({
-                            name,
-                            description: `Achievement: ${type}`,
-                            level: type === 'prize' ? 'Winner' : 'Participant',
-                            score: type === 'prize' ? 5 : 1,
-                            existing_path: existingPath
-                        });
-                        if (fileInput?.files[0]) fd.append(`file_Outside_College_Activity_${outside.length - 1}`, fileInput.files[0]);
-                    }
-                });
-                data['Outside College Activity'] = outside;
-
-                // 3. Within
-                const within = [];
-                document.querySelectorAll('.within-entry').forEach((div, idx) => {
-                    const name = div.querySelector('.within-name')?.value.trim() || '';
-                    const type = div.querySelector('.within-type')?.value;
-                    const fileInput = div.querySelector('.within-file');
-                    const existingPath = div.querySelector('.existing-path')?.value || null;
-                    if (name) {
-                        within.push({
-                            name,
-                            description: `Achievement: ${type}`,
-                            level: type === 'prize' ? 'Winner' : 'Participant',
-                            score: type === 'prize' ? 2 : 1,
-                            existing_path: existingPath
-                        });
-                        if (fileInput?.files[0]) fd.append(`file_Within_College_Activity_${within.length - 1}`, fileInput.files[0]);
-                    }
-                });
-                data['Within College Activity'] = within;
-
-                // 4. Tech Fest
-                const tech = [];
-                document.querySelectorAll('.tech-entry').forEach((div, idx) => {
-                    const name = div.querySelector('.tech-name')?.value.trim() || '';
-                    const type = div.querySelector('.tech-type')?.value;
-                    const fileInput = div.querySelector('.tech-file');
-                    const existingPath = div.querySelector('.existing-path')?.value || null;
-                    if (name) {
-                        tech.push({
-                            name: name,
-                            description: `Level: ${type}`,
-                            level: type === 'college' ? 'College' : 'Department',
-                            score: type === 'college' ? 2 : 1,
-                            existing_path: existingPath
-                        });
-                        if (fileInput?.files[0]) fd.append(`file_Tech_Fest_Coordinator_${tech.length - 1}`, fileInput.files[0]);
-                    }
-                });
-                data['Tech Fest Coordinator'] = tech;
-
-                // 5. Other Coord
-                const other = [];
-                document.querySelectorAll('.other-coord-entry').forEach((div, idx) => {
-                    const name = div.querySelector('.other-coord-name')?.value.trim() || '';
-                    const type = div.querySelector('.other-coord-type')?.value;
-                    const fileInput = div.querySelector('.other-coord-file');
-                    const existingPath = div.querySelector('.existing-path')?.value || null;
-                    if (name) {
-                        other.push({
-                            name: name,
-                            description: `Level: ${type}`,
-                            level: type === 'college' ? 'College' : 'Department',
-                            score: type === 'college' ? 2 : 1,
-                            existing_path: existingPath
-                        });
-                        if (fileInput?.files[0]) fd.append(`file_Other_Coordinator_${other.length - 1}`, fileInput.files[0]);
-                    }
-                });
-                data['Other Coordinator'] = other;
-
-                // 6. Committee
-                const comm = [];
-                document.querySelectorAll('.committee-entry').forEach((div, idx) => {
-                    const name = div.querySelector('.committee-name')?.value.trim() || '';
-                    const fileInput = div.querySelector('.committee-file');
-                    const existingPath = div.querySelector('.existing-path')?.value || null;
-                    if (name) {
-                        comm.push({
-                            name: name,
-                            description: 'Committee Member',
-                            level: 'Member',
-                            score: 1,
-                            existing_path: existingPath
-                        });
-                        if (fileInput?.files[0]) fd.append(`file_Committee_Member_${comm.length - 1}`, fileInput.files[0]);
-                    }
-                });
-                data['Committee Member'] = comm;
-
-                // 7. NSS
-                const nss = [];
-                document.querySelectorAll('.nss-entry').forEach((div, idx) => {
-                    const name = div.querySelector('.nss-name')?.value.trim() || '';
-                    const fileInput = div.querySelector('.nss-file');
-                    const existingPath = div.querySelector('.existing-path')?.value || null;
-                    if (name) {
-                        nss.push({ name: name, description: 'Social Service Activity', level: 'Participant', score: 1, existing_path: existingPath });
-                        if (fileInput?.files[0]) fd.append(`file_NSS/Social_Service_${nss.length - 1}`, fileInput.files[0]);
-                    }
-                });
-                data['NSS/Social Service'] = nss;
-
-                // 8. Ext Awards
-                const extAwards = [];
-                document.querySelectorAll('.ext-awards-entry').forEach((div, idx) => {
-                    const name = div.querySelector('.ext-awards-name')?.value.trim() || '';
-                    const fileInput = div.querySelector('.ext-awards-file');
-                    const existingPath = div.querySelector('.existing-path')?.value || null;
-                    if (name) {
-                        extAwards.push({ name: name, description: 'Contribution', level: 'Recipient', score: 2, existing_path: existingPath });
-                        if (fileInput?.files[0]) fd.append(`file_Extracurricular_Award_${extAwards.length - 1}`, fileInput.files[0]);
-                    }
-                });
-                data['Extracurricular Award'] = extAwards;
-
                 fd.append('data', JSON.stringify(data));
-
                 const res = await fetch(apiBase + '/student/activities/save-all', { method: 'POST', body: fd });
                 if (res.ok) {
                     alert('All Extracurricular Activities Saved Successfully!');
+                    location.reload();
                 } else {
-                    const errStr = await res.text();
-                    console.error('Bulk save error:', errStr);
-                    alert('Error saving activities. Please try again.');
+                    let errMsg = 'Error saving activities. Please try again.';
+                    try {
+                        const errData = await res.json();
+                        errMsg = errData.error || errMsg;
+                    } catch (e) {
+                        const raw = await res.text();
+                        if (raw) errMsg = raw.substring(0, 100);
+                    }
+                    alert(errMsg);
                 }
             } catch (err) {
                 console.error(err);
@@ -2142,6 +2007,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const fileInput = document.getElementById('recLetterFile');
             if (!fileInput.files[0]) {
                 alert('Please select a file to upload.');
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                return;
+            }
+
+            const validationError = validateFiles(fileInput.files);
+            if (validationError) {
+                alert(validationError);
+                btn.innerHTML = originalText;
+                btn.disabled = false;
                 return;
             }
 
@@ -2155,10 +2030,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
                 if (res.ok) {
                     alert('Recommendation Letter uploaded successfully!');
-                    window.location.reload();
+                    location.reload();
                 } else {
-                    const err = await res.json();
-                    alert('Error: ' + (err.error || 'Upload failed'));
+                    let errMsg = 'Upload failed';
+                    try {
+                        const errData = await res.json();
+                        errMsg = errData.error || errMsg;
+                    } catch (e) {
+                        const raw = await res.text();
+                        if (raw) errMsg = raw.substring(0, 100);
+                    }
+                    alert(errMsg);
                 }
             } catch (error) {
                 console.error(error);
@@ -2214,6 +2096,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!isChecked || !place || (!sigFile && !hasExistingSig)) {
                 alert('Please ensure Place is entered, Signature is uploaded, and Declaration is checked.');
                 return;
+            }
+
+            if (sigFile) {
+                const validationError = validateFiles([sigFile]);
+                if (validationError) {
+                    alert(validationError);
+                    return;
+                }
             }
 
             if (!confirm('Are you sure you want to submit your application? Once submitted, you cannot make changes.')) return;
@@ -2277,6 +2167,7 @@ document.addEventListener('DOMContentLoaded', () => {
             fd.append('cgpa', safeGet('cgpa'));
             for (let i = 1; i <= 7; i++) fd.append(`sgpa_sem${i}`, safeGet(`sgpa${i}`));
 
+            const academicFiles = [];
             // Honours
             const pursuingEl = document.querySelector('input[name="pursuingHonours"]:checked');
             if (pursuingEl && pursuingEl.value === 'yes') {
@@ -2290,7 +2181,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     const existing = row.querySelector('.nptel-existing-path')?.value;
                     if (name) {
                         courses.push({ name, existing_path: existing || null });
-                        if (file) fd.append(`nptel_file_${courses.length - 1}`, file);
+                        if (file) {
+                            academicFiles.push(file);
+                            fd.append(`nptel_file_${courses.length - 1}`, file);
+                        }
                     }
                 });
                 fd.append('nptel_courses', JSON.stringify(courses));
@@ -2309,7 +2203,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     const existing = div.querySelector('.exam-existing-path')?.value;
                     if (name) {
                         exams.push({ name, score, certificate_path: existing || null });
-                        if (file) fd.append(`exam_file_${exams.length - 1}`, file);
+                        if (file) {
+                            academicFiles.push(file);
+                            fd.append(`exam_file_${exams.length - 1}`, file);
+                        }
                     }
                 });
                 fd.append('exam_details', JSON.stringify(exams));
@@ -2317,12 +2214,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 fd.append('competitive_exams', 'No');
             }
 
+            // Client-side Validation for Academic Files
+            const validationError = validateFiles(academicFiles);
+            if (validationError) {
+                alert(validationError);
+                if (btn) {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }
+                return;
+            }
+
             try {
                 const res = await fetch(apiBase + '/student/academic', { method: 'POST', body: fd });
-                const data = await res.json();
-                if (res.ok) alert('Academic Details Saved');
-                else {
-                    alert('Error: ' + (data.error || 'Server error saving academic details'));
+                if (res.ok) {
+                    alert('Academic Details Saved');
+                    location.reload();
+                } else {
+                    let errMsg = 'Server error saving academic details';
+                    try {
+                        const data = await res.json();
+                        errMsg = data.error || errMsg;
+                    } catch (e) {
+                        const raw = await res.text();
+                        if (raw) errMsg = raw.substring(0, 100);
+                    }
+                    alert(errMsg);
                 }
             } catch (err) {
                 console.error(err);
