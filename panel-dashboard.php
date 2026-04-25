@@ -25,41 +25,7 @@
 <body class="admin-body">
     <div class="dashboard-container">
         <!-- Sidebar -->
-        <nav class="sidebar mobile-mode">
-            <div class="sidebar-header">
-                <div class="logo-icon">
-                    <i class="fa-solid fa-graduation-cap"></i>
-                </div>
-                <div class="logo-text">
-                    <h2>AdminPanel</h2>
-                    <?php 
-                    $user = $_SESSION['user'];
-                    if ($user['role'] === 'panel') {
-                        echo '<span class="sidebar-branch">Panel Dashboard</span>';
-                    } else {
-                        if (empty($user['department'])) {
-                            echo '<span class="sidebar-branch">IQAC Dashboard</span>';
-                        } else {
-                            echo '<span class="sidebar-branch">' . htmlspecialchars($user['department']) . ' Branch</span>';
-                        }
-                    }
-                    ?>
-                </div>
-            </div>
-
-            <div class="nav-links">
-                <a href="panel-dashboard.php" class="nav-item active">
-                    <i class="fa-solid fa-list-check"></i>
-                    <span>Assigned Students</span>
-                </a>
-                <a href="admin-winner.php" class="nav-item"><i class="fa-solid fa-crown"></i> Winner 2026</a>
-            </div>
-            <div class="sidebar-footer">
-                <button id="logoutBtn" class="logout-btn">
-                    <i class="fa-solid fa-right-from-bracket"></i> Logout
-                </button>
-            </div>
-        </nav>
+        <?php include_once __DIR__ . '/src/includes/sidebar.php'; ?>
 
         <!-- Main Content -->
         <main class="main-content">
