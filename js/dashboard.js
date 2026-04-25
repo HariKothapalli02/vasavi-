@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- PROFILE HANDLING ---
     async function loadProfile() {
         try {
-            const res = await fetch(apiBase + '/student/profile');
+            const res = await fetch(apiBase + '/student/profile?t=' + Date.now());
             if (!res.ok) {
                 const debugEl = document.getElementById('debug-info');
                 if (debugEl) debugEl.innerText = 'Profile Fetch Failed';
@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await res.json();
 
             // Check submission status
-            if (data.is_submitted === 1) {
+            if (data.is_submitted == 1) {
                 isAppSubmitted = true;
                 // Defer disableEditing to initDashboard to ensure all dynamic fields are loaded first
             }
@@ -165,7 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
             setVal('declPlace', data.declaration_place);
             if (data.declaration_date) setVal('declDate', data.declaration_date);
 
-            if (data.is_submitted === 1) {
+            if (data.is_submitted == 1) {
                 const declCheck = document.getElementById('declCheck');
                 if (declCheck) declCheck.checked = true;
             }
@@ -179,7 +179,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     sigPreview.style.display = 'block';
                 }
             }
-
         } catch (e) {
             console.error('Error loading profile', e);
             let debugEl = document.getElementById('debug-info');
@@ -376,24 +375,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Helper for certificate link
-    const getCertHtml = (path) => {
-        if (!path) return '';
-        let url = '';
-        if (path.startsWith('FILE:')) {
-            const id = path.split(':')[1];
-            url = `files/${id}`;
-        } else {
-            url = path.startsWith('/') ? path.substring(1) : 'uploads/' + path;
-        }
-        return `<a href="${url}" target="_blank" class="file-link-btn"><i class="fas fa-eye"></i> View Certificate</a>`;
-    };
 
 
     async function loadAllData() {
         // Co-Curricular
         try {
-            const coRes = await fetch(apiBase + '/student/co-curricular');
+            const coRes = await fetch(apiBase + '/student/co-curricular?t=' + Date.now());
             if (coRes.ok) {
                 const coData = await coRes.json();
 
@@ -576,7 +563,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Extracurricular
         try {
-            const extRes = await fetch(apiBase + '/student/extracurricular');
+            const extRes = await fetch(apiBase + '/student/extracurricular?t=' + Date.now());
             if (extRes.ok) {
                 const extData = await extRes.json();
 
@@ -786,7 +773,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         try {
-            const res = await fetch(apiBase + '/student/academic');
+            const res = await fetch(apiBase + '/student/academic?t=' + Date.now());
             if (res.ok) {
                 const data = await res.json();
                 if (data) {
@@ -1158,7 +1145,6 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (err) {
                 console.error(err);
                 alert('Connection error while saving. Please check your network.');
-            } finally {
                 btn.innerHTML = originalText;
                 btn.disabled = false;
             }
@@ -1338,7 +1324,6 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (err) {
                 console.error(err);
                 alert('Connection error while saving. Please check your network.');
-            } finally {
                 btn.innerHTML = originalText;
                 btn.disabled = false;
             }
@@ -2178,7 +2163,6 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (error) {
                 console.error(error);
                 alert('Network error.');
-            } finally {
                 btn.innerHTML = originalText;
                 btn.disabled = false;
             }
@@ -2265,7 +2249,6 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (err) {
                 console.error(err);
                 alert('Submission Error: ' + err.message);
-            } finally {
                 btn.innerHTML = originalText;
                 btn.disabled = false;
                 validateFinalSubmit();
@@ -2343,7 +2326,6 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (err) {
                 console.error(err);
                 alert('Network error: ' + err.message);
-            } finally {
                 if (btn) {
                     btn.innerHTML = originalText;
                     btn.disabled = false;
