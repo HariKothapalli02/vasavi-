@@ -1,4 +1,4 @@
-const apiBase = (window.APP_BASE_URL || "").replace(/\/$/, "");
+var apiBase = apiBase || (window.APP_BASE_URL || "").replace(/\/$/, "");
 const IS_SUPER_ADMIN = window.IS_SUPER_ADMIN || false;
 // Using window.IS_LOCKED and window.IS_FINAL_LOCKED for state
 

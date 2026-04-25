@@ -1,4 +1,4 @@
-const apiBase = (window.APP_BASE_URL || "").replace(/\/$/, "");
+var apiBase = apiBase || (window.APP_BASE_URL || "").replace(/\/$/, "");
 
 // --- Functions Exposed Globally ---
 window.openTopperModal = async () => {
