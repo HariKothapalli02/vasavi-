@@ -383,9 +383,12 @@ document.addEventListener('DOMContentLoaded', () => {
             items.forEach(item => {
                 container.appendChild(createRowFn(item));
             });
-        } else if (noRadio) {
-            noRadio.checked = true;
-            noRadio.dispatchEvent(new Event('change'));
+        } else {
+            if (noRadio) {
+                noRadio.checked = true;
+                noRadio.dispatchEvent(new Event('change'));
+            }
+            container.innerHTML = '';
         }
     }
 
@@ -396,7 +399,8 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const coRes = await fetch(apiBase + '/student/co-curricular?t=' + Date.now());
             if (coRes.ok) {
-                const coData = await coRes.json();
+                let coData = await coRes.json();
+                if (!Array.isArray(coData)) coData = [];
 
                 // Papers
                 prefillSection(coData, 'Paper Publications', 'papersYes', 'papersNo', 'paperListContainer', (item) => {
@@ -410,7 +414,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div>
                             <label class="form-label">Title of the paper and Authors</label>
                             <textarea class="paper-title input-full" rows="2">${item.title || item.name || ''}</textarea>
-                        </div>
                         </div>
                         <div style="grid-column: 1 / -1;">
                              <input type="file" class="paper-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
@@ -432,7 +435,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div>
                             <label class="form-label">College Name</label>
                             <input type="text" class="inter-college input-full" value="${item.title || ''}">
-                        </div>
                         </div>
                         <div style="grid-column: 1 / -1;">
                             <label class="form-label">Description (Event, Prize, etc)</label>
@@ -590,7 +592,8 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const extRes = await fetch(apiBase + '/student/extracurricular?t=' + Date.now());
             if (extRes.ok) {
-                const extData = await extRes.json();
+                let extData = await extRes.json();
+                if (!Array.isArray(extData)) extData = [];
 
                 // University Team Selection
                 prefillSection(extData, 'University Team Selection', 'uniTeamYes', 'uniTeamNo', 'uniTeamListContainer', (item) => {
@@ -2183,7 +2186,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const sectionButtons = [
         { id: 'saveHonoursBtn', container: 'courseListContainer', cat: 'nptel', isAcad: true },
         { id: 'saveExamsBtn', container: 'examListContainer', cat: 'exam', isAcad: true },
-        { id: 'savePapersBtn', container: 'paperListContainer', cat: 'Papers Published' },
+        { id: 'savePapersBtn', container: 'paperListContainer', cat: 'Paper Publications' },
         { id: 'saveInterBtn', container: 'interListContainer', cat: 'Inter-College Activity' },
         { id: 'saveIntraBtn', container: 'intraDeptListContainer', cat: 'Intra-Department Winner' },
         { id: 'saveSeminarsBtn', container: 'seminarListContainer', cat: 'Seminars Delivered' },
