@@ -2067,36 +2067,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
         entries.forEach((row, index) => {
             const entryId = row.querySelector('.entry-id')?.value || '';
-            const nameInput = row.querySelector('input[type="text"]:not(.existing-path), textarea:not(.existing-path)');
-            const name = nameInput?.value.trim() || '';
 
-            if (!name) return; // Skip empty entries
-
+            let name = '';
             let description = '';
             let score = 1;
             let level = 'Participant';
 
-            // Category specific logic
-            if (row.classList.contains('inter-entry') || row.classList.contains('intra-dept-entry')) {
-                description = row.querySelector('.inter-desc, .dept-desc')?.value.trim() || '';
-            } else if (row.classList.contains('rep-entry')) {
-                const sem = row.querySelector('.rep-semester')?.value || '';
-                description = sem ? `Semester ${sem}` : '';
-            } else if (row.classList.contains('internship-entry')) {
-                const dur = row.querySelector('.internship-duration')?.value.trim() || '';
-                description = dur ? `Duration: ${dur}` : '';
-            } else if (row.querySelector('select')) {
-                const sel = row.querySelector('select');
-                const val = sel.value;
-                description = sel.options[sel.selectedIndex].text;
-                if (val === 'individual') { score = 3; level = 'Individual'; }
-                else if (val === 'group') { score = 2; level = 'Group'; }
-                else if (val === 'prize') {
-                    if (category.includes('Outside')) { score = 5; level = 'Winner'; }
-                    else { score = 2; level = 'Winner'; }
+            // Category specific name/description extraction
+            if (row.classList.contains('paper-entry')) {
+                name = row.querySelector('.paper-title')?.value.trim() || '';
+                description = row.querySelector('.paper-journal')?.value.trim() || '';
+            } else {
+                const nameInput = row.querySelector('input[type="text"]:not(.existing-path), textarea:not(.existing-path)');
+                name = nameInput?.value.trim() || '';
+
+                if (row.classList.contains('inter-entry') || row.classList.contains('intra-dept-entry')) {
+                    description = row.querySelector('.inter-desc, .dept-desc')?.value.trim() || '';
+                } else if (row.classList.contains('rep-entry')) {
+                    const sem = row.querySelector('.rep-semester')?.value || '';
+                    description = sem ? `Semester ${sem}` : '';
+                } else if (row.classList.contains('internship-entry')) {
+                    const dur = row.querySelector('.internship-duration')?.value.trim() || '';
+                    description = dur ? `Duration: ${dur}` : '';
+                } else if (row.querySelector('select')) {
+                    const sel = row.querySelector('select');
+                    const val = sel.value;
+                    description = sel.options[sel.selectedIndex].text;
+                    if (val === 'individual') { score = 3; level = 'Individual'; }
+                    else if (val === 'group') { score = 2; level = 'Group'; }
+                    else if (val === 'prize') {
+                        if (category.includes('Outside')) { score = 5; level = 'Winner'; }
+                        else { score = 2; level = 'Winner'; }
+                    }
+                    else if (val === 'college') { score = 2; level = 'College'; }
                 }
-                else if (val === 'college') { score = 2; level = 'College'; }
             }
+
+            if (!name) return; // Skip empty entries
 
             const itemData = { id: entryId, name: name, description: description, level: level, score: score };
 
