@@ -2105,7 +2105,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!name) return; // Skip empty entries
 
-            const itemData = { id: entryId, name: name, description: description, level: level, score: score };
+            const existingPath = row.querySelector('.existing-path')?.value || '';
+            const itemData = { id: entryId, name: name, description: description, level: level, score: score, existing_path: existingPath };
 
             const fileInput = row.querySelector('input[type="file"]');
             if (fileInput?.files[0]) {
@@ -2150,15 +2151,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         entries.forEach((row, index) => {
             let itemData = {};
+            const existingPath = row.querySelector('.nptel-existing-path, .exam-existing-path')?.value || '';
+
             if (itemType === 'nptel') {
                 const input = row.querySelector('.nptel-name, .nptel-course');
                 const name = input?.value.trim() || '';
                 if (!name) return;
-                itemData = { name: name };
+                itemData = { name: name, existing_path: existingPath };
             } else {
                 const name = row.querySelector('.exam-name')?.value.trim() || '';
                 if (!name) return;
-                itemData = { name: name, score: row.querySelector('.exam-score')?.value.trim() || '' };
+                itemData = { name: name, score: row.querySelector('.exam-score')?.value.trim() || '', existing_path: existingPath };
             }
 
             const fileInput = row.querySelector('input[type="file"]');
