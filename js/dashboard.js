@@ -2087,7 +2087,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     description = row.querySelector('.inter-desc, .dept-desc')?.value.trim() || '';
                 } else if (row.classList.contains('rep-entry')) {
                     const sem = row.querySelector('.rep-semester')?.value || '';
-                    description = sem ? `Semester ${sem}` : '';
+                    name = sem ? `Semester ${sem}` : '';
                 } else if (row.classList.contains('internship-entry')) {
                     const dur = row.querySelector('.internship-duration')?.value.trim() || '';
                     description = dur ? `Duration: ${dur}` : '';
