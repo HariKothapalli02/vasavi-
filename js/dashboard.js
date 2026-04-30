@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Set Photo
             const photoPrev = document.getElementById('pPhotoPreview');
             if (photoPrev && data.profile_photo) {
-                const icon = getFileIcon(data.profile_photo_filename); // Assuming we might add filename later, or just check extension if path has it
+                const icon = getFileIcon(data.profile_photo); // Use data.profile_photo instead of undefined data.profile_photo_filename
                 if (icon) {
                     photoPrev.src = icon;
                 } else {
@@ -416,7 +416,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <textarea class="paper-title input-full" rows="2">${item.title || item.name || ''}</textarea>
                         </div>
                         <div style="grid-column: 1 / -1;">
-                             <input type="file" class="paper-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                             <input type="file" class="paper-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg"> <small style="display:block; color:#64748b; font-size:0.75rem; margin-top:2px;">(Max size: 5MB)</small>
                              <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
                              <input type="hidden" class="entry-id" value="${item.id || ''}">
                              ${getCertHtml(item.certificate_path, item.filename)}
@@ -439,7 +439,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div style="grid-column: 1 / -1;">
                             <label class="form-label">Description (Event, Prize, etc)</label>
                             <input type="text" class="inter-desc input-full" value="${desc}">
-                             <input type="file" class="inter-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                             <input type="file" class="inter-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg"> <small style="display:block; color:#64748b; font-size:0.75rem; margin-top:2px;">(Max size: 5MB)</small>
                              <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
                              <input type="hidden" class="entry-id" value="${item.id || ''}">
                              ${getCertHtml(item.certificate_path, item.filename)}
@@ -461,7 +461,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div>
                              <label class="form-label">Description / Prize</label>
                             <input type="text" class="dept-desc input-full" value="${item.description || ''}">
-                             <input type="file" class="dept-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                             <input type="file" class="dept-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg"> <small style="display:block; color:#64748b; font-size:0.75rem; margin-top:2px;">(Max size: 5MB)</small>
                              <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
                              <input type="hidden" class="entry-id" value="${item.id || ''}">
                              ${getCertHtml(item.certificate_path, item.filename)}
@@ -478,7 +478,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     div.innerHTML = `
                         <label class="form-label">Seminar Topic</label>
                         <input type="text" class="seminar-topic input-full" value="${item.title || item.name || ''}">
-                        <input type="file" class="seminar-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                        <input type="file" class="seminar-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg"> <small style="display:block; color:#64748b; font-size:0.75rem; margin-top:2px;">(Max size: 5MB)</small>
                         <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
                         <input type="hidden" class="entry-id" value="${item.id || ''}">
                         ${getCertHtml(item.certificate_path, item.filename)}
@@ -496,7 +496,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     div.innerHTML = `
                         <label class="form-label">Semester (e.g. 3, 4)</label>
                         <input type="number" class="rep-semester input-full" value="${sem}" min="1" max="8">
-                        <input type="file" class="rep-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                        <input type="file" class="rep-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg"> <small style="display:block; color:#64748b; font-size:0.75rem; margin-top:2px;">(Max size: 5MB)</small>
                         <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
                         <input type="hidden" class="entry-id" value="${item.id || ''}">
                         ${getCertHtml(item.certificate_path, item.filename)}
@@ -512,7 +512,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     div.innerHTML = `
                         <label class="form-label">Professional Body Name</label>
                         <input type="text" class="membership-name input-full" value="${item.name || item.title || ''}">
-                        <input type="file" class="membership-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                        <input type="file" class="membership-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg"> <small style="display:block; color:#64748b; font-size:0.75rem; margin-top:2px;">(Max size: 5MB)</small>
                         <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
                         <input type="hidden" class="entry-id" value="${item.id || ''}">
                         ${getCertHtml(item.certificate_path, item.filename)}
@@ -528,7 +528,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     div.innerHTML = `
                         <label class="form-label">Certification Name</label>
                         <input type="text" class="moocs-name input-full" value="${item.name || item.title || ''}">
-                        <input type="file" class="moocs-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                        <input type="file" class="moocs-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg"> <small style="display:block; color:#64748b; font-size:0.75rem; margin-top:2px;">(Max size: 5MB)</small>
                         <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
                         <input type="hidden" class="entry-id" value="${item.id || ''}">
                         ${getCertHtml(item.certificate_path, item.filename)}
@@ -556,7 +556,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <input type="text" class="internship-duration input-full" value="${duration}">
                             </div>
                         </div>
-                        <input type="file" class="internship-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                        <input type="file" class="internship-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg"> <small style="display:block; color:#64748b; font-size:0.75rem; margin-top:2px;">(Max size: 5MB)</small>
                         <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
                         <input type="hidden" class="entry-id" value="${item.id || ''}">
                         ${getCertHtml(item.certificate_path, item.filename)}
@@ -575,7 +575,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <input type="text" class="awards-name input-full" value="${item.name || item.title || ''}">
                         </div>
                         <div style="grid-column: 1 / -1;">
-                             <input type="file" class="awards-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                             <input type="file" class="awards-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg"> <small style="display:block; color:#64748b; font-size:0.75rem; margin-top:2px;">(Max size: 5MB)</small>
                              <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
                              <input type="hidden" class="entry-id" value="${item.id || ''}">
                              ${getCertHtml(item.certificate_path, item.filename)}
@@ -600,7 +600,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const div = document.createElement('div');
                     div.className = 'uni-team-entry dynamic-entry dynamic-entry-grid';
                     let typeVal = 'individual';
-                    if (item.description && item.description.includes('Group')) typeVal = 'group';
+                    if (item.description && item.description.toLowerCase().includes('group')) typeVal = 'group';
 
                     div.innerHTML = `
                         <div>
@@ -615,7 +615,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             </select>
                         </div>
                         <div style="grid-column: 1 / -1;">
-                             <input type="file" class="uni-team-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                             <input type="file" class="uni-team-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg"> <small style="display:block; color:#64748b; font-size:0.75rem; margin-top:2px;">(Max size: 5MB)</small>
                              <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
                              <input type="hidden" class="entry-id" value="${item.id || ''}">
                              ${getCertHtml(item.certificate_path, item.filename)}
@@ -630,7 +630,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const div = document.createElement('div');
                     div.className = 'outside-entry dynamic-entry dynamic-entry-grid';
                     let typeVal = 'participation';
-                    if (item.description && item.description.includes('prize')) typeVal = 'prize';
+                    if (item.description && item.description.toLowerCase().includes('prize')) typeVal = 'prize';
 
                     div.innerHTML = `
                         <div>
@@ -645,7 +645,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             </select>
                         </div>
                         <div style="grid-column: 1 / -1;">
-                             <input type="file" class="outside-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                             <input type="file" class="outside-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg"> <small style="display:block; color:#64748b; font-size:0.75rem; margin-top:2px;">(Max size: 5MB)</small>
                              <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
                              <input type="hidden" class="entry-id" value="${item.id || ''}">
                              ${getCertHtml(item.certificate_path, item.filename)}
@@ -660,7 +660,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const div = document.createElement('div');
                     div.className = 'within-entry dynamic-entry dynamic-entry-grid';
                     let typeVal = 'participation';
-                    if (item.description && item.description.includes('prize')) typeVal = 'prize';
+                    if (item.description && item.description.toLowerCase().includes('prize')) typeVal = 'prize';
 
                     div.innerHTML = `
                         <div>
@@ -675,7 +675,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             </select>
                         </div>
                         <div style="grid-column: 1 / -1;">
-                             <input type="file" class="within-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                             <input type="file" class="within-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg"> <small style="display:block; color:#64748b; font-size:0.75rem; margin-top:2px;">(Max size: 5MB)</small>
                              <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
                              <input type="hidden" class="entry-id" value="${item.id || ''}">
                              ${getCertHtml(item.certificate_path, item.filename)}
@@ -690,7 +690,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const div = document.createElement('div');
                     div.className = 'tech-entry dynamic-entry dynamic-entry-grid';
                     let typeVal = 'dept';
-                    if (item.description && item.description.includes('College')) typeVal = 'college';
+                    if (item.description && item.description.toLowerCase().includes('college')) typeVal = 'college';
 
                     div.innerHTML = `
                         <div>
@@ -705,7 +705,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             </select>
                         </div>
                         <div style="grid-column: 1 / -1;">
-                             <input type="file" class="tech-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                             <input type="file" class="tech-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg"> <small style="display:block; color:#64748b; font-size:0.75rem; margin-top:2px;">(Max size: 5MB)</small>
                              <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
                              <input type="hidden" class="entry-id" value="${item.id || ''}">
                              ${getCertHtml(item.certificate_path, item.filename)}
@@ -720,7 +720,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const div = document.createElement('div');
                     div.className = 'other-coord-entry dynamic-entry dynamic-entry-grid';
                     let typeVal = 'dept';
-                    if (item.description && item.description.includes('College')) typeVal = 'college';
+                    if (item.description && item.description.toLowerCase().includes('college')) typeVal = 'college';
 
                     div.innerHTML = `
                         <div>
@@ -735,7 +735,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             </select>
                         </div>
                         <div style="grid-column: 1 / -1;">
-                             <input type="file" class="other-coord-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                             <input type="file" class="other-coord-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg"> <small style="display:block; color:#64748b; font-size:0.75rem; margin-top:2px;">(Max size: 5MB)</small>
                              <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
                              <input type="hidden" class="entry-id" value="${item.id || ''}">
                              ${getCertHtml(item.certificate_path, item.filename)}
@@ -752,7 +752,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     div.innerHTML = `
                         <label class="form-label">Committee Name</label>
                         <input type="text" class="committee-name input-full" value="${item.title || item.name || ''}">
-                        <input type="file" class="committee-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                        <input type="file" class="committee-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg"> <small style="display:block; color:#64748b; font-size:0.75rem; margin-top:2px;">(Max size: 5MB)</small>
                         <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
                         <input type="hidden" class="entry-id" value="${item.id || ''}">
                         ${getCertHtml(item.certificate_path, item.filename)}
@@ -768,7 +768,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     div.innerHTML = `
                         <label class="form-label">Award/Contribution</label>
                         <input type="text" class="ext-awards-name input-full" value="${item.title || item.name || ''}">
-                        <input type="file" class="ext-awards-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                        <input type="file" class="ext-awards-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg"> <small style="display:block; color:#64748b; font-size:0.75rem; margin-top:2px;">(Max size: 5MB)</small>
                         <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
                         <input type="hidden" class="entry-id" value="${item.id || ''}">
                         ${getCertHtml(item.certificate_path, item.filename)}
@@ -784,7 +784,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     div.innerHTML = `
                         <label class="form-label">About Activity</label>
                         <input type="text" class="nss-name input-full" value="${item.title || item.name || ''}">
-                        <input type="file" class="nss-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                        <input type="file" class="nss-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg"> <small style="display:block; color:#64748b; font-size:0.75rem; margin-top:2px;">(Max size: 5MB)</small>
                         <input type="hidden" class="existing-path" value="${item.certificate_path || ''}">
                         <input type="hidden" class="entry-id" value="${item.id || ''}">
                         ${getCertHtml(item.certificate_path, item.filename)}
@@ -841,7 +841,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                         div.style.marginBottom = '0.5rem';
                                         const certLink = getCertHtml(c.certificate_path);
                                         div.innerHTML = `<input type="text" class="nptel-course input-full" value="${c.name || ''}" placeholder="Course Name">
-                                                           <input type="file" class="nptel-file input-full mt-1" accept=".pdf,.png,.jpg,.jpeg">
+                                                           <input type="file" class="nptel-file input-full mt-1" accept=".pdf,.png,.jpg,.jpeg"> <small style="display:block; color:#64748b; font-size:0.75rem; margin-top:2px;">(Max size: 5MB)</small>
                                                            <input type="hidden" class="nptel-existing-path" value="${c.certificate_path || ''}">
                                                            ${certLink}
                                                            <button type="button" class="btn-remove" title="Remove Course"><i class="fas fa-times"></i></button>`;
@@ -904,7 +904,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                             <input type="text" class="exam-name input-full" value="${ex.name || ''}" placeholder="Exam Name">
                                             <input type="text" class="exam-score input-full" value="${ex.score || ''}" placeholder="Rank / Score">
                                             <div style="grid-column: 1 / -1; margin-top: 0.5rem;">
-                                                <input type="file" class="exam-file input-full" accept=".pdf,.png,.jpg,.jpeg">
+                                                <input type="file" class="exam-file input-full" accept=".pdf,.png,.jpg,.jpeg"> <small style="display:block; color:#64748b; font-size:0.75rem; margin-top:2px;">(Max size: 5MB)</small>
                                                 <input type="hidden" class="exam-existing-path" value="${ex.certificate_path || ''}">
                                                 ${certLink}
                                             </div>
@@ -973,7 +973,7 @@ document.addEventListener('DOMContentLoaded', () => {
             div.className = 'nptel-row dynamic-entry-grid';
             div.innerHTML = `
                     <input type="text" class="nptel-course input-full" placeholder="Course Name">
-                    <input type="file" class="nptel-file input-full mt-1" accept=".pdf,.png,.jpg,.jpeg">
+                    <input type="file" class="nptel-file input-full mt-1" accept=".pdf,.png,.jpg,.jpeg"> <small style="display:block; color:#64748b; font-size:0.75rem; margin-top:2px;">(Max size: 5MB)</small>
                     <button type="button" class="btn-remove" title="Remove Course"><i class="fas fa-times"></i></button>
                 `;
             courseContainer.appendChild(div);
@@ -1011,7 +1011,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <input type="text" class="exam-name input-full" placeholder="Exam Name (e.g. GATE)">
                     <input type="text" class="exam-score input-full" placeholder="Rank / Score">
                     <div style="grid-column: 1 / -1; margin-top: 0.5rem;">
-                        <input type="file" class="exam-file input-full" accept=".pdf,.png,.jpg,.jpeg">
+                        <input type="file" class="exam-file input-full" accept=".pdf,.png,.jpg,.jpeg"> <small style="display:block; color:#64748b; font-size:0.75rem; margin-top:2px;">(Max size: 5MB)</small>
                     </div>
                     <button type="button" class="btn-remove" title="Remove Exam"><i class="fas fa-times"></i></button>
                 `;
@@ -1146,7 +1146,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div style="grid-column: 1 / -1;">
                         <label class="form-label">Description (Event, Prize, etc)</label>
                         <input type="text" class="inter-desc input-full" placeholder="Details">
-                        <input type="file" class="inter-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                        <input type="file" class="inter-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg"> <small style="display:block; color:#64748b; font-size:0.75rem; margin-top:2px;">(Max size: 5MB)</small>
                     </div>
                     <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
                 `;
@@ -1191,7 +1191,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div style="grid-column: 1 / -1;">
                         <label class="form-label">Description / Prize</label>
                         <input type="text" class="dept-desc input-full" placeholder="Description">
-                        <input type="file" class="dept-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                        <input type="file" class="dept-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg"> <small style="display:block; color:#64748b; font-size:0.75rem; margin-top:2px;">(Max size: 5MB)</small>
                     </div>
                     <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
                 `;
@@ -1231,7 +1231,7 @@ document.addEventListener('DOMContentLoaded', () => {
             div.innerHTML = `
                 <label class="form-label">Seminar Topic</label>
                 <input type="text" class="seminar-topic input-full" placeholder="Enter Seminar Topic">
-                <input type="file" class="seminar-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                <input type="file" class="seminar-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg"> <small style="display:block; color:#64748b; font-size:0.75rem; margin-top:2px;">(Max size: 5MB)</small>
                 <button type="button" class="btn-remove" title="Remove Seminar"><i class="fas fa-times"></i></button>
             `;
             seminarContainer.appendChild(div);
@@ -1270,7 +1270,7 @@ document.addEventListener('DOMContentLoaded', () => {
             div.innerHTML = `
                 <label class="form-label">Semester (e.g. 3, 4)</label>
                 <input type="number" class="rep-semester input-full" placeholder="Enter Semester" min="1" max="8">
-                <input type="file" class="rep-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                <input type="file" class="rep-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg"> <small style="display:block; color:#64748b; font-size:0.75rem; margin-top:2px;">(Max size: 5MB)</small>
                 <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
             `;
             repContainer.appendChild(div);
@@ -1309,7 +1309,7 @@ document.addEventListener('DOMContentLoaded', () => {
             div.innerHTML = `
                 <label class="form-label">Professional Body Name</label>
                 <input type="text" class="membership-name input-full" placeholder="Enter Body Name">
-                <input type="file" class="membership-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                <input type="file" class="membership-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg"> <small style="display:block; color:#64748b; font-size:0.75rem; margin-top:2px;">(Max size: 5MB)</small>
                 <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
             `;
             membershipContainer.appendChild(div);
@@ -1348,7 +1348,7 @@ document.addEventListener('DOMContentLoaded', () => {
             div.innerHTML = `
                 <label class="form-label">Certification Name</label>
                 <input type="text" class="moocs-name input-full" placeholder="Enter Certification Name">
-                <input type="file" class="moocs-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                <input type="file" class="moocs-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg"> <small style="display:block; color:#64748b; font-size:0.75rem; margin-top:2px;">(Max size: 5MB)</small>
                 <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
             `;
             moocsContainer.appendChild(div);
@@ -1395,7 +1395,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <input type="text" class="internship-duration input-full" placeholder="e.g. 2 months">
                     </div>
                 </div>
-                <input type="file" class="internship-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                <input type="file" class="internship-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg"> <small style="display:block; color:#64748b; font-size:0.75rem; margin-top:2px;">(Max size: 5MB)</small>
                 <button type="button" class="btn-remove" title="Remove Internship"><i class="fas fa-times"></i></button>
             `;
             internshipContainer.appendChild(div);
@@ -1434,7 +1434,7 @@ document.addEventListener('DOMContentLoaded', () => {
             div.innerHTML = `
                 <label class="form-label">Award / Contribution</label>
                 <input type="text" class="awards-name input-full" placeholder="Enter Details">
-                <input type="file" class="awards-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                <input type="file" class="awards-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg"> <small style="display:block; color:#64748b; font-size:0.75rem; margin-top:2px;">(Max size: 5MB)</small>
                 <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
             `;
             awardsContainer.appendChild(div);
@@ -1484,7 +1484,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </select>
                 </div>
                 <div style="grid-column: 1 / -1;">
-                    <input type="file" class="uni-team-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                    <input type="file" class="uni-team-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg"> <small style="display:block; color:#64748b; font-size:0.75rem; margin-top:2px;">(Max size: 5MB)</small>
                 </div>
                 <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
             `;
@@ -1534,7 +1534,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </select>
                 </div>
                 <div style="grid-column: 1 / -1;">
-                    <input type="file" class="outside-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                    <input type="file" class="outside-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg"> <small style="display:block; color:#64748b; font-size:0.75rem; margin-top:2px;">(Max size: 5MB)</small>
                 </div>
                 <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
             `;
@@ -1584,7 +1584,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </select>
                 </div>
                 <div style="grid-column: 1 / -1;">
-                    <input type="file" class="within-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                    <input type="file" class="within-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg"> <small style="display:block; color:#64748b; font-size:0.75rem; margin-top:2px;">(Max size: 5MB)</small>
                 </div>
                 <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
             `;
@@ -1634,7 +1634,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </select>
                 </div>
                 <div style="grid-column: 1 / -1;">
-                    <input type="file" class="tech-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                    <input type="file" class="tech-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg"> <small style="display:block; color:#64748b; font-size:0.75rem; margin-top:2px;">(Max size: 5MB)</small>
                 </div>
                 <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
             `;
@@ -1684,7 +1684,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </select>
                 </div>
                 <div style="grid-column: 1 / -1;">
-                    <input type="file" class="other-coord-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                    <input type="file" class="other-coord-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg"> <small style="display:block; color:#64748b; font-size:0.75rem; margin-top:2px;">(Max size: 5MB)</small>
                 </div>
                 <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
             `;
@@ -1724,7 +1724,7 @@ document.addEventListener('DOMContentLoaded', () => {
             div.innerHTML = `
                 <label class="form-label">Committee Name</label>
                 <input type="text" class="committee-name input-full" placeholder="Enter Committee Name">
-                <input type="file" class="committee-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                <input type="file" class="committee-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg"> <small style="display:block; color:#64748b; font-size:0.75rem; margin-top:2px;">(Max size: 5MB)</small>
                 <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
             `;
             committeeContainer.appendChild(div);
@@ -1763,7 +1763,7 @@ document.addEventListener('DOMContentLoaded', () => {
             div.innerHTML = `
                 <label class="form-label">About Activity</label>
                 <input type="text" class="nss-name input-full" placeholder="Enter Activity Description">
-                <input type="file" class="nss-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                <input type="file" class="nss-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg"> <small style="display:block; color:#64748b; font-size:0.75rem; margin-top:2px;">(Max size: 5MB)</small>
                 <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
             `;
             nssContainer.appendChild(div);
@@ -1802,7 +1802,7 @@ document.addEventListener('DOMContentLoaded', () => {
             div.innerHTML = `
                 <label class="form-label">Award/Contribution</label>
                 <input type="text" class="ext-awards-name input-full" placeholder="Enter Details">
-                <input type="file" class="ext-awards-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg">
+                <input type="file" class="ext-awards-file input-full mt-2" accept=".pdf,.png,.jpg,.jpeg"> <small style="display:block; color:#64748b; font-size:0.75rem; margin-top:2px;">(Max size: 5MB)</small>
                 <button type="button" class="btn-remove" title="Remove Entry"><i class="fas fa-times"></i></button>
             `;
             extAwardsContainer.appendChild(div);

@@ -93,7 +93,7 @@
                                     </div>
                                     <input type="file" id="pPhoto" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
                                         style="margin-top: 0.5rem; max-width: 250px;">
-                                    <small style="color: var(--text-muted);">Recommended: Square Image (JPG/PNG) or Document (PDF/DOC)</small>
+                                    <small style="color: var(--text-muted);">Recommended: Square Image (JPG/PNG) or Document (PDF/DOC) <br>(Max size: 5MB)</small>
                                 </div>
                                 <div class="form-group">
                                     <label>Full Name</label>
