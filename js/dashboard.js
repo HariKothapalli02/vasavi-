@@ -133,15 +133,10 @@ document.addEventListener('DOMContentLoaded', () => {
             setVal('pEmail', data.email);
             setVal('pBio', data.bio);
 
-            // Set Photo
             const photoPrev = document.getElementById('pPhotoPreview');
             if (photoPrev && data.profile_photo) {
-                const icon = getFileIcon(data.profile_photo); // Use data.profile_photo instead of undefined data.profile_photo_filename
-                if (icon) {
-                    photoPrev.src = icon;
-                } else {
-                    photoPrev.src = apiBase + '/files/' + data.profile_photo.replace('FILE:', '');
-                }
+                // Profile photo is always an image, don't use getFileIcon which checks extensions
+                photoPrev.src = apiBase + '/files/' + data.profile_photo.replace('FILE:', '');
             }
 
             // Update char count on load
@@ -231,6 +226,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const photoInput = document.getElementById('pPhoto');
             if (photoInput && photoInput.files[0]) {
+                const ext = photoInput.files[0].name.split('.').pop().toLowerCase();
+                if (!['jpg', 'jpeg', 'png'].includes(ext)) {
+                    alert('Invalid file type for profile photo. Only PNG, JPG, and JPEG are allowed.');
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                    return;
+                }
                 const validationError = validateFiles(photoInput.files);
                 if (validationError) {
                     alert(validationError);
