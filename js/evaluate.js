@@ -105,9 +105,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error(scoreErr);
             }
 
-            // Recalculate totals (Only for Super Admin)
+            // Update only the sum text (Only for Super Admin)
             if (IS_SUPER_ADMIN) {
-                updateCategoryTotals();
+                updateSumsDisplayOnly();
             }
 
         } catch (error) {
@@ -404,6 +404,20 @@ document.addEventListener('DOMContentLoaded', () => {
         if (scExtra) scExtra.value = cappedExtraTotal;
         const valExtra = document.getElementById('valExtra');
         if (valExtra) valExtra.innerText = cappedExtraTotal.toFixed(1);
+    }
+
+    function updateSumsDisplayOnly() {
+        if (!IS_SUPER_ADMIN) return;
+
+        let coTotal = 0;
+        document.querySelectorAll('.co-score').forEach(i => coTotal += parseFloat(i.value) || 0);
+        const valCoSum = document.getElementById('valCoSum');
+        if (valCoSum) valCoSum.innerText = coTotal.toFixed(1);
+
+        let extraTotal = 0;
+        document.querySelectorAll('.extra-score').forEach(i => extraTotal += parseFloat(i.value) || 0);
+        const valExtraSum = document.getElementById('valExtraSum');
+        if (valExtraSum) valExtraSum.innerText = extraTotal.toFixed(1);
     }
 
     function prefillData(data) {
