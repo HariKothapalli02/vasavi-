@@ -223,6 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialization
     const overviewSection = document.getElementById('statTotal'); // Unique element for overview
     const studentsContainer = document.getElementById('studentList');
+    const finalStudentsContainer = document.getElementById('finalStudentList');
     const performanceContainer = document.getElementById('leaderboardBody');
     const winnerDetailsContainer = document.getElementById('winnerDetails');
 
@@ -230,6 +231,9 @@ document.addEventListener('DOMContentLoaded', () => {
         refreshDashboard();
     } else if (studentsContainer) {
         loadStudents();
+        loadStats();
+    } else if (finalStudentsContainer) {
+        loadFinalStudents();
         loadStats();
     } else if (performanceContainer) {
         loadStats();
@@ -369,6 +373,51 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    async function loadFinalStudents() {
+        const list = document.getElementById('finalStudentList');
+        if (list) {
+            list.innerHTML = `
+                <div class="skeleton-item"></div>
+                <div class="skeleton-item"></div>
+                <div class="skeleton-item" style="opacity:0.7"></div>
+                <div class="skeleton-item" style="opacity:0.4"></div>
+            `;
+        }
+
+        try {
+            const res = await fetch(apiBase + '/admin/final-students');
+            const text = await res.text();
+
+            if (!res.ok) {
+                try {
+                    const errObj = JSON.parse(text);
+                    throw new Error(errObj.error || `Server error: ${res.status}`);
+                } catch (e) {
+                    throw new Error(`Server returned ${res.status}: ${text.substring(0, 100)}`);
+                }
+            }
+
+            const data = JSON.parse(text);
+
+            allStudents = data;
+            renderFinalStudentList(allStudents);
+        } catch (err) {
+            console.error('Error loading final students:', err);
+            if (list) {
+                list.innerHTML = `
+                    <div style="padding: 2rem; text-align: center; color: #ef4444; background: #fee2e2; border-radius: 12px; border: 1px solid #fecaca; margin: 1rem;">
+                        <i class="fa-solid fa-circle-exclamation" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                        <p style="font-weight: 600; margin-bottom: 0.5rem;">Failed to fetch final students</p>
+                        <p style="font-size: 0.85rem; opacity: 0.8;">${err.message}</p>
+                        <button onclick="location.reload()" style="margin-top: 1rem; padding: 0.5rem 1rem; background: #ef4444; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">
+                            <i class="fa-solid fa-arrows-rotate"></i> Try Again
+                        </button>
+                    </div>
+                `;
+            }
+        }
+    }
+
     function renderStudentList(students) {
         const list = document.getElementById('studentList');
         if (!list) return;
@@ -420,6 +469,58 @@ document.addEventListener('DOMContentLoaded', () => {
                                      <i class="fa-solid fa-paper-plane"></i> Send to Panel
                                 </button>`
                     }
+                            <button class="btn btn-reset-submission" onclick="resetSubmission(${s.id}, event)" title="Reset Submission" style="padding: 4px 8px; font-size: 0.75rem; background: #94a3b8; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                <i class="fa-solid fa-rotate-left"></i> Reset
+                            </button>
+                        </div>
+                        `
+                ) : ''}
+                </div>
+            </div>
+        `}).join('');
+    }
+
+    function renderFinalStudentList(students) {
+        const list = document.getElementById('finalStudentList');
+        if (!list) return;
+        if (students.length === 0) {
+            list.innerHTML = '<p style="padding:1rem; color:var(--text-muted); text-align:center;">No students found.</p>';
+            return;
+        }
+
+        list.innerHTML = students.map(s => {
+            const isEvaluated = s.is_evaluated > 0;
+            const isHodSubmitted = s.is_hod_submitted == 1;
+
+            let badge = '';
+            let scoreIndicator = '';
+
+            if (isEvaluated) {
+                badge = '<span style="background: #10b981; color: white; font-size: 0.7rem; padding: 2px 8px; border-radius: 20px; font-weight: 600;">Evaluated</span>';
+                if (s.total_score !== null) {
+                    scoreIndicator = `<span style="margin-left:8px; background:#f1f5f9; color:#475569; padding: 2px 6px; border-radius:4px; font-size:0.75rem; border:1px solid #e2e8f0;">Score: <b>${parseFloat(s.total_score).toFixed(2)}</b></span>`;
+                }
+            } else if (isHodSubmitted) {
+                badge = '<span style="background: #3b82f6; color: white; font-size: 0.7rem; padding: 2px 8px; border-radius: 20px; font-weight: 600;">HOD Submitted</span>';
+            } else if (s.has_academic_comments == 1) {
+                badge = '<span style="background: #f59e0b; color: white; font-size: 0.7rem; padding: 2px 8px; border-radius: 20px; font-weight: 600;">HOD Draft</span>';
+            } else {
+                badge = '<span class="status-badge status-pending">Pending</span>';
+            }
+
+            return `
+            <div class="student-item">
+                <div style="display: flex; align-items: center; gap: 0.25rem; flex-wrap: wrap; cursor:pointer;" onclick="viewStudent(${s.id})">
+                    <span style="font-weight:500;">${s.name}</span>
+                    <small style="color:#64748b;">(${s.roll_number})</small>
+                    ${badge}
+                    ${scoreIndicator}
+                </div>
+                <div style="display:flex; align-items:center; gap: 0.5rem;">
+                    <span style="background: var(--primary-light); color: var(--primary-dark); padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">${s.department}</span>
+                    ${window.IS_SUPER_ADMIN ? (
+                    `
+                        <div style="display:flex; align-items:center; gap: 0.5rem;">
                             <button class="btn btn-reset-submission" onclick="resetSubmission(${s.id}, event)" title="Reset Submission" style="padding: 4px 8px; font-size: 0.75rem; background: #94a3b8; color: white; border: none; border-radius: 4px; cursor: pointer;">
                                 <i class="fa-solid fa-rotate-left"></i> Reset
                             </button>
@@ -708,6 +809,32 @@ document.addEventListener('DOMContentLoaded', () => {
             );
             renderStudentList(filtered);
         });
+    }
+
+    const finalSearchInput = document.getElementById('finalStudentSearch');
+    const finalBranchFilter = document.getElementById('finalStudentBranchFilter');
+
+    function applyFinalStudentsFilter() {
+        if (!finalSearchInput || !finalBranchFilter) return;
+        const term = finalSearchInput.value.toLowerCase();
+        const branch = finalBranchFilter.value.toLowerCase();
+        
+        const filtered = allStudents.filter(s => {
+            const matchesSearch = s.name.toLowerCase().includes(term) ||
+                                s.roll_number.toLowerCase().includes(term) ||
+                                s.department.toLowerCase().includes(term);
+            const matchesBranch = branch === '' || s.department.toLowerCase() === branch;
+            return matchesSearch && matchesBranch;
+        });
+        renderFinalStudentList(filtered);
+    }
+
+    if (finalSearchInput) {
+        finalSearchInput.addEventListener('input', applyFinalStudentsFilter);
+    }
+    
+    if (finalBranchFilter) {
+        finalBranchFilter.addEventListener('change', applyFinalStudentsFilter);
     }
 
     // Modal form submissions...

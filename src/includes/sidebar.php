@@ -54,6 +54,10 @@ $isSuperAdmin = !isset($user['department']) || empty($user['department']);
                 <span>Winner 2026</span>
             </a>
             <a href="admin-students.php" class="nav-item <?php echo is_nav_active('admin-students.php'); echo is_nav_active('evaluate-student.php'); ?>">
+                <i class="fa-solid fa-clipboard-check"></i>
+                <span>Evaluation</span>
+            </a>
+            <a href="admin-final-students.php" class="nav-item <?php echo is_nav_active('admin-final-students.php'); ?>">
                 <i class="fa-solid fa-users"></i>
                 <span>Students</span>
             </a>

@@ -70,6 +70,30 @@ if ($method === 'GET') {
             http_response_code(500);
             echo json_encode(['error' => 'Database Query Error: ' . $e->getMessage()]);
         }
+    } elseif ($action === 'final-students') {
+        $departmentFilter = "";
+        $params = [];
+        
+        $query = "
+            SELECT u.id, u.name, u.department, u.roll_number, u.is_submitted, u.is_sent_to_panel,
+                   ar.cgpa, ar.is_hod_submitted,
+                   (SELECT COUNT(*) FROM co_curricular WHERE user_id = u.id) as co_curricular_count,
+                   (SELECT COUNT(*) FROM extracurricular WHERE user_id = u.id) as extracurricular_count,
+                   (SELECT COUNT(*) FROM final_scores WHERE user_id = u.id) as is_evaluated,
+                   fs.total_score
+            FROM users u
+            LEFT JOIN academic_records ar ON u.id = ar.user_id
+            LEFT JOIN final_scores fs ON u.id = fs.user_id
+            WHERE u.role = 'student' AND u.is_submitted = 1
+            ORDER BY u.department ASC, u.name ASC";
+        
+        try {
+            $data = db_all($query, $params);
+            echo json_encode($data);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['error' => 'Database Query Error: ' . $e->getMessage()]);
+        }
     } elseif ($action === 'stats') {
         $deptFilter = "";
         $params = [];
