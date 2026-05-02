@@ -454,8 +454,10 @@ document.addEventListener('DOMContentLoaded', () => {
             setScore('scCo', 'valCo', scores.co_curricular_score || 0);
             setScore('scExtra', 'valExtra', scores.extracurricular_score || 0);
 
-            // Disable all item scores too
-            document.querySelectorAll('.item-score').forEach(input => input.disabled = true);
+            // Disable item scores if locked
+            document.querySelectorAll('.item-score').forEach(input => {
+                if (isActuallyLocked) input.disabled = true;
+            });
 
             // Always show HOD Remarks for Super Admin if they exist
             if (acad.hod_overall_comments) {
@@ -608,6 +610,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 data.academic_exams_score = document.getElementById('scAcademicExams').value;
                 data.co_curricular_score = document.getElementById('scCo').value;
                 data.extracurricular_score = document.getElementById('scExtra').value;
+
+                // Extract individual scores
+                const coScores = [];
+                document.querySelectorAll('.co-score').forEach(input => {
+                    coScores.push({ id: input.dataset.id, score: parseFloat(input.value) || 0 });
+                });
+                data.co_scores = coScores;
+
+                const extraScores = [];
+                document.querySelectorAll('.extra-score').forEach(input => {
+                    extraScores.push({ id: input.dataset.id, score: parseFloat(input.value) || 0 });
+                });
+                data.extra_scores = extraScores;
             }
 
             const res = await fetch(apiBase + '/admin/evaluate', {
