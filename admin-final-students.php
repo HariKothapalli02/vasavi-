@@ -1,4 +1,11 @@
-<?php require_once __DIR__ . '/src/includes/auth_check.php'; require_auth(['admin']); ?>
+<?php 
+require_once __DIR__ . '/src/includes/auth_check.php'; 
+require_auth(['admin']); 
+if (!empty($_SESSION['user']['department'])) {
+    header("Location: admin-dashboard.php");
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 

@@ -71,6 +71,12 @@ if ($method === 'GET') {
             echo json_encode(['error' => 'Database Query Error: ' . $e->getMessage()]);
         }
     } elseif ($action === 'final-students') {
+        if (!empty($_SESSION['user']['department'])) {
+            http_response_code(403);
+            echo json_encode(['error' => 'Unauthorized: Only Super Admin can view final students']);
+            exit;
+        }
+
         $departmentFilter = "";
         $params = [];
         
