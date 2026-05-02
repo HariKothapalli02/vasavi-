@@ -57,6 +57,9 @@ body {
     color: var(--text-main);
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
 }
 
 h1,
@@ -2899,3 +2902,9 @@ body.landing-page .instruction-card:hover {
  font-family: \Font Awesome 6 Free\;
  font-weight: 900;
 }
+
+/* Global Word Wrap Fixes */
+table { table-layout: fixed; width: 100%; }
+table td, table th { overflow-wrap: break-word; word-wrap: break-word; }
+.sidebar-branch { display: block; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.info-card .value { overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; }
