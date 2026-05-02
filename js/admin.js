@@ -401,19 +401,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             allStudents = data;
 
-            // Dynamically populate branch filter
-            const branchFilter = document.getElementById('finalStudentBranchFilter');
-            if (branchFilter) {
-                const uniqueBranches = [...new Set(allStudents.map(s => s.department))].filter(Boolean).sort();
-                const currentVal = branchFilter.value;
-                let optionsHtml = '<option value="">All Branches</option>';
-                uniqueBranches.forEach(b => {
-                    optionsHtml += `<option value="${b}">${b}</option>`;
-                });
-                branchFilter.innerHTML = optionsHtml;
-                branchFilter.value = currentVal; // Restore selection
-            }
-
             renderFinalStudentList(allStudents);
         } catch (err) {
             console.error('Error loading final students:', err);

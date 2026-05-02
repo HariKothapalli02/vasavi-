@@ -58,6 +58,15 @@ if (!empty($_SESSION['user']['department'])) {
                         </div>
                         <select id="finalStudentBranchFilter" style="padding: 0.8rem; border-radius: 8px; border: 1px solid var(--border-color); background: white; color: var(--text-dark); outline: none; min-width: 150px;">
                             <option value="">All Branches</option>
+                            <option value="CSE">CSE</option>
+                            <option value="CST">CST</option>
+                            <option value="AIM">AIM</option>
+                            <option value="CAI">CAI</option>
+                            <option value="ECE">ECE</option>
+                            <option value="ECT">ECT</option>
+                            <option value="CE">CE</option>
+                            <option value="ME">ME</option>
+                            <option value="EEE">EEE</option>
                         </select>
                     </div>
                     <div id="finalStudentList" class="student-list-container">
