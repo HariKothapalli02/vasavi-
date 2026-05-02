@@ -453,7 +453,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             return `
             <div class="student-item">
-                <div style="display: flex; align-items: center; gap: 0.25rem; flex-wrap: wrap; cursor:pointer;" onclick="viewStudent(${s.id})">
+                <div style="display: flex; align-items: center; gap: 0.25rem; flex-wrap: wrap; cursor:pointer;" onclick="viewStudentReadOnly(${s.id})">
                     <span style="font-weight:500;">${s.name}</span>
                     <small style="color:#64748b;">(${s.roll_number})</small>
                     ${badge}
@@ -511,7 +511,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             return `
             <div class="student-item">
-                <div style="display: flex; align-items: center; gap: 0.25rem; flex-wrap: wrap; cursor:pointer;" onclick="viewStudent(${s.id})">
+                <div style="display: flex; align-items: center; gap: 0.25rem; flex-wrap: wrap; cursor:pointer;" onclick="viewStudentReadOnly(${s.id})">
                     <span style="font-weight:500;">${s.name}</span>
                     <small style="color:#64748b;">(${s.roll_number})</small>
                     ${badge}
@@ -744,6 +744,14 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.href = `panel-evaluate.php?id=${id}`;
         } else {
             window.location.href = `evaluate-student.php?id=${id}`;
+        }
+    };
+
+    window.viewStudentReadOnly = (id) => {
+        if (window.userRole === 'panel') {
+            window.location.href = `panel-evaluate.php?id=${id}&readonly=1`;
+        } else {
+            window.location.href = `evaluate-student.php?id=${id}&readonly=1`;
         }
     };
 

@@ -204,7 +204,10 @@
 </head>
 
 <body class="admin-body">
-    <?php $isSuperAdmin = !isset($_SESSION['user']['department']) || empty($_SESSION['user']['department']); ?>
+    <?php 
+    $isSuperAdmin = !isset($_SESSION['user']['department']) || empty($_SESSION['user']['department']); 
+    $isReadOnly = isset($_GET['readonly']) && $_GET['readonly'] == '1';
+    ?>
     <div class="dashboard-container">
         <!-- Sidebar -->
         <?php include_once __DIR__ . '/src/includes/sidebar.php'; ?>
@@ -213,7 +216,7 @@
         <main class="main-content">
             <header class="evaluate-header">
                 <div class="profile-header-mini">
-                    <div class="back-btn" onclick="window.location.href='admin-dashboard.php'">
+                    <div class="back-btn" onclick="window.history.back()">
                         <i class="fa-solid fa-arrow-left"></i>
                     </div>
                     <div class="avatar-mini" id="studentAvatar"></div>
@@ -229,14 +232,15 @@
                     </div>
                 </div>
                 <div class="header-actions">
-                    <button onclick="window.location.href='admin-dashboard.php'" class="btn-secondary"
+                    <button onclick="window.history.back()" class="btn-secondary"
                         style="padding: 0.5rem 1rem;">
-                        Back to Dashboard
+                        Back
                     </button>
                 </div>
             </header>
 
-            <div class="evaluate-body-split">
+            <div class="evaluate-body-split" <?php if($isReadOnly) echo 'style="grid-template-columns: 1fr;"'; ?>>
+                <?php if(!$isReadOnly): ?>
                 <!-- Mobile Switcher -->
                 <div class="mobile-eval-tabs">
                     <button class="mobile-tab-btn active" onclick="switchMobileTab('submissions', this)">
@@ -246,6 +250,7 @@
                         <i class="fa-solid fa-star-half-stroke"></i> Evaluation
                     </button>
                 </div>
+                <?php endif; ?>
 
                 <!-- Left: Submissions Details -->
                 <div class="details-col" id="detailsCol">
@@ -261,6 +266,7 @@
                     </div>
                 </div>
 
+                <?php if(!$isReadOnly): ?>
                 <!-- Right: Scoring Form -->
                 <div class="scoring-col mobile-hide" id="scoringCol">
                     <div class="tabs">
@@ -352,6 +358,7 @@
                         </form>
                     </div>
                 </div>
+                <?php endif; ?>
             </div>
         </main>
     </div>

@@ -380,24 +380,30 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.co-score').forEach(i => coTotal += parseFloat(i.value) || 0);
 
         // Show sum of individual items
-        document.getElementById('valCoSum').innerText = coTotal.toFixed(1);
+        const valCoSum = document.getElementById('valCoSum');
+        if (valCoSum) valCoSum.innerText = coTotal.toFixed(1);
 
         // Cap total at 15
         const cappedCoTotal = Math.min(coTotal, 15);
-        document.getElementById('scCo').value = cappedCoTotal;
-        document.getElementById('valCo').innerText = cappedCoTotal.toFixed(1);
+        const scCo = document.getElementById('scCo');
+        if (scCo) scCo.value = cappedCoTotal;
+        const valCo = document.getElementById('valCo');
+        if (valCo) valCo.innerText = cappedCoTotal.toFixed(1);
 
 
         let extraTotal = 0;
         document.querySelectorAll('.extra-score').forEach(i => extraTotal += parseFloat(i.value) || 0);
 
         // Show sum of individual items
-        document.getElementById('valExtraSum').innerText = extraTotal.toFixed(1);
+        const valExtraSum = document.getElementById('valExtraSum');
+        if (valExtraSum) valExtraSum.innerText = extraTotal.toFixed(1);
 
         // Cap total at 15
         const cappedExtraTotal = Math.min(extraTotal, 15);
-        document.getElementById('scExtra').value = cappedExtraTotal;
-        document.getElementById('valExtra').innerText = cappedExtraTotal.toFixed(1);
+        const scExtra = document.getElementById('scExtra');
+        if (scExtra) scExtra.value = cappedExtraTotal;
+        const valExtra = document.getElementById('valExtra');
+        if (valExtra) valExtra.innerText = cappedExtraTotal.toFixed(1);
     }
 
     function prefillData(data) {
