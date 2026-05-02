@@ -483,6 +483,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderFinalStudentList(students) {
         const list = document.getElementById('finalStudentList');
+        const countSpan = document.getElementById('finalStudentCount');
+        const countLabel = document.getElementById('finalStudentCountLabel');
+        const branchFilter = document.getElementById('finalStudentBranchFilter');
+
+        if (countSpan) {
+            countSpan.innerText = students.length;
+        }
+        if (countLabel) {
+            if (branchFilter && branchFilter.value) {
+                countLabel.innerText = `${branchFilter.options[branchFilter.selectedIndex].text} Total:`;
+            } else {
+                countLabel.innerText = `Total:`;
+            }
+        }
+
         if (!list) return;
         if (students.length === 0) {
             list.innerHTML = '<p style="padding:1rem; color:var(--text-muted); text-align:center;">No students found.</p>';

@@ -47,8 +47,11 @@ if (!empty($_SESSION['user']['department'])) {
 
             <div class="content-wrapper">
                 <div class="glass-card">
-                    <div class="card-header">
+                    <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
                         <h2><i class="fa-solid fa-users"></i> Final Submitted Students</h2>
+                        <div style="font-size: 1rem; font-weight: 600; color: var(--primary-color); background: var(--primary-light); padding: 0.5rem 1rem; border-radius: 8px;">
+                            <span id="finalStudentCountLabel">Total:</span> <span id="finalStudentCount">0</span>
+                        </div>
                     </div>
                     <div style="display: flex; gap: 10px; margin-bottom: 1rem; align-items: center;">
                         <div class="search-bar" style="margin-bottom: 0; flex: 1;">
