@@ -71,6 +71,9 @@ if (!empty($_SESSION['user']['department'])) {
                             <option value="ME">ME</option>
                             <option value="EEE">EEE</option>
                         </select>
+                        <button id="downloadFinalStudentsPdf" class="btn-primary" style="padding: 0.8rem 1.2rem; display: flex; align-items: center; gap: 8px; background: #10b981; border: none; border-radius: 8px; color: white; cursor: pointer; font-weight: 600;">
+                            <i class="fa-solid fa-file-pdf"></i> Download PDF
+                        </button>
                     </div>
                     <div id="finalStudentList" class="student-list-container">
                         Loading final submitted students...

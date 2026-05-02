@@ -861,6 +861,91 @@ document.addEventListener('DOMContentLoaded', () => {
         finalBranchFilter.addEventListener('change', applyFinalStudentsFilter);
     }
 
+    const downloadFinalPdfBtn = document.getElementById('downloadFinalStudentsPdf');
+    if (downloadFinalPdfBtn) {
+        downloadFinalPdfBtn.addEventListener('click', () => {
+            const term = finalSearchInput ? finalSearchInput.value.toLowerCase() : '';
+            const branchValue = finalBranchFilter ? finalBranchFilter.value : '';
+            const branchLabel = finalBranchFilter ? finalBranchFilter.options[finalBranchFilter.selectedIndex].text : 'All Branches';
+            
+            const filtered = allStudents.filter(s => {
+                const matchesSearch = s.name.toLowerCase().includes(term) ||
+                                    s.roll_number.toLowerCase().includes(term) ||
+                                    s.department.toLowerCase().includes(term);
+                const matchesBranch = branchValue === '' || s.department.toLowerCase() === branchValue.toLowerCase();
+                return matchesSearch && matchesBranch;
+            });
+
+            if (filtered.length === 0) {
+                alert("No data available to export.");
+                return;
+            }
+
+            try {
+                const jsPDFObj = window.jspdf ? window.jspdf.jsPDF : null;
+                if (!jsPDFObj) {
+                    alert("PDF library not loaded yet.");
+                    return;
+                }
+
+                const doc = new jsPDFObj('p', 'mm', 'a4');
+                const logoUrl = apiBase + "/navv.jpg";
+                
+                const img = new Image();
+                img.src = logoUrl;
+                img.onload = () => {
+                    // Header Image (navv.jpg)
+                    doc.addImage(img, 'JPEG', 10, 10, 190, 30);
+                    generateTable(doc, filtered, branchLabel, true);
+                };
+                img.onerror = () => {
+                    generateTable(doc, filtered, branchLabel, false);
+                };
+
+                function generateTable(doc, data, branch, hasImg) {
+                    const startY = hasImg ? 50 : 20;
+                    
+                    doc.setFont("helvetica", "bold");
+                    doc.setFontSize(16);
+                    doc.setTextColor(30, 41, 59);
+                    doc.text(`Final Submitted Students - ${branch}`, 105, startY, { align: "center" });
+
+                    doc.setFont("helvetica", "normal");
+                    doc.setFontSize(10);
+                    doc.setTextColor(100, 116, 139);
+                    doc.text(`Generated on: ${new Date().toLocaleString()}`, 105, startY + 7, { align: "center" });
+
+                    const headers = [["S.No", "Roll Number", "Name", "Branch"]];
+                    const tableRows = data.map((s, i) => [
+                        i + 1,
+                        s.roll_number,
+                        s.name,
+                        s.department
+                    ]);
+
+                    doc.autoTable({
+                        head: headers,
+                        body: tableRows,
+                        startY: startY + 15,
+                        theme: 'striped',
+                        headStyles: { fillColor: [16, 185, 129], textColor: [255, 255, 255], fontStyle: 'bold' },
+                        styles: { font: 'helvetica', fontSize: 10 },
+                        columnStyles: {
+                            0: { cellWidth: 15 },
+                            1: { cellWidth: 40 },
+                            3: { cellWidth: 30 }
+                        }
+                    });
+
+                    doc.save(`Final_Students_${branch.replace(/\s+/g, '_')}.pdf`);
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Error generating PDF: " + err.message);
+            }
+        });
+    }
+
     // Modal form submissions...
 
     const panelForm = document.getElementById('panelForm');
