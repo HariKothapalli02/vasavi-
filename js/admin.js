@@ -948,6 +948,47 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Modal form submissions...
 
+    const topperForm = document.getElementById('topperForm');
+    if (topperForm) {
+        topperForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const inputs = topperForm.querySelectorAll('input[type="number"]');
+            const payload = [];
+
+            inputs.forEach(inp => {
+                payload.push({
+                    department: inp.dataset.dept,
+                    topper_cgpa: parseFloat(inp.value) || 0
+                });
+            });
+
+            const submitBtn = topperForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...';
+
+            try {
+                const res = await fetch(apiBase + '/admin/toppers', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    alert('Topper CGPAs saved successfully!');
+                    closeTopperModal();
+                } else {
+                    alert('Error: ' + data.error);
+                }
+            } catch (err) {
+                alert('Failed to save toppers: ' + err.message);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            }
+        });
+    }
+
     const panelForm = document.getElementById('panelForm');
     if (panelForm) {
         panelForm.addEventListener('submit', async (e) => {
